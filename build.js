@@ -10,6 +10,7 @@ var links = require('remark-validate-links');
 var remark2rehype = require('remark-rehype');
 var doc = require('rehype-document');
 var min = require('rehype-preset-minify');
+var favicon = require('rehype-prevent-favicon-request');
 var html = require('rehype-stringify');
 var pack = require('./package.json');
 
@@ -25,6 +26,7 @@ unified()
   })
   .use(nojs)
   .use(min)
+  .use(favicon)
   .use(html)
   .process(vfile.readSync('readme.md'), function (err, file) {
     console.error(report(err || file));
