@@ -1,0 +1,127 @@
+html {
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", sans-serif;
+}
+
+body {
+  background-color: #fdfdfc;
+  position: relative;
+  max-width: 40em;
+  margin: 0 auto;
+  padding: 2em;
+}
+
+@media (min-width: 40em) and (min-height: 20em) {
+  body {
+    /* Go all Tschichold when supported */
+    padding: 2em;
+    margin: 11.1vh 22.2vw 22.2vh 11.1vw;
+  }
+}
+
+@media (min-width: 70em) and (min-height: 35em) {
+  body {
+    /* Go all Tschichold when supported */
+    max-width: 70em;
+    padding: 11.1vh 22.2vw 22.2vh 11.1vw;
+  }
+}
+
+* {
+  line-height: calc(1em + 1ex);
+  box-sizing: border-box;
+}
+
+p,
+h1,
+h2,
+ol,
+ul,
+hr {
+  margin-top: calc(1em + 1ex);
+  margin-bottom: calc(1em + 1ex);
+}
+
+h1,
+h2 {
+  font-weight: 200;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 200ms;
+}
+
+a:hover,
+a:focus,
+a:target {
+  color: inherit;
+}
+
+pre,
+code {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: small;
+}
+
+strong {
+  font-weight: 600;
+}
+
+abbr {
+  border-bottom: 1px dotted transparent;
+  text-decoration: none;
+}
+
+hr {
+  border: 0;
+  border-top: 1px currentcolor solid;
+  margin-left: -1em;
+  margin-right: -1em;
+}
+
+ol,
+ul {
+  padding: 0;
+}
+
+ul {
+  list-style-type: circle;
+}
+
+p code,
+li code {
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.04);
+  padding: 0.2em 0.4em;
+}
+
+img {
+  border-radius: 100%;
+  max-width: 33%;
+  display: block;
+  margin: auto;
+}
+
+/* Custom stuff */
+
+.nojs a {
+  color: #0366d6;
+}
+
+body > :first-child {
+  margin-top: 0;
+}
+
+body > :last-child {
+  margin-bottom: 0;
+}
