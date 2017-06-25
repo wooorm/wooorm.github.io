@@ -8,6 +8,7 @@ body {
   max-width: 40em;
   margin: calc(2em + 2ex) auto;
   padding: calc(2em + 2ex);
+  word-break: break-word;
 }
 
 @media (min-width: 40em) and (min-height: 20em) {
