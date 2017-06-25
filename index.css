@@ -36,7 +36,8 @@ h1,
 h2,
 ol,
 ul,
-hr {
+hr,
+button {
   margin-top: calc(1em + 1ex);
   margin-bottom: calc(1em + 1ex);
 }
@@ -56,15 +57,34 @@ h2 {
 }
 
 a {
-  color: inherit;
   text-decoration: none;
-  transition: color 200ms;
+}
+
+a,
+button {
+  color: inherit;
+  transition: 200ms;
+  transition-property: color, border-color;
+}
+
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  color: inherit;
+  border: 1px solid currentcolor;
+  border-radius: 3px;
+  font-size: 1em;
 }
 
 a:hover,
 a:focus,
-a:target {
+a:target,
+button:focus,
+button:hover,
+button:active {
   color: inherit;
+  border-color: inherit;
 }
 
 pre,
@@ -124,4 +144,11 @@ body > :first-child {
 
 body > :last-child {
   margin-bottom: 0;
+}
+
+button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.5ex 1ex;
 }

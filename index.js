@@ -12,31 +12,38 @@ var patterns = [
   squares
 ];
 
+function next() {
+  localStorage.t = (Number(localStorage.t) || 0) + Math.floor(Math.random() * 100);
+  window.location.reload();
+}
+
 function onfingersuccess(id) {
-  var int = parseInt(id, 16);
+  var int = Math.floor(parseInt(id, 16) / 1e32) + (Number(localStorage.t) || 0);
   var hue = int % 360 || 0;
   var hl = 'hsl(' + hue + ', 97%, 43%)';
   var bg = 'hsl(' + (hue - 45) + ', 95%, 20%)';
   var fg = 'hsl(' + (hue + 45) + ', 95%, 99%)';
 
-  document.body
-    .appendChild(document.createElement('hr'));
+  var style = document.createElement('style');
+  var p = document.createElement('p');
+  var button = document.createElement('button');
 
-  document.body
-    .appendChild(document.createElement('p'))
-    .textContent = 'P.S. I made this site for you, ' + id + '.';
+  style.appendChild(document.createTextNode([
+    'a, button { color: ' + hl + '; border-color: currentcolor }',
+    'html { ' + patterns[(int % patterns.length) || 0](int, fg, bg) + ' }',
+    'body { background-color: ' + fg + '; color: ' + bg + ' }'
+  ].join('\n')));
+  p.appendChild(document.createTextNode('P.S. I made this site for you, ' + id + '.'));
+  p.appendChild(button).appendChild(document.createTextNode('Try a different design'));
+  button.addEventListener('click', next);
 
-  document.head
-    .appendChild(document.createElement('style'))
-    .textContent = [
-      'a { color: ' + hl + ' }',
-      'html { ' + patterns[(int % patterns.length) || 0](int, fg, bg) + ' }',
-      'body { background-color: ' + fg + '; color: ' + bg + ' }'
-    ].join('\n');
+  document.body.appendChild(document.createElement('hr'));
+  document.body.appendChild(p);
+  document.head.appendChild(style);
 }
 
 function lines(id, fg, bg) {
-  var size = (10 + ((id % 4) * 10)) / 2;
+  var size = (10 + ((id % 8) * 10)) / 2;
 
   return [
     'background-color: ' + bg,
@@ -59,7 +66,7 @@ function dots(id, fg, bg) {
 }
 
 function squares(id, fg, bg) {
-  var size = ((id % 3) + 1) * 15;
+  var size = ((id % 8) + 1) * 15;
 
   return [
     'background-color: ' + bg,
