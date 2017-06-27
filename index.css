@@ -36,9 +36,7 @@ p,
 h1,
 h2,
 ol,
-ul,
-hr,
-button {
+ul {
   margin-top: calc(1em + 1ex);
   margin-bottom: calc(1em + 1ex);
 }
@@ -103,13 +101,6 @@ abbr {
   text-decoration: none;
 }
 
-hr {
-  border: 0;
-  border-top: 1px currentcolor solid;
-  margin-left: -1em;
-  margin-right: -1em;
-}
-
 ol,
 ul {
   padding: 0;
@@ -145,11 +136,4 @@ body > :first-child {
 
 body > :last-child {
   margin-bottom: 0;
-}
-
-button {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0.5ex 1ex;
 }

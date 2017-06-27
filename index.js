@@ -29,7 +29,8 @@ function onfingersuccess(id) {
 }
 
 function paint(id) {
-  var int = Math.floor(parseInt(id, 16) / 1e32) + (Number(localStorage.t) || 0);
+  var salt = (Number(localStorage.t) || 0);
+  var int = Math.floor(parseInt(id, 16) / 1e32) + salt;
   var hue = int % 360 || 0;
   var hl = 'hsl(' + hue + ', 97%, 43%)';
   var bg = 'hsl(' + (hue - 45) + ', 95%, 20%)';
@@ -37,19 +38,27 @@ function paint(id) {
 
   var style = document.createElement('style');
   var p = document.createElement('p');
+  var small = document.createElement('small');
   var button = document.createElement('button');
+  var code = document.createElement('code');
 
   style.appendChild(document.createTextNode([
     'a, button { color: ' + hl + '; border-color: currentcolor }',
     'html { ' + patterns[(int % patterns.length) || 0](int, fg, bg) + ' }',
     'body { background-color: ' + fg + '; color: ' + bg + ' }'
   ].join('\n')));
-  p.appendChild(document.createTextNode('P.S. I made this site for you, ' + id + '.'));
-  p.appendChild(button).appendChild(document.createTextNode('Try a different design'));
-  button.addEventListener('click', next);
 
-  document.body.appendChild(document.createElement('hr'));
-  document.body.appendChild(p);
+  p.appendChild(small);
+  small.appendChild(document.createTextNode('P.S. I made this site for you, '));
+  small.appendChild(code);
+  small.appendChild(document.createTextNode(', try a '));
+  small.appendChild(button);
+  code.appendChild(document.createTextNode(id.slice(0, 6)));
+  button.appendChild(document.createTextNode('different design'));
+  button.addEventListener('click', next);
+  code.title = id + (salt ? '@' + salt.toString(16) : '');
+
+  document.body.insertBefore(p, document.getElementsByTagName('p')[0]);
   document.head.appendChild(style);
 }
 
