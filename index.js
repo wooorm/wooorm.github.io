@@ -33,8 +33,8 @@ function paint(id) {
   var int = Math.floor(parseInt(id, 16) / 1e32) + salt;
   var hue = int % 360 || 0;
   var hl = 'hsl(' + hue + ', 97%, 43%)';
-  var bg = 'hsl(' + (hue - 45) + ', 95%, 20%)';
-  var fg = 'hsl(' + (hue + 45) + ', 95%, 99%)';
+  var bg = 'hsl(' + (hue - (((int % 11) + 1) * 15)) + ', 95%, 20%)';
+  var fg = 'hsl(' + (hue + (((int % 9) + 1) * 15)) + ', 95%, 99%)';
 
   var style = document.createElement('style');
   var p = document.createElement('p');
