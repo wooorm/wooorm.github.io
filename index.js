@@ -4,13 +4,19 @@
 
 var Finger = require('fingerprintjs2');
 
-new Finger({detectScreenOrientation: false}).get(onfingersuccess);
-
 var patterns = [
   lines,
   dots,
   squares
 ];
+
+var id = localStorage.i;
+
+if (id) {
+  paint(id);
+} else {
+  new Finger({detectScreenOrientation: false}).get(onfingersuccess);
+}
 
 function next() {
   localStorage.t = (Number(localStorage.t) || 0) + Math.floor(Math.random() * 100);
@@ -18,6 +24,11 @@ function next() {
 }
 
 function onfingersuccess(id) {
+  localStorage.i = id;
+  paint(id);
+}
+
+function paint(id) {
   var int = Math.floor(parseInt(id, 16) / 1e32) + (Number(localStorage.t) || 0);
   var hue = int % 360 || 0;
   var hl = 'hsl(' + hue + ', 97%, 43%)';
