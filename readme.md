@@ -3,8 +3,9 @@
 I write a lot of code about natural language, markup, and syntax trees, often
 for the web or Node.
 Most of my programming is [open source](https://github.com/wooorm).
-I also lecture about code, such as data visualisation and Node, at
-[CMDA](https://www.cmd-amsterdam.nl/english/).
+I also lecture about code, such as data visualisation and Node at
+[CMDA](https://www.cmd-amsterdam.nl/english/), and help people get into
+Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
 
 ## Some of the things I make
 
