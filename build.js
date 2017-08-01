@@ -2,6 +2,7 @@
 
 var vfile = require('to-vfile');
 var report = require('vfile-reporter');
+var h = require('hastscript');
 var select = require('hast-util-select').select;
 var unified = require('unified');
 var markdown = require('remark-parse');
@@ -25,6 +26,7 @@ unified()
     js: 'index.js'
   })
   .use(nojs)
+  .use(avatar)
   .use(min)
   .use(favicon)
   .use(html)
@@ -38,7 +40,7 @@ unified()
   });
 
 function nojs() {
-  var script = 'document.body.className = \'\'; document.body.removeChild(document.currentScript)';
+  var script = 'document.body.className = \'js\'; document.body.removeChild(document.currentScript)';
   return transformer;
   function transformer(tree) {
     var body = select('body', tree);
@@ -56,5 +58,14 @@ function nojs() {
       properties: {},
       children: [{type: 'text', value: script}]
     });
+  }
+}
+
+function avatar() {
+  return transformer;
+  function transformer(tree) {
+    select('body', tree).children.unshift(h('figure', [
+      h('img', {src: './pinguin.png'})
+    ]));
   }
 }

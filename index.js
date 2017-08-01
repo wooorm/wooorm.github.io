@@ -48,7 +48,8 @@ function paint(id) {
   style.appendChild(document.createTextNode([
     'a, button { color: ' + hl + '; border-color: currentcolor }',
     'html { ' + patterns[(int % patterns.length) || 0](int, fg, bg) + ' }',
-    'body { background-color: ' + fg + '; color: ' + bg + ' }'
+    'body { background-color: ' + fg + '; color: ' + bg + ' }',
+    'figure::after {background: radial-gradient(circle, transparent, ' + bg + ')  }'
   ].join('\n')));
 
   p.appendChild(small);

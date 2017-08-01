@@ -14,7 +14,7 @@ body {
 @media (min-width: 40em) and (min-height: 20em) {
   body {
     /* Go all Tschichold when supported */
-    padding: 2em;
+    padding: calc(2em + 2ex);
     margin: 11.1vh 22.2vw 22.2vh 11.1vw;
   }
 }
@@ -24,6 +24,12 @@ body {
     /* Go all Tschichold when supported */
     max-width: 70em;
     padding: 11.1vh 22.2vw 22.2vh 11.1vw;
+  }
+}
+
+@media (min-width: 90em) {
+  body {
+    max-width: 66.6vw;
   }
 }
 
@@ -47,6 +53,7 @@ h2 {
 }
 
 h1 {
+  text-align: center;
   font-size: 3em;
 }
 
@@ -117,11 +124,37 @@ li code {
   padding: 0.2em 0.4em;
 }
 
-img {
+figure {
+  position: relative;
   border-radius: 100%;
   max-width: 33%;
   display: block;
   margin: auto;
+  overflow: hidden;
+}
+
+img {
+  display: block;
+  width: 100%;
+  border-radius: 100%;
+}
+
+.js figure {
+  -webkit-filter: contrast(1.5) brightness(0.9);
+  filter: contrast(1.5) brightness(0.9);
+}
+
+.js figure::after {
+  opacity: 0.5;
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  pointer-events: none;
+  mix-blend-mode: screen;
 }
 
 /* Custom stuff */
