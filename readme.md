@@ -21,6 +21,8 @@ Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
     Virtual syntax highlighting
 *   [`nspell`](https://github.com/wooorm/nspell)
     Hunspell compatible spell-checker
+*   [`dictionaries`](https://github.com/wooorm/dictionaries)
+    Spell-checker dictionaries
 *   [`write-music`](http://wooorm.com/write-music/)
     Visualise sentence length
 *   [`readability`](http://wooorm.com/readability/)
