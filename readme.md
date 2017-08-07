@@ -16,6 +16,8 @@ Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
 *   [`unified`](https://unifiedjs.github.io)
     Text processing umbrella
 *   [`lowlight`](https://github.com/wooorm/lowlight)
+    and
+    [`refractor`](https://github.com/wooorm/refractor)
     Virtual syntax highlighting
 *   [`nspell`](https://github.com/wooorm/nspell)
     Hunspell compatible spell-checker
