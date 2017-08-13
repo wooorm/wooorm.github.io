@@ -9,19 +9,19 @@ Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
 
 ## Some of the things I make
 
-*   [`franc`](https://github.com/wooorm/franc)
+*   [`unified`](https://unifiedjs.github.io)
+    Text processing umbrella
+*   [`franc`](https://github.com/wooorm/franc#readme)
     Natural Language detection
 *   [`alex`](http://alexjs.com)
     Catch insensitive, inconsiderate writing
-*   [`unified`](https://unifiedjs.github.io)
-    Text processing umbrella
-*   [`lowlight`](https://github.com/wooorm/lowlight)
+*   [`lowlight`](https://github.com/wooorm/lowlight#readme)
     and
-    [`refractor`](https://github.com/wooorm/refractor)
+    [`refractor`](https://github.com/wooorm/refractor#readme)
     Virtual syntax highlighting
-*   [`nspell`](https://github.com/wooorm/nspell)
+*   [`nspell`](https://github.com/wooorm/nspell#readme)
     Hunspell compatible spell-checker
-*   [`dictionaries`](https://github.com/wooorm/dictionaries)
+*   [`dictionaries`](https://github.com/wooorm/dictionaries#readme)
     Spell-checker dictionaries
 *   [`write-music`](http://wooorm.com/write-music/)
     Visualise sentence length
