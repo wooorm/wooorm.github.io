@@ -10,23 +10,23 @@ Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
 ## Some of the things I make
 
 *   [`unified`](https://unifiedjs.github.io)
-    Text processing umbrella
+    – Text processing umbrella
 *   [`franc`](https://github.com/wooorm/franc#readme)
-    Natural Language detection
+    – Natural Language detection
 *   [`alex`](http://alexjs.com)
-    Catch insensitive, inconsiderate writing
+    – Catch insensitive, inconsiderate writing
 *   [`lowlight`](https://github.com/wooorm/lowlight#readme)
     and
     [`refractor`](https://github.com/wooorm/refractor#readme)
-    Virtual syntax highlighting
+    – Virtual syntax highlighting
 *   [`nspell`](https://github.com/wooorm/nspell#readme)
-    Hunspell compatible spell-checker
+    – Hunspell compatible spell-checker
 *   [`dictionaries`](https://github.com/wooorm/dictionaries#readme)
-    Spell-checker dictionaries
+    – Spell-checker dictionaries
 *   [`write-music`](http://wooorm.com/write-music/)
-    Visualise sentence length
+    – Visualise sentence length
 *   [`readability`](http://wooorm.com/readability/)
-    Visualise readability
+    – Visualise readability
 
 ## Places you can find me
 
