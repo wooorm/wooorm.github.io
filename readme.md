@@ -7,7 +7,7 @@ I also lecture about code, such as data visualisation and Node at
 [CMDA](https://www.cmd-amsterdam.nl/english/), and help people get into
 Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
 
-## Some of the things I make
+## Things I make
 
 *   [`unified`](https://unifiedjs.github.io)
     – Text processing umbrella
