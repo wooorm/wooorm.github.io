@@ -11,6 +11,12 @@ Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
 
 *   [`unified`](https://unifiedjs.github.io)
     – Text processing umbrella
+*   [`remark`](https://github.com/wooorm/remark#readme)
+    – Markdown processor built on `unified`
+*   [`retext`](https://github.com/wooorm/retext#readme)
+    – Natural language processor built on `unified`
+*   [`rehype`](https://github.com/wooorm/rehype#readme)
+    – HTML processor built on `unified`
 *   [`franc`](https://github.com/wooorm/franc#readme)
     – Natural Language detection
 *   [`alex`](http://alexjs.com)
