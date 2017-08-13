@@ -38,4 +38,4 @@ Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
 
 *   [**twitter**.com/wooorm](https://twitter.com/wooorm)
 *   [**github**.com/wooorm](https://github.com/wooorm)
-*   [tituswormer@**gmail**.com](mailto:tituswormer@gmail.com)
+*   [tituswormer@g**mail**.com](mailto:tituswormer@gmail.com)
