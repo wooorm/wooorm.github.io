@@ -1,6 +1,6 @@
 # Hi!  I’m Titus
 
-I write a lot of code about natural language, markup, and syntax trees, often
+I write code relating to natural language, markup, and syntax trees, often
 for the web or Node.
 Most of my programming is [open source](https://github.com/wooorm).
 I also lecture about code, such as data visualisation and Node at
