@@ -7,7 +7,7 @@ body {
   position: relative;
   max-width: 40em;
   margin: calc(2em + 2ex) auto;
-  padding: calc(2em + 2ex);
+  padding: 2em;
   word-break: break-word;
 }
 
