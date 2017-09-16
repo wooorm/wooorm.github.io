@@ -10,6 +10,7 @@ var style = require('remark-preset-wooorm');
 var links = require('remark-validate-links');
 var remark2rehype = require('remark-rehype');
 var doc = require('rehype-document');
+var slug = require('rehype-slug');
 var min = require('rehype-preset-minify');
 var favicon = require('rehype-prevent-favicon-request');
 var html = require('rehype-stringify');
@@ -25,6 +26,7 @@ unified()
     css: 'index.css',
     js: 'index.js'
   })
+  .use(slug)
   .use(nojs)
   .use(avatar)
   .use(min)
