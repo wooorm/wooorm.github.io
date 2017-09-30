@@ -79,3 +79,5 @@ stuff, I maintain some smaller natural language things.
 *   [**twitter**.com/wooorm](https://twitter.com/wooorm)
 *   [**github**.com/wooorm](https://github.com/wooorm)
 *   [tituswormer@g**mail**.com](mailto:tituswormer@gmail.com)
+
+…or view [my résumé](http://wooorm.com/resume.html).
