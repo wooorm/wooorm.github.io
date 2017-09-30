@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang=en>
+<meta charset=utf8>
+<title>Résumé</title>
+<meta name=viewport content=width=device-width,initial-scale=1>
+<link rel="shortcut icon"type=image/x-icon href=data:image/x-icon;,>
+<style>
+* { line-height: calc(1em + 1ex); box-sizing: border-box; }
+
+html {
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, Helvetica Neue, Segoe UI, Oxygen, Ubuntu, Cantarell, Open Sans, sans-serif;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+body {
+  margin: 0 auto;
+  padding: calc(1em + 1ex);
+  max-width: 40em;
+  display: flex;
+  flex-direction: column;
+}
+
+header, footer, main, article, section { margin: calc(1em + 1ex) 0; }
+h1, h2, h3, p { margin-top: calc(0.5rem + 0.5ex); margin-bottom: calc(0.5rem + 0.5ex) }
+h1:first-child, h2:first-child, h3:first-child, p:first-child, header:first-child, footer:first-child, main:first-child, article:first-child, section:first-child { margin-top: 0; }
+h1:last-child, h2:last-child, h3:last-child, p:last-child, header:last-child, footer:last-child, main:last-child, article:last-child, section:last-child { margin-bottom: 0; }
+
+h1 { letter-spacing: 0.0625em; }
+h1, h2 { text-transform: uppercase; color: black; }
+h3 { font-weight: normal; }
+.title, .project { font-weight: bold; color: black; }
+.range { margin-top: calc(-0.5rem - 0.5ex); color: rgba(0, 0, 0, 0.25) }
+time { color: rgba(0, 0, 0, 0.75) }
+
+footer { font-size: smaller; }
+
+ol { list-style: none; padding: 0; margin: 0 -0.25em; }
+li { display: inline-block; margin: 0 0.25em; }
+li::after { content: '·'; margin-left: 0.33em; }
+li:last-child::after { content: ''; }
+a { color: inherit; text-decoration: none; transition: color 200ms; color: black; font-weight: bold; }
+a:hover, a:focus { color: hsl(212, 97%, 43%); }
+
+@media screen and (min-width: 60em) {
+  body { max-width: 70em; }
+  main { flex: 1; display: flex; margin-left: calc(-0.5em - 0.5ex); margin-right: calc(-0.5em - 0.5ex); }
+  div { margin-left: calc(0.5em + 0.5ex); margin-right: calc(0.5em + 0.5ex); }
+  .side { max-width: 20em; min-width: 15em; }
+}
+
+@media print {
+  * { color: black !important; }
+  a { font-weight: inherit !important; }
+}
+</style>
+<header>
+  <h1>Titus Wormer</h1>
+  <ol>
+    <li><a href=mailto:tituswormer@gmail.com>tituswormer@gmail.com</a>
+    <li><a href=http://wooorm.com>wooorm.com</a>
+    <li><a href=https://github.com/wooorm>github.com/wooorm</a>
+    <li>Amsterdam, the Netherlands</a>
+  </ol>
+</header>
+<main>
+  <div class=side>
+    <article>
+      <h2>Skills</h2>
+      <section>
+        <p>
+          I am experienced in Node.js, JavaScript, and frontend.
+          In lectures I cover HTML, CSS, JavaScript, Node, D3, Web Sockets,
+          and Service Workers.
+          In open source I work with natural language and syntax trees.
+        </p>
+        <p>
+          I’ve written frontend applications with virtual DOM libraries and
+          Angular.
+          I often use Bash, Git, SASS, and LaTeX.
+          I’ve used Python, CoffeeScript, PHP, MySQL, and Cordova, and dabbled in
+          Rust and C.
+        </p>
+        <p>
+          Most importantly, I’ll learn anything I need to get something done.
+        </p>
+      </section>
+    </article>
+  </div>
+  <div>
+    <article>
+      <h2>Projects</h2>
+      <section>
+        <h3><b class=project>Frontend 3</b>, University of Applied Sciences Amsterdam</h3>
+        <p class=range><time datetime=2017-9>September 2017</time> — <time datetime=2017-10>October 2017</time></p>
+        <p>
+          As coordinator (and lecturer) of Frontend 3 I’m responsible for
+          the curriculum and syllabus of the course, an advanced programme on
+          mastering frontend libraries, datavisualisation, and D3.
+        </p>
+        <p>
+          I designed a system where students hand in code on
+          <a href=https://github.com/cmda-fe3/course-17-18>GitHub</a> and
+          continuous integration (Travis) checks their submissions.
+          When code is accepted after a manual review, their submissions
+          are automatically released to our
+          <a href=https://cmda-fe3.github.io/course-17-18>website</a>.
+        </p>
+      </section>
+      <section>
+        <h3><b class=project>Unified</b>, Free and Open Source Software</h3>
+        <p class=range><time datetime=2014-6>June 2014</time> — present</p>
+        <p>
+          As primary maintainer of <a href=https://unifiedjs.github.io>unified</a>
+          and 150+ related projects; an ecosystem of text processing libraries,
+          plug-ins, and utilities; I endeavor to bring syntax trees and developer tools to content markup
+          languages and natural languages.
+        </p>
+      </section>
+    </article>
+    <article>
+      <h2>Experience</h2>
+      <section>
+        <h3><b class=title>Lecturer</b>, University of Applied Sciences Amsterdam</h3>
+        <p class=range><time datetime=2015-8>August 2015</time> — present</p>
+        <p>
+          As lecturer I teach students several technical courses, such as
+          introductory programming, intermediate backend development, and
+          data visualisation.
+        </p>
+      </section>
+      <section>
+        <h3><b class=title>Software Engineer</b>, AndSafety</h3>
+        <p class=range><time datetime=2015-1>Januari 2015</time> — present</p>
+        <p>
+          As a developer I build apps and online services to improve quality,
+          efficiency and safety in the workplace.
+        </p>
+      </section>
+      <section>
+        <h3><b class=title>Software Engineer</b>, Vidacle</h3>
+        <p class=range><time datetime=2013-5>May 2013</time> — <time datetime=2016-3>March 2016</time></p>
+        <p>
+          As a developer I built a social platform for sharing videos and telling
+          stories.
+        </p>
+      </section>
+      <section>
+        <h3><b class=title>Visiting Lecturer</b>, University of Applied Sciences Amsterdam</h3>
+        <p class=range><time datetime=2014-11>November 2014</time> — <time datetime=2015-1>Januari 2015</time></p>
+        <p>
+          As a visiting lecturer I taught students how to build datavisualisations
+          using D3.
+        </p>
+      </section>
+    </article>
+  </div>
+  <div class=side>
+    <article>
+      <h2>Education</h2>
+      <section>
+        <h3><b class=title>B. of Communication & Multimedia Design</b>, University of Applied Sciences Amsterdam</h3>
+        <p class=range><time datetime=2010-9>September 2010</time> — <time datetime=2014-8>August 2014</time></p>
+        <p>
+          I studied at a design bachelor programme focused on interactive digital
+          products and services. Half way through my studies I started focussing
+          on frontend.
+        </p>
+      </section>
+    </article>
+  </div>
+</main>
+<footer>
+  <p>© 2017 Titus Wormer</p>
+</footer>
+<script src=index.js></script>
