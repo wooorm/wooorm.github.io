@@ -20,10 +20,10 @@ body {
   flex-direction: column;
 }
 
-header, footer, main, article, section { margin: calc(1em + 1ex) 0; }
-h1, h2, h3, p { margin-top: calc(0.5rem + 0.5ex); margin-bottom: calc(0.5rem + 0.5ex) }
-h1:first-child, h2:first-child, h3:first-child, p:first-child, header:first-child, footer:first-child, main:first-child, article:first-child, section:first-child { margin-top: 0; }
-h1:last-child, h2:last-child, h3:last-child, p:last-child, header:last-child, footer:last-child, main:last-child, article:last-child, section:last-child { margin-bottom: 0; }
+header, footer, main, article, section, div { margin: calc(1em + 1ex) 0; }
+h1, h2, h3, p, ol { margin-top: calc(0.5rem + 0.5ex); margin-bottom: calc(0.5rem + 0.5ex) }
+h1:first-child, h2:first-child, h3:first-child, p:first-child, ol:first-child, header:first-child, footer:first-child, main:first-child, article:first-child, section:first-child { margin-top: 0; }
+h1:last-child, h2:last-child, h3:last-child, p:last-child, ol:last-child, header:last-child, footer:last-child, main:last-child, article:last-child, section:last-child { margin-bottom: 0; }
 
 h1 { letter-spacing: 0.0625em; }
 h1, h2 { text-transform: uppercase; color: black; }
@@ -34,14 +34,15 @@ time { color: rgba(0, 0, 0, 0.75) }
 
 footer { font-size: smaller; }
 
-ol { list-style: none; padding: 0; margin: 0 -0.25em; }
-li { display: inline-block; margin: 0 0.25em; }
-li::after { content: '·'; margin-left: 0.33em; }
-li:last-child::after { content: ''; }
+ol { list-style: none; padding: 0; }
 a { color: inherit; text-decoration: none; transition: color 200ms; color: black; font-weight: bold; }
 a:hover, a:focus { color: hsl(212, 97%, 43%); }
 
 @media screen and (min-width: 60em) {
+  ol { margin: 0 -0.25em; }
+  li { display: inline-block; margin: 0 0.25em; }
+  li::after { content: '·'; margin-left: 0.33em; }
+  li:last-child::after { display: none; }
   body { max-width: 70em; }
   main { flex: 1; display: flex; margin-left: calc(-0.5em - 0.5ex); margin-right: calc(-0.5em - 0.5ex); }
   div { margin-left: calc(0.5em + 0.5ex); margin-right: calc(0.5em + 0.5ex); }
@@ -172,4 +173,3 @@ a:hover, a:focus { color: hsl(212, 97%, 43%); }
 <footer>
   <p>© 2017 Titus Wormer</p>
 </footer>
-<script src=index.js></script>
