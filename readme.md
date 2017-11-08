@@ -39,39 +39,39 @@ into Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
 Other than all the [retext](https://github.com/wooorm/retext/blob/master/doc/plugins.md#list-of-plugins)
 stuff, I maintain some smaller natural language things.
 
-*   [`stemmer`](https://github.com/wooorm/stemmer)
+*   [`stemmer`](https://github.com/words/stemmer)
     – Porter stemming algorithm
-*   [`lancaster-stemmer`](https://github.com/wooorm/lancaster-stemmer)
+*   [`lancaster-stemmer`](https://github.com/words/lancaster-stemmer)
     – Lancaster stemming algorithm
-*   [`soundex-code`](https://github.com/wooorm/soundex-code)
+*   [`soundex-code`](https://github.com/words/soundex-code)
     – phonetics algorithm
-*   [`metaphone`](https://github.com/wooorm/metaphone)
+*   [`metaphone`](https://github.com/words/metaphone)
     – Smart phonetics algorithm
-*   [`double-metaphone`](https://github.com/wooorm/double-metaphone)
+*   [`double-metaphone`](https://github.com/words/double-metaphone)
     – Smarter phonetics algorithm
-*   [`levenshtein-edit-distance`](https://github.com/wooorm/levenshtein-edit-distance)
+*   [`levenshtein-edit-distance`](https://github.com/words/levenshtein-edit-distance)
     – Levenshtein edit distance
-*   [`dice-coefficient`](https://github.com/wooorm/dice-coefficient)
+*   [`dice-coefficient`](https://github.com/words/dice-coefficient)
     – Sørensen–Dice coefficient
-*   [`syllable`](https://github.com/wooorm/syllable)
+*   [`syllable`](https://github.com/words/syllable)
     – English syllable count
 *   [`direction`](https://github.com/wooorm/direction)
     – Detect directionality
-*   [`n-gram`](https://github.com/wooorm/n-gram)
+*   [`n-gram`](https://github.com/words/n-gram)
     – Get n-grams from text
-*   [`gunning-fog`](https://github.com/wooorm/gunning-fog)
+*   [`gunning-fog`](https://github.com/words/gunning-fog)
     – Gunning fog index
-*   [`automated-readability`](https://github.com/wooorm/automated-readability)
+*   [`automated-readability`](https://github.com/words/automated-readability)
     – Automated Readability Index
-*   [`coleman-liau`](https://github.com/wooorm/coleman-liau)
+*   [`coleman-liau`](https://github.com/words/coleman-liau)
     – Coleman-Liau index
-*   [`flesch`](https://github.com/wooorm/flesch)
+*   [`flesch`](https://github.com/words/flesch)
     – Flesch Reading Ease
-*   [`spache-formula`](https://github.com/wooorm/spache-formula)
+*   [`spache-formula`](https://github.com/words/spache-formula)
     – Spache Readability Formula
-*   [`flesch-kincaid`](https://github.com/wooorm/flesch-kincaid)
+*   [`flesch-kincaid`](https://github.com/words/flesch-kincaid)
     – Flesch–Kincaid Grade Level
-*   [`dale-chall-formula`](https://github.com/wooorm/dale-chall-formula)
+*   [`dale-chall-formula`](https://github.com/words/dale-chall-formula)
     – Dale-Chall Readability Formula
 
 ## Places you can find me
