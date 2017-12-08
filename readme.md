@@ -11,11 +11,11 @@ into Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
 
 *   [`unified`](https://unifiedjs.github.io)
     – Text processing umbrella
-*   [`remark`](https://github.com/wooorm/remark#readme)
+*   [`remark`](https://github.com/remarkjs/remark#readme)
     – Markdown processor built on `unified`
-*   [`retext`](https://github.com/wooorm/retext#readme)
+*   [`retext`](https://github.com/retextjs/retext#readme)
     – Natural language processor built on `unified`
-*   [`rehype`](https://github.com/wooorm/rehype#readme)
+*   [`rehype`](https://github.com/rehypejs/rehype#readme)
     – HTML processor built on `unified`
 *   [`franc`](https://github.com/wooorm/franc#readme)
     – Natural Language detection
@@ -36,7 +36,7 @@ into Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
 
 ## Natural Language
 
-Other than all the [retext](https://github.com/wooorm/retext/blob/master/doc/plugins.md#list-of-plugins)
+Other than all the [retext](https://github.com/retextjs/retext/blob/master/doc/plugins.md#list-of-plugins)
 stuff, I maintain some smaller natural language things.
 
 *   [`stemmer`](https://github.com/words/stemmer)
