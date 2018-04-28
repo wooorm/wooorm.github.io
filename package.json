@@ -16,6 +16,7 @@
     "hast-util-select": "^1.0.0",
     "hastscript": "^3.0.1",
     "postcss-cli": "^5.0.0",
+    "prettier": "^1.12.1",
     "rehype-document": "^2.0.0",
     "rehype-preset-minify": "^2.0.0",
     "rehype-prevent-favicon-request": "^1.0.0",
@@ -34,18 +35,26 @@
     "xo": "^0.20.0"
   },
   "scripts": {
+    "format": "remark . -qfo && prettier --write '**/*.js' && xo --fix",
     "build:html": "node build",
     "build:js": "browserify index.js --bare | esmangle > static/index.js",
     "build:css": "postcss index.css > static/index.css",
     "build": "npm run build:html && npm run build:css && npm run build:js",
-    "lint": "xo && stylelint index.css && remark . -qfo",
-    "test": "npm run build && npm run lint"
+    "test": "npm run format && npm run build"
   },
   "stylelint": {
     "extends": "stylelint-config-standard"
   },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "trailingComma": "none"
+  },
   "xo": {
-    "space": true,
+    "prettier": true,
     "esnext": false,
     "rules": {
       "no-var": "off",
