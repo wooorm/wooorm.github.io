@@ -2,10 +2,9 @@
 
 I write code relating to natural language, markup, and syntax trees, often
 for the web or Node.
-Most of my programming is [open source](https://github.com/wooorm).
-I also lecture about code, such as [data visualisation](https://github.com/cmda-fe3/course-17-18)
-and [backend](https://github.com/cmda-be/course-17-18), and help people get
-into Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
+Most of my programming is [open source][gh].
+I also lecture about code, such as [data visualisation][tt] and [backend][be],
+and help people get into Node at [NodeSchool Amsterdam][ns].
 
 ## Things I make
 
@@ -36,8 +35,8 @@ into Node at [NodeSchool Amsterdam](https://nodeschool.io/amsterdam/).
 
 ## Natural Language
 
-Other than all the [retext](https://github.com/retextjs/retext/blob/master/doc/plugins.md#list-of-plugins)
-stuff, I maintain some smaller natural language things.
+Other than all the [retext][retext-plugins] stuff, I maintain some smaller
+natural language things.
 
 *   [`stemmer`](https://github.com/words/stemmer)
     – Porter stemming algorithm
@@ -81,3 +80,13 @@ stuff, I maintain some smaller natural language things.
 *   [tituswormer@g**mail**.com](mailto:tituswormer@gmail.com)
 
 …or view [my résumé](http://wooorm.com/resume.html).
+
+[gh]: https://github.com/wooorm
+
+[tt]: https://github.com/cmda-fe3x3/course-17-18
+
+[be]: https://github.com/cmda-be/course-17-18
+
+[ns]: https://nodeschool.io/amsterdam/
+
+[retext-plugins]: https://github.com/retextjs/retext/blob/master/doc/plugins.md#list-of-plugins
