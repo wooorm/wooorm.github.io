@@ -11,7 +11,6 @@
   "devDependencies": {
     "browserify": "^16.0.0",
     "cssnano": "^4.0.0",
-    "esmangle": "^1.0.1",
     "fingerprintjs2": "^1.5.1",
     "hast-util-select": "^2.0.0",
     "hastscript": "^4.0.0",
@@ -29,6 +28,7 @@
     "remark-validate-links": "^7.0.0",
     "stylelint": "^9.0.0",
     "stylelint-config-standard": "^18.0.0",
+    "tinyify": "^2.4.3",
     "to-vfile": "^5.0.0",
     "unified": "^7.0.0",
     "vfile-reporter": "^5.0.0",
@@ -37,7 +37,7 @@
   "scripts": {
     "format": "remark . -qfo && prettier --write '**/*.js' && xo --fix",
     "build:html": "node build",
-    "build:js": "browserify index.js --bare | esmangle > static/index.js",
+    "build:js": "browserify . -p tinyify -o static/index.js",
     "build:css": "postcss index.css > static/index.css",
     "build": "npm run build:html && npm run build:css && npm run build:js",
     "test": "npm run format && npm run build"
