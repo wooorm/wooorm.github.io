@@ -16,6 +16,11 @@ and help people get into Node at [NodeSchool Amsterdam][ns].
     – Natural language processor built on `unified`
 *   [`rehype`](https://github.com/rehypejs/rehype#readme)
     – HTML processor built on `unified`
+*   [`unist`](https://github.com/syntax-tree/unist#readme),
+    [`mdast`](https://github.com/syntax-tree/mdast#readme),
+    [`hast`](https://github.com/syntax-tree/hast#readme), and
+    [`nlcst`](https://github.com/syntax-tree/nlcst#readme)
+    – Syntax tree formats
 *   [`franc`](https://github.com/wooorm/franc#readme)
     – Natural Language detection
 *   [`alex`](http://alexjs.com)
