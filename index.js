@@ -30,8 +30,8 @@ function paint(id) {
   var int = Math.floor(parseInt(id, 16) / 1e31) + salt
   var hue = int % 360 || 0
   var hl = 'hsl(' + hue + ', 97%, 43%)'
-  var bg = 'hsl(' + (hue - (int % 11 + 1) * 15) + ', 95%, 20%)'
-  var fg = 'hsl(' + (hue + (int % 9 + 1) * 15) + ', 95%, 99%)'
+  var bg = 'hsl(' + (hue - ((int % 11) + 1) * 15) + ', 95%, 20%)'
+  var fg = 'hsl(' + (hue + ((int % 9) + 1) * 15) + ', 95%, 99%)'
 
   var style = document.createElement('style')
   var p = document.createElement('p')
@@ -67,7 +67,7 @@ function paint(id) {
 }
 
 function lines(id, fg, bg) {
-  var size = 4 + id % 180
+  var size = 4 + (id % 180)
 
   return [
     'background-color: ' + bg,
@@ -88,7 +88,7 @@ function lines(id, fg, bg) {
 }
 
 function dots(id, fg, bg) {
-  var size = 4 + id % 180
+  var size = 4 + (id % 180)
 
   return [
     'background-color: ' + bg,
@@ -103,7 +103,7 @@ function dots(id, fg, bg) {
 }
 
 function squares(id, fg, bg) {
-  var size = 4 + id % 180
+  var size = 4 + (id % 180)
 
   return [
     'background-color: ' + bg,
@@ -130,7 +130,7 @@ function squares(id, fg, bg) {
 }
 
 function crosses(id, fg, bg) {
-  var size = 4 + id % 180
+  var size = 4 + (id % 180)
   var dbl = size * 2
   var secondary = Math.max(1, Math.floor(size / 25))
   var primary = secondary * 2
@@ -183,7 +183,7 @@ function crosses(id, fg, bg) {
 }
 
 function cloth(id, fg, bg) {
-  var size = 4 + id % 180
+  var size = 4 + (id % 180)
 
   fg = fg.replace(/hsl/, 'hsla').replace(/\)/, ', 0.5)')
 
@@ -199,7 +199,7 @@ function cloth(id, fg, bg) {
 }
 
 function zigzag(id, fg, bg) {
-  var size = 1 + id % 180
+  var size = 1 + (id % 180)
   var dbl = size * 2
 
   fg = fg.replace(/hsl/, 'hsla').replace(/\)/, ', 0.5)')
