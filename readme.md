@@ -88,7 +88,7 @@ natural language things.
 
 [gh]: https://github.com/wooorm
 
-[tt]: https://github.com/cmda-fe3x3/course-17-18
+[tt]: https://github.com/cmda-tt/course-18-19
 
 [be]: https://github.com/cmda-be/course-17-18
 
