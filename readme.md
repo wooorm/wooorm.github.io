@@ -3,7 +3,8 @@
 I write code relating to natural language, markup, and syntax trees, often
 for the web or Node.
 Most of my programming is [open source][gh].
-I also lecture about code, such as [data visualisation][tt] and [backend][be].
+I also lecture about code, such as [data visualisation and frontend][tt],
+and [backend][be].
 
 ## Things I make
 
