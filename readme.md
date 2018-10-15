@@ -3,8 +3,7 @@
 I write code relating to natural language, markup, and syntax trees, often
 for the web or Node.
 Most of my programming is [open source][gh].
-I also lecture about code, such as [data visualisation][tt] and [backend][be],
-and help people get into Node at [NodeSchool Amsterdam][ns].
+I also lecture about code, such as [data visualisation][tt] and [backend][be].
 
 ## Things I make
 
@@ -91,7 +90,5 @@ natural language things.
 [tt]: https://github.com/cmda-tt/course-18-19
 
 [be]: https://github.com/cmda-be/course-17-18
-
-[ns]: https://nodeschool.io/amsterdam/
 
 [retext-plugins]: https://github.com/retextjs/retext/blob/master/doc/plugins.md#list-of-plugins
