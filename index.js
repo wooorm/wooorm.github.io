@@ -4,9 +4,17 @@
 
 var Finger = require('fingerprintjs2')
 
+var darkQuery = '(prefers-color-scheme: dark)'
+
 var patterns = [lines, dots, squares, crosses, cloth, zigzag]
 
 var id = localStorage.i
+
+var paragraph = document.createElement('p')
+var style = document.createElement('style')
+
+document.body.insertBefore(paragraph, document.getElementsByTagName('p')[0])
+document.head.appendChild(style)
 
 if (id) {
   paint(id)
@@ -25,19 +33,29 @@ function onfingersuccess(id) {
   paint(id)
 }
 
+window.matchMedia(darkQuery).addListener(function() {
+  if (id) {
+    paint(id)
+  }
+})
+
 function paint(id) {
+  var dark = window.matchMedia(darkQuery).matches
   var salt = Number(localStorage.t) || 0
   var int = Math.floor(parseInt(id, 16) / 1e31) + salt
   var hue = int % 360 || 0
-  var hl = 'hsl(' + hue + ', 97%, 43%)'
-  var bg = 'hsl(' + (hue - ((int % 11) + 1) * 15) + ', 95%, 20%)'
-  var fg = 'hsl(' + (hue + ((int % 9) + 1) * 15) + ', 95%, 99%)'
+  var hl = 'hsl(' + hue + ', 97%, ' + (dark ? 57 : 43) + '%)'
+  var bg =
+    'hsl(' + (hue - ((int % 11) + 1) * 15) + ', 95%, ' + (dark ? 80 : 20) + '%)'
+  var fg =
+    'hsl(' + (hue + ((int % 9) + 1) * 15) + ', 95%, ' + (dark ? 1 : 99) + '%)'
 
-  var style = document.createElement('style')
-  var p = document.createElement('p')
   var small = document.createElement('small')
   var button = document.createElement('button')
   var code = document.createElement('code')
+
+  style.textContent = ''
+  paragraph.textContent = ''
 
   style.appendChild(
     document.createTextNode(
@@ -52,18 +70,15 @@ function paint(id) {
     )
   )
 
-  p.appendChild(small)
+  paragraph.appendChild(small)
+  button.appendChild(document.createTextNode('different design'))
+  button.addEventListener('click', next)
   small.appendChild(document.createTextNode('P.S. I made this site for you, '))
   small.appendChild(code)
   small.appendChild(document.createTextNode(', try a '))
   small.appendChild(button)
   code.appendChild(document.createTextNode(id.slice(0, 6)))
-  button.appendChild(document.createTextNode('different design'))
-  button.addEventListener('click', next)
   code.title = id + (salt ? '@' + salt.toString(16) : '')
-
-  document.body.insertBefore(p, document.getElementsByTagName('p')[0])
-  document.head.appendChild(style)
 }
 
 function lines(id, fg, bg) {

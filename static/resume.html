@@ -31,7 +31,6 @@ h3 { font-weight: normal; }
 .title, .project { font-weight: bold; color: black; }
 .range { margin-top: calc(-0.5rem - 0.5ex); color: rgba(0, 0, 0, 0.25) }
 time { color: rgba(0, 0, 0, 0.75) }
-
 footer { font-size: smaller; }
 
 ol { list-style: none; padding: 0; }
@@ -52,6 +51,13 @@ a:hover, a:focus { color: hsl(212, 97%, 43%); }
 @media print {
   * { color: black !important; }
   a { font-weight: inherit !important; }
+}
+
+@media (prefers-color-scheme: dark) {
+  html { background: black; }
+  a, h1, h2, .title, .project { color: white; }
+  html, time { color: rgba(255, 255, 255, 0.75); }
+  .range { color: rgba(255, 255, 255, 0.25); }
 }
 </style>
 <header>
