@@ -6,9 +6,15 @@ Most of my programming is [open source][gh].
 I also lecture about code, such as [data visualisation and frontend][tt],
 and [backend][be].
 
+> Some news!
+> unified, the ecosystem which includes a lot of my open source work, is now
+> a [collective][].
+> Learn why you, like Zeit and Gatsby, should sponsor or back us,
+> [on Medium][medium].
+
 ## Things I make
 
-*   [`unified`](https://unifiedjs.github.io)
+*   [`unified`](https://unified.js.org)
     – Text processing umbrella
 *   [`remark`](https://github.com/remarkjs/remark#readme)
     – Markdown processor built on `unified`
@@ -93,3 +99,7 @@ natural language things.
 [be]: https://github.com/cmda-be/course-17-18
 
 [retext-plugins]: https://github.com/retextjs/retext/blob/master/doc/plugins.md#list-of-plugins
+
+[collective]: https://opencollective.com/unified
+
+[medium]: https://medium.com/unifiedjs/collectively-evolving-through-crowdsourcing-22c359ea95cc

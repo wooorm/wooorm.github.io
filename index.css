@@ -1,15 +1,5 @@
 html {
-  font-family:
-    Roboto,
- -apple-system,
- BlinkMacSystemFont,
- 'Helvetica Neue',
-    'Segoe UI',
- 'Oxygen',
- 'Ubuntu',
- 'Cantarell',
- 'Open Sans',
- sans-serif;
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-serif;
 }
 
 body {
@@ -147,6 +137,13 @@ img {
   display: block;
   width: 100%;
   border-radius: 100%;
+}
+
+blockquote {
+  border: 1px solid;
+  margin: 0 calc(-1em - 1ex);
+  padding: 0 calc(1em + 1ex);
+  border-radius: 3px;
 }
 
 .js figure {
