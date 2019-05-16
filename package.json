@@ -57,8 +57,6 @@
     "prettier": true,
     "esnext": false,
     "rules": {
-      "no-var": "off",
-      "prefer-arrow-callback": "off",
       "unicorn/prefer-node-append": "off"
     },
     "ignore": [
