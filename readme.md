@@ -29,7 +29,7 @@ and [backend][be].
     – Syntax tree formats
 *   [`franc`](https://github.com/wooorm/franc#readme)
     – Natural Language detection
-*   [`alex`](http://alexjs.com)
+*   [`alex`](https://alexjs.com)
     – Catch insensitive, inconsiderate writing
 *   [`lowlight`](https://github.com/wooorm/lowlight#readme)
     and
@@ -39,9 +39,9 @@ and [backend][be].
     – Hunspell compatible spell-checker
 *   [`dictionaries`](https://github.com/wooorm/dictionaries#readme)
     – Spell-checker dictionaries
-*   [`write-music`](http://wooorm.com/write-music/)
+*   [`write-music`](https://wooorm.com/write-music/)
     – Visualise sentence length
-*   [`readability`](http://wooorm.com/readability/)
+*   [`readability`](https://wooorm.com/readability/)
     – Visualise readability
 
 ## Natural Language
@@ -90,7 +90,7 @@ natural language things.
 *   [**github**.com/wooorm](https://github.com/wooorm)
 *   [tituswormer@g**mail**.com](mailto:tituswormer@gmail.com)
 
-…or view [my résumé](http://wooorm.com/resume.html).
+…or view [my résumé](https://wooorm.com/resume.html).
 
 [gh]: https://github.com/wooorm
 
