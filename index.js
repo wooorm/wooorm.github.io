@@ -13,13 +13,13 @@ var id = localStorage.i
 var paragraph = document.createElement('p')
 var style = document.createElement('style')
 
-document.body.insertBefore(paragraph, document.getElementsByTagName('p')[0])
+document.body.insertBefore(paragraph, document.querySelectorAll('p')[0])
 document.head.appendChild(style)
 
 if (id) {
   paint(id)
 } else {
-  new Finger({detectScreenOrientation: false}).get(onfingersuccess)
+  Finger.get({detectScreenOrientation: false}, onfingersuccess)
 }
 
 function next() {
@@ -28,7 +28,11 @@ function next() {
   window.location.reload()
 }
 
-function onfingersuccess(id) {
+function onfingersuccess(components) {
+  var values = components.map(function(component) {
+    return component.value
+  })
+  var id = Finger.x64hash128(values.join(''), 31)
   localStorage.i = id
   paint(id)
 }
