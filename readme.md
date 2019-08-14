@@ -14,7 +14,7 @@ and [backend][be].
 
 ## Things I make
 
-*   [`unified`](https://unified.js.org)
+*   [`unified`](https://unifiedjs.com)
     – Text processing umbrella
 *   [`remark`](https://github.com/remarkjs/remark#readme)
     – Markdown processor built on `unified`
