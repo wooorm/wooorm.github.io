@@ -1,21 +1,18 @@
 # Hi!  I’m Titus
 
-I write code relating to natural language, markup, and syntax trees, often
-for the web or Node.
-Most of my programming is [open source][gh].
-I also lecture about code, such as [data visualisation and frontend][tt],
-and [backend][be].
+I work full-time on [open source][gh] maintaining 400+ projects that are
+downloaded 3B+ times a year.
+Most of my work is as a core team member of [unified][], building things for
+content (natural language, markdown, markup) with syntax trees, sponsored by
+[ZEIT, Gatsby, Netlify, and the community][oc].
 
-> Some news!
-> unified, the ecosystem which includes a lot of my open source work, is now
-> a [collective][].
-> Learn why you, like Zeit and Gatsby, should sponsor or back us,
-> [on Medium][medium].
+I used to teach [data visualisation, frontend][tt], and [backend][be] for a
+while.
 
 ## Things I make
 
 *   [`unified`](https://unifiedjs.com)
-    – Text processing umbrella
+    – Content compiler
 *   [`remark`](https://github.com/remarkjs/remark#readme)
     – Markdown processor built on `unified`
 *   [`retext`](https://github.com/retextjs/retext#readme)
@@ -44,45 +41,7 @@ and [backend][be].
 *   [`readability`](https://wooorm.com/readability/)
     – Visualise readability
 
-## Natural Language
-
-Other than all the [retext][retext-plugins] stuff, I maintain some smaller
-natural language things.
-
-*   [`stemmer`](https://github.com/words/stemmer)
-    – Porter stemming algorithm
-*   [`lancaster-stemmer`](https://github.com/words/lancaster-stemmer)
-    – Lancaster stemming algorithm
-*   [`soundex-code`](https://github.com/words/soundex-code)
-    – phonetics algorithm
-*   [`metaphone`](https://github.com/words/metaphone)
-    – Smart phonetics algorithm
-*   [`double-metaphone`](https://github.com/words/double-metaphone)
-    – Smarter phonetics algorithm
-*   [`levenshtein-edit-distance`](https://github.com/words/levenshtein-edit-distance)
-    – Levenshtein edit distance
-*   [`dice-coefficient`](https://github.com/words/dice-coefficient)
-    – Sørensen–Dice coefficient
-*   [`syllable`](https://github.com/words/syllable)
-    – English syllable count
-*   [`direction`](https://github.com/wooorm/direction)
-    – Detect directionality
-*   [`n-gram`](https://github.com/words/n-gram)
-    – Get n-grams from text
-*   [`gunning-fog`](https://github.com/words/gunning-fog)
-    – Gunning fog index
-*   [`automated-readability`](https://github.com/words/automated-readability)
-    – Automated Readability Index
-*   [`coleman-liau`](https://github.com/words/coleman-liau)
-    – Coleman-Liau index
-*   [`flesch`](https://github.com/words/flesch)
-    – Flesch Reading Ease
-*   [`spache-formula`](https://github.com/words/spache-formula)
-    – Spache Readability Formula
-*   [`flesch-kincaid`](https://github.com/words/flesch-kincaid)
-    – Flesch–Kincaid Grade Level
-*   [`dale-chall-formula`](https://github.com/words/dale-chall-formula)
-    – Dale-Chall Readability Formula
+…more on [GitHub][gh]
 
 ## Places you can find me
 
@@ -92,14 +51,12 @@ natural language things.
 
 …or view [my résumé](https://wooorm.com/resume.html).
 
+[oc]: https://opencollective.com/unified
+
 [gh]: https://github.com/wooorm
 
 [tt]: https://github.com/cmda-tt/course-18-19
 
 [be]: https://github.com/cmda-be/course-17-18
 
-[retext-plugins]: https://github.com/retextjs/retext/blob/master/doc/plugins.md#list-of-plugins
-
-[collective]: https://opencollective.com/unified
-
-[medium]: https://medium.com/unifiedjs/collectively-evolving-through-crowdsourcing-22c359ea95cc
+[unified]: https://unifiedjs.com
