@@ -26,7 +26,7 @@
     "remark-preset-wooorm": "^6.0.0",
     "remark-rehype": "^5.0.0",
     "remark-validate-links": "^9.0.0",
-    "stylelint": "^11.0.0",
+    "stylelint": "^12.0.0",
     "stylelint-config-standard": "^19.0.0",
     "tinyify": "^2.0.0",
     "to-vfile": "^6.0.0",
