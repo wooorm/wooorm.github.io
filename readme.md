@@ -3,8 +3,8 @@
 I work full-time on [open source][gh] maintaining 400+ projects that are
 downloaded 3B+ times a year.
 Most of my work is as a core team member of [unified][], building things for
-content (natural language, markdown, markup) with syntax trees, sponsored by
-[ZEIT, Gatsby, Netlify, and the community][oc].
+content (natural language, markdown, markup) with syntax trees, [thanks to the
+community][thanks].
 
 I used to teach [data visualisation, frontend][tt], and [backend][be] for a
 while.
@@ -51,8 +51,6 @@ while.
 
 …or view [my résumé](https://wooorm.com/resume.html).
 
-[oc]: https://opencollective.com/unified
-
 [gh]: https://github.com/wooorm
 
 [tt]: https://github.com/cmda-tt/course-18-19
@@ -60,3 +58,5 @@ while.
 [be]: https://github.com/cmda-be/course-17-18
 
 [unified]: https://unifiedjs.com
+
+[thanks]: ./thanks/

@@ -1,5 +1,7 @@
 'use strict'
 
+var path = require('path')
+var mkdirp = require('mkdirp')
 var vfile = require('to-vfile')
 var report = require('vfile-reporter')
 var h = require('hastscript')
@@ -16,15 +18,15 @@ var favicon = require('rehype-prevent-favicon-request')
 var html = require('rehype-stringify')
 var pack = require('./package.json')
 
-unified()
+var pipeline = unified()
   .use(markdown)
   .use(style)
   .use(links, false)
   .use(remark2rehype)
   .use(doc, {
     title: pack.name,
-    css: 'index.css',
-    js: 'index.js'
+    css: '/index.css',
+    js: '/index.js'
   })
   .use(slug)
   .use(nojs)
@@ -32,20 +34,30 @@ unified()
   .use(min)
   .use(favicon)
   .use(html)
-  .process(vfile.readSync('readme.md'), function(err, file) {
+  .use(move)
+
+var files = ['readme.md', 'thanks/readme.md']
+
+files.forEach(d => {
+  pipeline.process(vfile.readSync(d), function(err, file) {
     console.error(report(err || file))
+
     if (file) {
-      file.dirname = 'static'
-      file.basename = 'index.html'
+      mkdirp.sync(file.dirname)
       vfile.writeSync(file)
     }
   })
+})
 
 function nojs() {
-  var script =
-    "document.body.className = 'js'; document.body.removeChild(document.currentScript)"
-  return transformer
-  function transformer(tree) {
+  var script = `
+    document.body.className = 'js';
+    document.body.removeChild(document.currentScript)
+  `
+
+  return transform
+
+  function transform(tree) {
     var body = select('body', tree)
     var props = body.properties
 
@@ -65,10 +77,23 @@ function nojs() {
 }
 
 function avatar() {
-  return transformer
-  function transformer(tree) {
+  return transform
+  function transform(tree, file) {
+    if (file.dirname !== '.') return
     select('body', tree).children.unshift(
       h('figure', [h('img', {src: './pinguin.png'})])
     )
+  }
+}
+
+function move() {
+  return transform
+  function transform(_, file) {
+    file.dirname = path.join('static', file.dirname)
+    file.extname = '.html'
+
+    if (file.stem === 'readme') {
+      file.stem = 'index'
+    }
   }
 }

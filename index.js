@@ -74,12 +74,17 @@ function paint(id) {
     )
   )
 
+  if (window.location.pathname !== '/') {
+    console.log('!', window.location.pathname)
+    return
+  }
+
   paragraph.appendChild(small)
-  button.appendChild(document.createTextNode('different design'))
+  button.appendChild(document.createTextNode('add 🧂'))
   button.addEventListener('click', next)
-  small.appendChild(document.createTextNode('P.S. I made this site for you, '))
+  small.appendChild(document.createTextNode('P.S. this site is for you, '))
   small.appendChild(code)
-  small.appendChild(document.createTextNode(', try a '))
+  small.appendChild(document.createTextNode('; you can '))
   small.appendChild(button)
   code.appendChild(document.createTextNode(id.slice(0, 6)))
   code.title = id + (salt ? '@' + salt.toString(16) : '')
