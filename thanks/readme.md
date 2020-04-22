@@ -15,16 +15,16 @@ I do open source full-time, funded by the community.
 *   [OpenCollective][oc] (monthly, one-time)
 *   [My PayPal][pp] (one-time)
 
-Notably, thanks to [ZEIT][], [Gatsby][], [Netlify][], and [Holloway][]
+Notably, thanks to [Vercel][], [Gatsby][], [Netlify][], and [Holloway][]
 for their support of [**@unifiedjs**](https://github.com/unifiedjs).
 
 [oc]: https://opencollective.com/unified
 
 [gh]: https://github.com/sponsors/wooorm
 
-[pp]: https://www.paypal.me/sindresorhus
+[pp]: https://www.paypal.me/wooorm
 
-[zeit]: https://zeit.co
+[vercel]: https://vercel.com
 
 [gatsby]: https://www.gatsbyjs.org
 
