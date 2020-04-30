@@ -79,13 +79,14 @@ fetch(endpoint, {
       .sort(sort)
       .map((d) => Object.assign(d, {amount: undefined}))
 
-    return fs.promises.writeFile(
-      outpath,
-      JSON.stringify(members, null, 2) + '\n'
-    )
+    return fs.promises
+      .mkdir(path.dirname(outpath), {recursive: true})
+      .then(() =>
+        fs.promises.writeFile(outpath, JSON.stringify(members, null, 2) + '\n')
+      )
   })
   .catch(() => {
-    console.error('Could not get OC')
+    throw new Error('Could not get OC')
   })
 
 function sort(a, b) {

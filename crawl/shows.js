@@ -13,6 +13,8 @@ if (!ttvKey) throw new Error('Missing `TTV_TOKEN`')
 if (!user) throw new Error('Missing `TTV_USER`')
 if (!tmdbKey) throw new Error('Missing `TMDB_TOKEN`')
 
+var outpath = path.join('data', 'shows.json')
+
 fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
   headers: {
     'Content-Type': 'application/json',
@@ -39,10 +41,11 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
       {concurrency: 2}
     )
 
-    await fs.promises.writeFile(
-      path.join('data', 'shows.json'),
-      JSON.stringify(data, null, 2) + '\n'
-    )
+    await fs.promises
+      .mkdir(path.dirname(outpath), {recursive: true})
+      .then(() =>
+        fs.promises.writeFile(outpath, JSON.stringify(data, null, 2) + '\n')
+      )
 
     async function getImage(d) {
       var endpoint

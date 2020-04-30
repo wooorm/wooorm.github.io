@@ -39,7 +39,11 @@ fetch(endpoint, {
   .then(function (result) {
     var data = result.data.viewer.sponsorshipsAsMaintainer.nodes.map(map)
 
-    return fs.promises.writeFile(outpath, JSON.stringify(data, null, 2) + '\n')
+    return fs.promises
+      .mkdir(path.dirname(outpath), {recursive: true})
+      .then(() =>
+        fs.promises.writeFile(outpath, JSON.stringify(data, null, 2) + '\n')
+      )
 
     function map(d) {
       var tier = d.tier.monthlyPriceInDollars
@@ -54,5 +58,5 @@ fetch(endpoint, {
     }
   })
   .catch((_) => {
-    console.error('Could not get sponsors')
+    throw new Error('Could not get sponsors')
   })

@@ -10,6 +10,8 @@ var user = process.env.LFM_USER
 if (!key) throw new Error('Missing `LFM_TOKEN`')
 if (!user) throw new Error('Missing `LFM_USER`')
 
+var outpath = path.join('data', 'music.json')
+
 fetch(
   'http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=' +
     user +
@@ -21,10 +23,11 @@ fetch(
   .then(function (body) {
     var albums = body.topalbums.album.flatMap(album)
 
-    fs.writeFileSync(
-      path.join('data', 'music.json'),
-      JSON.stringify(albums, null, 2) + '\n'
-    )
+    return fs.promises
+      .mkdir(path.dirname(outpath), {recursive: true})
+      .then(() =>
+        fs.promises.writeFile(outpath, JSON.stringify(albums, null, 2) + '\n')
+      )
 
     function album(d) {
       var artist = d.artist.name
@@ -38,5 +41,5 @@ fetch(
     }
   })
   .catch(() => {
-    console.error('Could not get albums')
+    throw new Error('Could not get albums')
   })
