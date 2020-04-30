@@ -16,6 +16,7 @@
     "glob": "^7.0.0",
     "hast-util-select": "^4.0.0",
     "hastscript": "^5.0.0",
+    "highlight.js": "^10.0.0",
     "humanize-url": "^2.0.0",
     "js-yaml": "^3.0.0",
     "levenshtein-edit-distance": "^2.0.0",
