@@ -1,1 +1,3 @@
-static/
+build/
+*.md
+asset/*.html

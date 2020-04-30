@@ -1,0 +1,24 @@
+header {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+nav ol {
+  display: flex;
+}
+
+nav .home {
+  flex: 1;
+}
+
+h1 {
+  font-size: 4em;
+  margin-top: 0.375em;
+  margin-bottom: 0.375em;
+}
+
+h2 {
+  font-size: 2em;
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}

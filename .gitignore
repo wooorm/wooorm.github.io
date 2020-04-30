@@ -1,7 +1,6 @@
-.DS_Store
+build/
+data/
 node_modules/
-static/index.css
-static/index.html
-static/thanks/index.html
-static/index.js
+.DS_Store
+.env
 yarn.lock
