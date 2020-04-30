@@ -6,7 +6,7 @@ var fetch = require('node-fetch')
 require('dotenv').config()
 
 var ttvKey = process.env.TTV_TOKEN
-var user = process.env.LFM_USER
+var user = process.env.TTV_USER
 var tmdbKey = process.env.TMDB_TOKEN
 
 if (!ttvKey) throw new Error('Missing `TTV_TOKEN`')
