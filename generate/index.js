@@ -107,7 +107,7 @@ function wrap() {
     .map((d) => d.data)
     .filter((d) => {
       var parts = d.pathname.replace(/^\/|\/$/g, '').split('/')
-      return parts.length === 1 && parts[0] !== 'blog'
+      return parts.length === 1
     })
 
   return transform
