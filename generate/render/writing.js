@@ -2,10 +2,13 @@
 
 var h = require('hastscript')
 
+var title = 'Writing'
+var description = 'A place for things that don’t fit neatly in readmes.'
+
 exports.data = {
-  title: 'Writing',
+  title: title,
   label: 'blog',
-  description: 'Things Titus writes',
+  description: description,
   published: '2020-05-01T00:00:00.000Z',
   modified: Date.now()
 }
@@ -42,7 +45,11 @@ function writing(pages) {
     ])
   })
 
-  return [h('h1', h('span.text', 'Writing')), h('ol.cards', items)]
+  return [
+    h('h1', h('span.text', title)),
+    h('p', h('span.text', description)),
+    h('ol.cards', items)
+  ]
 
   function sort(a, b) {
     return pick(b) - pick(a)
