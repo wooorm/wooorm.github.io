@@ -65,7 +65,7 @@
     "generate:assets": "node generate/assets",
     "generate:theme": "cp node_modules/highlight.js/styles/atom-one-light.css build/syntax.css",
     "generate:structure": "node generate",
-    "generate": "npm run generate:assets && npm run generate:structure",
+    "generate": "npm run generate:assets && npm run generate:theme && npm run generate:structure",
     "build": "npm run crawl && npm run generate",
     "test": "npm run format && npm run build"
   },
