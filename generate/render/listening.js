@@ -1,5 +1,6 @@
 'use strict'
 
+var escape = require('escape-string-regexp')
 var distance = require('levenshtein-edit-distance')
 var h = require('hastscript')
 var music = require('../../data/music.json')
@@ -30,6 +31,10 @@ function map(d) {
     1 - distance(name, artist, true) / Math.max(name.length, artist.length)
   var ignoreArist = /various artists/i.test(artist) || similarity > 0.9
 
+  if (new RegExp(escape(artist) + '$', 'i').test(name)) {
+    ignoreArist = true
+  }
+
   return h('li.cover', [
     h('img', {src: image, alt: '', width: 300}),
     h(
@@ -41,11 +46,15 @@ function map(d) {
 }
 
 function cleanName(d) {
-  return d
-    .replace(
-      /\(((\d+(st|nd|rd|th)( anniversary)? (reissue|edition))|((super|special) )?(deluxe|extended|expanded|explicit|limited|legacy|bonus track)(( anniversary)? (reissue|edition|version))?|music from the (motion picture soundtrack|\w+ series)|complete)\)/i,
-      ''
-    )
-    .replace(/- (original motion picture soundtrack|the best of .+)/i, '')
-    .trim()
+  return (
+    d
+      .replace(
+        /\(((\d+(st|nd|rd|th)( anniversary)? (reissue|edition))|((super|special) )?(deluxe|extended|expanded|explicit|limited|legacy|bonus track|special)(( anniversary)? (reissue|edition|version))?|music from the (motion picture soundtrack|\w+ series)|complete)\)/i,
+        ''
+      )
+      // Case-sensitive, at end.
+      .replace(/OST$/, '')
+      .replace(/- (original motion picture soundtrack|the best of .+)/i, '')
+      .trim()
+  )
 }
