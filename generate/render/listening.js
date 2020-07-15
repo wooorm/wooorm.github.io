@@ -3,7 +3,8 @@
 var escape = require('escape-string-regexp')
 var distance = require('levenshtein-edit-distance')
 var h = require('hastscript')
-var music = require('../../data/music.json')
+var artists = require('../../data/artists.json')
+var albums = require('../../data/albums.json')
 
 exports.data = {
   title: 'Listening',
@@ -16,17 +17,32 @@ exports.data = {
 exports.render = listening
 
 function listening() {
-  var items = music.map(map)
-
   return [
     h('h1', h('span.text', 'Listening (recently)')),
-    h('ol.covers', items)
+    h('h2', h('span.text', 'Recent artists')),
+    h('ol.covers', artists.map(artist)),
+    h('h2', h('span.text', 'Recent albums')),
+    h('ol.covers', albums.map(album))
   ]
 }
 
-function map(d) {
+function artist(d) {
+  var {image, name} = d
+
+  return h('li.cover.square', [
+    h('img', {
+      src: image.url,
+      alt: '',
+      width: image.width,
+      height: image.height
+    }),
+    h('h2.caption', h('span.text', name))
+  ])
+}
+
+function album(d) {
   var {image, artist} = d
-  var name = cleanName(d.name)
+  var name = cleanAlbumName(d.name)
   var similarity =
     1 - distance(name, artist, true) / Math.max(name.length, artist.length)
   var ignoreArist = /various artists/i.test(artist) || similarity > 0.9
@@ -35,7 +51,7 @@ function map(d) {
     ignoreArist = true
   }
 
-  return h('li.cover', [
+  return h('li.cover.square', [
     h('img', {src: image, alt: '', width: 300}),
     h(
       'h2.caption',
@@ -45,7 +61,7 @@ function map(d) {
   ])
 }
 
-function cleanName(d) {
+function cleanAlbumName(d) {
   return (
     d
       .replace(

@@ -367,6 +367,11 @@ img[align='left'] {
 .cover img {
   width: 14.5em; /* Subtract a half em for the padding of the parent (“border”) */
   filter: grayscale(1);
+  object-fit: cover;
+}
+
+.cover.square img {
+  height: 14.5em;
 }
 
 .card {

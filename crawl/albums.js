@@ -10,7 +10,7 @@ var user = process.env.LFM_USER
 if (!key) throw new Error('Missing `LFM_TOKEN`')
 if (!user) throw new Error('Missing `LFM_USER`')
 
-var outpath = path.join('data', 'music.json')
+var outpath = path.join('data', 'albums.json')
 
 fetch(
   'http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=' +
