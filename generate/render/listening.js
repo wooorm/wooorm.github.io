@@ -65,7 +65,7 @@ function cleanAlbumName(d) {
   return (
     d
       .replace(
-        /[([]((\d+(st|nd|rd|th)( anniversary)?( deluxe)? (reissue|edition))|((international|super|special|standard) )?(deluxe|digital|extended|expanded|explicit|tour|limited|legacy|bonus( track)?|special)(( anniversary)? (reissue|edition|version))?|music from the (motion picture soundtrack|\w+ series)|complete)[)\]]/i,
+        /[([]((\d+(st|nd|rd|th) )?(anniversary )?(deluxe )?(reissue|edition)|((international|super|special|standard) )?(deluxe|digital|extended|expanded|explicit|tour|limited|legacy|bonus( track)?|special)(( anniversary)? (reissue|edition|version))?|music from the (motion picture soundtrack|\w+ series)|complete)[)\]]/i,
         ''
       )
       // Case-sensitive, at end.
