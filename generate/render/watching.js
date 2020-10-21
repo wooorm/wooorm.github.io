@@ -1,7 +1,13 @@
 'use strict'
 
 var h = require('hastscript')
-var shows = require('../../data/shows.json')
+var shows
+
+try {
+  shows = require('../../data/shows.json')
+} catch (_) {
+  shows = []
+}
 
 exports.data = {
   title: 'Watching',

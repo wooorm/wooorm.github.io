@@ -3,8 +3,16 @@
 var escape = require('escape-string-regexp')
 var distance = require('levenshtein-edit-distance')
 var h = require('hastscript')
-var artists = require('../../data/artists.json')
-var albums = require('../../data/albums.json')
+var artists
+var albums
+
+try {
+  artists = require('../../data/artists.json')
+  albums = require('../../data/albums.json')
+} catch (_) {
+  artists = []
+  albums = []
+}
 
 exports.data = {
   title: 'Listening',
