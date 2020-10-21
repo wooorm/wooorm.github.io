@@ -23,6 +23,7 @@ var projects =
   'https://github.com/search?type=Repositories&q=user:wooorm+user:mdx-js+user:micromark+user:remarkjs+user:rehypejs+user:retextjs+user:unifiedjs+user:syntax-tree+user:vfile+user:get-alex+user:words'
 var downloads = 'https://npm-stat.com/charts.html?author=wooorm'
 var thanks = '/thanks/'
+var mm = 'https://github.com/micromark/micromark'
 var mdxsm = 'https://github.com/micromark/mdx-state-machine'
 var books = 'https://twitter.com/SparksZilla/status/1222208487351971840'
 var resume = '/resume.html'
@@ -36,9 +37,9 @@ function home() {
           'I work most-time on ',
           h('a', {href: github}, 'open source'),
           ' maintaining ',
-          h('a', {href: projects}, '400+ projects'),
+          h('a', {href: projects}, '500+ projects'),
           ' that are downloaded ',
-          h('a', {href: downloads}, '5B+ times'),
+          h('a', {href: downloads}, '7.5B+ times'),
           ' a year. ',
           'Most of my work is as a core team member of ',
           h('a', {href: unified}, 'unified'),
@@ -51,8 +52,10 @@ function home() {
         'p',
         h('span.text', [
           'I sometimes do contracting as well. Recently for ',
+          h('a', {href: mm}, 'Salesforce who funded part of micromark'),
+          ', ',
           h('a', {href: mdxsm}, 'Gatsby speccing MDX'),
-          ' and for ',
+          ', and ',
           h('a', {href: books}, 'Holloway making books'),
           '. ',
           'And I used to teach ',
