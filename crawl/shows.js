@@ -53,6 +53,8 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
       var endpoint
       var response
       var body
+      var posters
+      var image
 
       try {
         endpoint =
@@ -66,7 +68,12 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
           headers: {'Content-Type': 'application/json'}
         })
         body = await response.json()
-        var image = body.posters[0]
+        posters = body.posters.sort((a, b) => b.vote_average - a.vote_average)
+        image =
+          posters.find((d) => d.iso_639_1 === 'en') ||
+          posters.find((d) => d.iso_639_1 === 'nl') ||
+          posters[0]
+
         d.image = {
           width: image.width,
           height: image.height,
@@ -96,4 +103,7 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
     function score(d) {
       return d.last
     }
+  })
+  .catch(() => {
+    throw new Error('Could not get shows')
   })
