@@ -6,7 +6,7 @@ var yaml = require('js-yaml')
 var h = require('hastscript')
 
 var photos = yaml
-  .safeLoad(fs.readFileSync(path.join('asset', 'image', 'index.yml')))
+  .load(fs.readFileSync(path.join('asset', 'image', 'index.yml')))
   .sort(sort)
 
 exports.data = {

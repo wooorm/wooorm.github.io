@@ -30,15 +30,21 @@ var pages = [
   require('./render/listening')
 ]
 
-pages.forEach((d) => {
-  if (!d.data.pathname) {
-    d.data.pathname = '/' + d.data.label + '/'
-  }
-})
+var posts = glob.sync('post/**/*.md')
 
-glob.sync('post/**/*.md').forEach((d) => {
-  pages.push(renderPost(vfile.readSync(d)))
-})
+var index = -1
+
+while (++index < pages.length) {
+  if (!pages[index].data.pathname) {
+    pages[index].data.pathname = '/' + pages[index].data.label + '/'
+  }
+}
+
+index = -1
+
+while (++index < posts.length) {
+  pages.push(renderPost(vfile.readSync(posts[index])))
+}
 
 pages.forEach((d) => {
   tasks.push(() => {

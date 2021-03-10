@@ -55,7 +55,11 @@ function pictures(options) {
             )
           }),
           // See dimension.
-          sharp(resolved).metadata()
+          sharp(resolved)
+            .metadata()
+            .catch(() => {
+              throw new Error('Could not find `' + resolved + '`')
+            })
         )
 
         return Promise.all(promises).then((result) => {
@@ -76,7 +80,7 @@ function pictures(options) {
                 return available.includes(fp) ? [fp, size] : []
               })
               .sort((a, b) => a[1] - b[1])
-              .filter((d) => d.length !== 0)
+              .filter((d) => d.length > 0)
 
             if (applicable.length === 0) {
               return []

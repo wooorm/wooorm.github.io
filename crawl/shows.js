@@ -24,17 +24,15 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
 })
   .then((response) => response.json())
   .then(async function (body) {
+    var flat = body.flatMap(clean)
     var byId = {}
+    var index = -1
 
-    body.flatMap(clean).forEach((d) => {
-      var id = d.tmdbId
-
-      if (!(id in byId)) {
-        byId[id] = d
+    while (++index < flat.length) {
+      if (!(body[index].tmdbId in byId)) {
+        byId[body[index].tmdbId] = body[index]
       }
-
-      return byId
-    })
+    }
 
     var items = Object.values(byId).sort(sort)
 
