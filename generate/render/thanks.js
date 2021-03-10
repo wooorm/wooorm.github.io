@@ -119,7 +119,12 @@ function map(d) {
             'p',
             gh ? h('span.text', h('a', {href: gh}, ['@' + d.github])) : '',
             gh && href ? h('span.text', ' · ') : '',
-            href ? h('span.text', h('a', {href}, url(href))) : ''
+            href
+              ? h(
+                  'span.text',
+                  h('a', {href, rel: ['sponsored', 'nofollow']}, url(href))
+                )
+              : ''
           )
         : ''
     ])
