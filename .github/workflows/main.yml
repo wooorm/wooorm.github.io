@@ -1,0 +1,40 @@
+name: main
+on:
+  push:
+    branches:
+      - src
+  schedule:
+    - cron: '30 7 * * *'
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - uses: dcodeIO/setup-node-nvm@master
+        with:
+          node-version: node
+      - run: npm install
+      - run: npm test
+        env:
+          GH_TOKEN: ${{secrets.GH_TOKEN}}
+          LFM_TOKEN: ${{secrets.LFM_TOKEN}}
+          LFM_USER: ${{secrets.LFM_USER}}
+          OC_TOKEN: ${{secrets.OC_TOKEN}}
+          SPOT_C_ID: ${{secrets.SPOT_C_ID}}
+          SPOT_C_SECRET: ${{secrets.SPOT_C_SECRET}}
+          SPOT_R_TOKEN: ${{secrets.SPOT_R_TOKEN}}
+          TMDB_TOKEN: ${{secrets.TMDB_TOKEN}}
+          TTV_TOKEN: ${{secrets.TTV_TOKEN}}
+          TTV_USER: ${{secrets.TTV_USER}}
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          BRANCH: dist
+          FOLDER: build
+          SINGLE_COMMIT: true
+          COMMIT_MESSAGE: .
+          GIT_CONFIG_NAME: Titus Wormer
+          GIT_CONFIG_EMAIL: tituswormer@gmail.com
