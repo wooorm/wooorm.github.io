@@ -62,16 +62,14 @@ trough()
     var contents = new URL(pack.homepage).host + '\n'
     vfile.write({dirname: 'build', basename: 'CNAME', contents: contents}, next)
   })
-  .run('asset/**/*.*', function (err) {
-    if (err) {
-      process.exitCode = 1
-    }
+  .run('asset/**/*.*', function (error) {
+    if (error) throw error
   })
 
 function process(file, next) {
-  externals[file.extname].run(file, function (err) {
+  externals[file.extname].run(file, function (error) {
     file.processed = true
-    next(err)
+    next(error)
   })
 }
 
@@ -82,15 +80,15 @@ function move(file) {
 
 function mkdir(file, next) {
   mkdirp(file, done)
-  function done(err) {
-    next(err)
+  function done(error) {
+    next(error)
   }
 }
 
 function copy(file, next) {
   fs.copyFile(file.history[0], file.path, done)
-  function done(err) {
-    next(err)
+  function done(error) {
+    next(error)
   }
 }
 
@@ -130,7 +128,14 @@ function transformImageFactory(options) {
           {concurrency: 3}
         )
       )
-      .then(() => next(null, file), next)
+      .then(
+        () => next(null, file),
+        function (error) {
+          next(
+            new Error('Could not transform image `' + file.path + '`: ' + error)
+          )
+        }
+      )
 
     function one(media) {
       var format = media.format
@@ -156,11 +161,11 @@ function transformImageFactory(options) {
 function bundleJs(file, next) {
   browserify(file.path).plugin('tinyify').bundle(done)
 
-  function done(err, buf) {
+  function done(error, buf) {
     if (buf) {
       file.contents = String(buf)
     }
 
-    next(err)
+    next(error)
   }
 }
