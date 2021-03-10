@@ -29,8 +29,8 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
     var index = -1
 
     while (++index < flat.length) {
-      if (!(body[index].tmdbId in byId)) {
-        byId[body[index].tmdbId] = body[index]
+      if (!(flat[index].tmdbId in byId)) {
+        byId[flat[index].tmdbId] = flat[index]
       }
     }
 
