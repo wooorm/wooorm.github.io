@@ -20,7 +20,7 @@ var externals = {
   '.png': trough().use(
     transformImageFactory({
       webp: {quality: 50, alphaQuality: 50},
-      png: {quality: 50, compressionLevel: 9}
+      png: {quality: 50}
     })
   ),
   '.jpg': trough().use(

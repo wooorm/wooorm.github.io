@@ -289,11 +289,12 @@ tr:nth-child(2n) {
 
 header,
 main,
-nav li,
-.picture,
-.cover,
-.card {
+nav li {
   margin: 1.5em;
+}
+
+nav li {
+  padding: 0;
 }
 
 header {
@@ -309,13 +310,35 @@ header {
   padding: 0 1.5em;
 }
 
-nav ol,
+nav ol {
+  list-style-type: none;
+  padding: 0;
+  margin: -1.5em;
+}
+
 .pictures,
 .covers,
 .cards {
   list-style-type: none;
   padding: 0;
-  margin: -1.5em;
+  display: grid;
+  grid-auto-flow: dense;
+  gap: 1.5em;
+}
+
+.covers {
+  grid-template-columns: repeat(auto-fill, minmax(12em, 1fr));
+}
+
+.cards,
+.pictures {
+  grid-template-columns: repeat(auto-fill, minmax(18em, 1fr));
+}
+
+.picture,
+.cover,
+.card {
+  margin: 0;
 }
 
 .picture,
@@ -326,17 +349,6 @@ nav ol,
   padding: var(--border);
   border-radius: var(--border-radius);
   position: relative;
-}
-
-.picture,
-.cover,
-.card {
-  display: inline-block;
-  vertical-align: top;
-}
-
-picture {
-  display: block;
 }
 
 img {
@@ -353,11 +365,11 @@ img[align='left'] {
 
 .pictures img,
 .cover img {
-  height: auto;
-  width: auto;
+  height: 100%;
+  width: 100%;
   display: block;
-  max-width: 100%;
   border-radius: calc(var(--border-radius) - var(--border));
+  object-fit: cover;
 }
 
 .picture img {
@@ -365,17 +377,12 @@ img[align='left'] {
 }
 
 .cover img {
-  width: 14.5em; /* Subtract a half em for the padding of the parent (“border”) */
   filter: grayscale(1);
   object-fit: cover;
 }
 
 .cover.square img {
-  height: 14.5em;
-}
-
-.card {
-  width: 18em;
+  aspect-ratio: 1 / 1;
 }
 
 .caption {
@@ -422,6 +429,7 @@ img[align='left'] {
 .card .caption {
   padding-left: 1em;
   padding-right: 1em;
+  height: 100%;
 }
 
 .caption h1,

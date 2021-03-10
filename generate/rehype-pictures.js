@@ -7,6 +7,7 @@ var sharp = require('sharp')
 var rename = require('vfile-rename')
 var visit = require('unist-util-visit')
 var h = require('hastscript')
+var classnames = require('hast-util-classnames')
 
 module.exports = pictures
 
@@ -66,6 +67,9 @@ function pictures(options) {
           var defaults = ['png', 'jpg']
           var info = result.pop()
           var available = result.filter(Boolean)
+          var siblings = parent.children
+          var width = info.width
+          var height = info.height
           var biggestDefault
 
           // Generate the sources, but only if they exist.
@@ -98,29 +102,24 @@ function pictures(options) {
             })
           })
 
-          var siblings = parent.children
-          var width = info.width
-          var height = info.height
-
-          node.properties.loading = 'lazy'
-
           if (biggestDefault) {
             node.properties.src = path.relative(base, biggestDefault[0])
             width = biggestDefault[1]
             height = (width / info.width) * info.height
-          } else {
-            width = info.width
-            node.properties.height = info.height
           }
 
+          node.properties.loading = 'lazy'
+          node.properties.decoding = 'async'
           node.properties.width = width
           node.properties.height = height
 
-          siblings[siblings.indexOf(node)] = h(
-            'picture',
-            {style: 'max-width:' + width + 'px'},
-            srcs.concat(node)
-          )
+          if (width / height > 2) {
+            classnames(parent, 'panorama')
+          } else if (width / height > 1) {
+            classnames(parent, 'landscape')
+          }
+
+          siblings[siblings.indexOf(node)] = h('picture', srcs.concat(node))
         })
       }
     }
