@@ -16,12 +16,9 @@ var query = `query {
   viewer {
     sponsorshipsAsMaintainer(first: 100) {
       nodes {
-        sponsor {
-          login
-          name
-          bio
-          avatarUrl
-          websiteUrl
+        sponsorEntity {
+          ... on User { login name bio avatarUrl websiteUrl }
+          ... on Organization { login name description avatarUrl websiteUrl }
         }
         tier { monthlyPriceInDollars }
       }
@@ -36,6 +33,7 @@ fetch(endpoint, {
   headers: {'Content-Type': 'application/json', Authorization: 'bearer ' + key}
 })
   .then((response) => response.json())
+  .catch((error) => console.log(error))
   .then(function (result) {
     var data = result.data.viewer.sponsorshipsAsMaintainer.nodes.map(map)
 
@@ -48,11 +46,11 @@ fetch(endpoint, {
     function map(d) {
       var tier = d.tier.monthlyPriceInDollars
       return {
-        github: d.sponsor.login,
-        name: d.sponsor.name,
-        description: d.sponsor.bio,
-        image: d.sponsor.avatarUrl,
-        url: d.sponsor.websiteUrl,
+        github: d.sponsorEntity.login,
+        name: d.sponsorEntity.name,
+        description: d.sponsorEntity.bio || d.sponsorEntity.description,
+        image: d.sponsorEntity.avatarUrl,
+        url: d.sponsorEntity.websiteUrl,
         gold: tier >= 50 || undefined
       }
     }
