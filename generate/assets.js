@@ -8,7 +8,6 @@ import mkdirp from 'vfile-mkdirp'
 import trough from 'trough'
 import vfile from 'to-vfile'
 import reporter from 'vfile-reporter'
-import browserify from 'browserify'
 import postcss from 'postcss'
 import postcssPresetEnv from 'postcss-preset-env'
 import cssnano from 'cssnano'
@@ -17,7 +16,6 @@ var pack = JSON.parse(fs.readFileSync('package.json'))
 
 var externals = {
   '.css': trough().use(transformCss),
-  '.js': trough().use(bundleJs),
   '.png': trough().use(
     transformImageFactory({
       webp: {quality: 50, alphaQuality: 50},
@@ -156,17 +154,5 @@ function transformImageFactory(options) {
           return copy
         })
     }
-  }
-}
-
-function bundleJs(file, next) {
-  browserify(file.path).plugin('tinyify').bundle(done)
-
-  function done(error, buf) {
-    if (buf) {
-      file.contents = String(buf)
-    }
-
-    next(error)
   }
 }
