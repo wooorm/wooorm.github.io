@@ -1,9 +1,10 @@
-var url = require('url')
-var fs = require('fs')
-var path = require('path')
-var fetch = require('node-fetch')
+import url from 'url'
+import fs from 'fs'
+import path from 'path'
+import fetch from 'node-fetch'
+import dotenv from 'dotenv'
 
-require('dotenv').config()
+dotenv.config()
 
 var ref = process.env.SPOT_R_TOKEN
 var cId = process.env.SPOT_C_ID
@@ -39,19 +40,13 @@ fetch('https://accounts.spotify.com/api/token', {
   })
   .then((response) => response.json())
   .then(function (body) {
-    var artists = body.items.map(artist)
+    var artists = body.items.map((d) => ({name: d.name, image: d.images[0]}))
 
     return fs.promises
       .mkdir(path.dirname(outpath), {recursive: true})
       .then(() =>
         fs.promises.writeFile(outpath, JSON.stringify(artists, null, 2) + '\n')
       )
-
-    function artist(d) {
-      var {name, images} = d
-      var image = images[0]
-      return {name, image}
-    }
   })
   .catch(() => {
     throw new Error('Could not get artists')

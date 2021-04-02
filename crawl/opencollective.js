@@ -1,8 +1,9 @@
-var fs = require('fs')
-var path = require('path')
-var fetch = require('node-fetch')
+import fs from 'fs'
+import path from 'path'
+import fetch from 'node-fetch'
+import dotenv from 'dotenv'
 
-require('dotenv').config()
+dotenv.config()
 
 var key = process.env.OC_TOKEN
 var ghKey = process.env.GH_TOKEN
@@ -45,7 +46,7 @@ var query = `query($slug: String) {
 Promise.all([
   fetch(endpoint, {
     method: 'POST',
-    body: JSON.stringify({query: query, variables: variables}),
+    body: JSON.stringify({query, variables}),
     headers: {'Content-Type': 'application/json', 'Api-Key': key}
   }).then((response) => response.json()),
   fetch(
@@ -59,7 +60,7 @@ Promise.all([
       .filter(Boolean)
       .map((d) => {
         var spam = d.charAt(0) === '-'
-        return {oc: spam ? d.slice(1) : d, spam: spam}
+        return {oc: spam ? d.slice(1) : d, spam}
       })
     var seen = []
     var members = result.data.collective.members.nodes

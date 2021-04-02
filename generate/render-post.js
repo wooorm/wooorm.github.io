@@ -1,14 +1,12 @@
-'use strict'
-
-var matter = require('vfile-matter')
-var unified = require('unified')
-var parse = require('remark-parse')
-var frontmatter = require('remark-frontmatter')
-var remark2rehype = require('remark-rehype')
-var raw = require('rehype-raw')
-var slug = require('rehype-slug')
-var highlight = require('rehype-highlight')
-var h = require('hastscript')
+import matter from 'vfile-matter'
+import unified from 'unified'
+import parse from 'remark-parse'
+import frontmatter from 'remark-frontmatter'
+import remark2rehype from 'remark-rehype'
+import raw from 'rehype-raw'
+import slug from 'rehype-slug'
+import highlight from 'rehype-highlight'
+import h from 'hastscript'
 
 var articlePipeline = unified()
   .use(parse, {commonmark: true})
@@ -18,9 +16,7 @@ var articlePipeline = unified()
   .use(highlight, {subset: false, ignoreMissing: true})
   .use(slug)
 
-module.exports = post
-
-function post(file) {
+export default function post(file) {
   var slug = file.stem
 
   matter(file)
@@ -33,7 +29,7 @@ function post(file) {
       tags: tags || [],
       pathname: ['', 'blog', slug, ''].join('/')
     }),
-    render: render
+    render
   }
 
   function render() {

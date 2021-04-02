@@ -1,11 +1,7 @@
-'use strict'
-
-var mkdirp = require('vfile-mkdirp')
-
-module.exports = mkdir
+import mkdirp from 'vfile-mkdirp'
 
 // Unified plugin to make sure the directories to a file exist.
-function mkdir() {
+export default function mkdir() {
   return transformer
   function transformer(_, file) {
     return mkdirp(file).then(() => {})

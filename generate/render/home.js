@@ -1,8 +1,6 @@
-'use strict'
+import h from 'hastscript'
 
-var h = require('hastscript')
-
-exports.data = {
+export var data = {
   title: '@wooorm',
   label: 'home',
   pathname: '/',
@@ -10,8 +8,6 @@ exports.data = {
   published: '2020-05-01T00:00:00.000Z',
   modified: '2020-05-01T00:00:00.000Z'
 }
-
-exports.render = home
 
 var github = 'https://github.com/wooorm'
 var twitter = 'https://twitter.com/wooorm'
@@ -28,7 +24,7 @@ var mdxsm = 'https://github.com/micromark/mdx-state-machine'
 var books = 'https://twitter.com/SparksZilla/status/1222208487351971840'
 var resume = '/resume.html'
 
-function home() {
+export function render() {
   return [
     h('.content', [
       h('h1', h('span.text', 'Hi, I’m Titus 👋')),

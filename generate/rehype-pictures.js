@@ -1,17 +1,13 @@
-'use strict'
+import path from 'path'
+import fs from 'fs'
+import vfile from 'to-vfile'
+import sharp from 'sharp'
+import rename from 'vfile-rename'
+import visit from 'unist-util-visit'
+import h from 'hastscript'
+import classnames from 'hast-util-classnames'
 
-var path = require('path')
-var fs = require('fs')
-var vfile = require('to-vfile')
-var sharp = require('sharp')
-var rename = require('vfile-rename')
-var visit = require('unist-util-visit')
-var h = require('hastscript')
-var classnames = require('hast-util-classnames')
-
-module.exports = pictures
-
-function pictures(options) {
+export default function pictures(options) {
   var sizes = [600, 1200, 2400, 3600]
   var formats = ['webp', 'png', 'jpg']
   var mimes = {webp: 'image/webp', png: 'image/png', jpg: 'image/jpeg'}
@@ -64,9 +60,9 @@ function pictures(options) {
         )
 
         return Promise.all(promises).then((result) => {
-          var defaults = ['png', 'jpg']
+          var defaults = new Set(['png', 'jpg'])
           var info = result.pop()
-          var available = result.filter(Boolean)
+          var available = new Set(result.filter(Boolean))
           var siblings = parent.children
           var width = info.width
           var height = info.height
@@ -81,7 +77,7 @@ function pictures(options) {
                   extname: '.' + format
                 }).path
 
-                return available.includes(fp) ? [fp, size] : []
+                return available.has(fp) ? [fp, size] : []
               })
               .sort((a, b) => a[1] - b[1])
               .filter((d) => d.length > 0)
@@ -90,7 +86,7 @@ function pictures(options) {
               return []
             }
 
-            if (defaults.includes(format)) {
+            if (defaults.has(format)) {
               biggestDefault = applicable[applicable.length - 1]
             }
 

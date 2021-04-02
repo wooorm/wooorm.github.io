@@ -1,15 +1,14 @@
-'use strict'
+import fs from 'fs'
+import path from 'path'
+import h from 'hastscript'
 
-var h = require('hastscript')
-var shows
+var shows = []
 
 try {
-  shows = require('../../data/shows.json')
-} catch (_) {
-  shows = []
-}
+  shows = JSON.parse(fs.readFileSync(path.join('data', 'shows.json')))
+} catch {}
 
-exports.data = {
+export var data = {
   title: 'Watching',
   label: 'watching',
   description: 'Things Titus watches',
@@ -17,30 +16,30 @@ exports.data = {
   modified: Date.now()
 }
 
-exports.render = watching
-
-function watching() {
-  var items = shows
-    .filter((d) => d.image)
-    .slice(0, 50)
-    .map(map)
-
-  return [h('h1', h('span.text', 'Watching (recently)')), h('ol.covers', items)]
-}
-
-function map(d) {
-  return h('li.cover', [
-    h('img', {
-      src: d.image.url,
-      alt: '',
-      width: 300,
-      height: Math.floor(d.image.height / (d.image.width / 300))
-    }),
+export function render() {
+  return [
+    h('h1', h('span.text', 'Watching (recently)')),
     h(
-      'h2.caption',
-      h('span.text', d.title),
-      h('br'),
-      h('span.text', '(' + d.year + ')')
+      'ol.covers',
+      shows
+        .filter((d) => d.image)
+        .slice(0, 50)
+        .map(function (d) {
+          return h('li.cover', [
+            h('img', {
+              src: d.image.url,
+              alt: '',
+              width: 300,
+              height: Math.floor(d.image.height / (d.image.width / 300))
+            }),
+            h(
+              'h2.caption',
+              h('span.text', d.title),
+              h('br'),
+              h('span.text', '(' + d.year + ')')
+            )
+          ])
+        })
     )
-  ])
+  ]
 }

@@ -1,9 +1,10 @@
-var fs = require('fs')
-var path = require('path')
-var all = require('p-all')
-var fetch = require('node-fetch')
+import fs from 'fs'
+import path from 'path'
+import all from 'p-all'
+import fetch from 'node-fetch'
+import dotenv from 'dotenv'
 
-require('dotenv').config()
+dotenv.config()
 
 var ttvKey = process.env.TTV_TOKEN
 var user = process.env.TTV_USER
@@ -24,7 +25,16 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
 })
   .then((response) => response.json())
   .then(async function (body) {
-    var flat = body.flatMap(clean)
+    var flat = body.flatMap(function (d) {
+      var type = d.type === 'movie' ? 'movie' : 'show'
+      return {
+        title: d[type].title,
+        type,
+        year: d[type].year,
+        last: new Date(d.watched_at),
+        tmdbId: d[type].ids.tmdb
+      }
+    })
     var byId = {}
     var index = -1
 
@@ -77,21 +87,11 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
           height: image.height,
           url: 'https://image.tmdb.org/t/p/w300' + image.file_path
         }
-      } catch (_) {
+      } catch {
         console.warn('Could not get image for:', d.title)
       }
 
       return d
-    }
-
-    function clean(d) {
-      var last = new Date(d.watched_at)
-      var type = d.type === 'movie' ? 'movie' : 'show'
-      var year = d[type].year
-      var title = d[type].title
-      var tmdbId = d[type].ids.tmdb
-
-      return {title, type, year, last, tmdbId}
     }
 
     function sort(a, b) {

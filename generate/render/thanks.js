@@ -1,11 +1,21 @@
-'use strict'
+import fs from 'fs'
+import path from 'path'
+import url from 'humanize-url'
+import h from 'hastscript'
 
-var url = require('humanize-url')
-var h = require('hastscript')
-var ghSponsors = require('../../data/github-sponsors.json')
-var ocSponsors = require('../../data/opencollective.json')
+var ghSponsors = []
+var ocSponsors = []
 
-exports.data = {
+try {
+  ghSponsors = JSON.parse(
+    fs.readFileSync(path.join('data', 'github-sponsors.json'))
+  )
+  ocSponsors = JSON.parse(
+    fs.readFileSync(path.join('data', 'opencollective.json'))
+  )
+} catch {}
+
+export var data = {
   title: 'Thanks',
   label: 'thanks',
   description: 'People Titus wants to thank',
@@ -13,12 +23,7 @@ exports.data = {
   modified: Date.now()
 }
 
-exports.render = thanks
-
-function thanks() {
-  var gh = ghSponsors.map(map)
-  var oc = ocSponsors.map(map)
-
+export function render() {
   return [
     h('h1', h('span.text', 'Thanks')),
     h('.content', [
@@ -81,7 +86,10 @@ function thanks() {
         ':'
       ])
     ),
-    h('ol.cards', gh),
+    h(
+      'ol.cards',
+      ghSponsors.map((d) => map(d))
+    ),
     h('h2', h('span.text', 'unified')),
     h(
       'p',
@@ -95,7 +103,10 @@ function thanks() {
         ':'
       ])
     ),
-    h('ol.cards', oc)
+    h(
+      'ol.cards',
+      ocSponsors.map((d) => map(d))
+    )
   ]
 }
 

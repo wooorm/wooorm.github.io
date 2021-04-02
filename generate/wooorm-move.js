@@ -1,11 +1,7 @@
-'use strict'
-
-var path = require('path')
-
-module.exports = move
+import path from 'path'
 
 // Plugin that moves a file’s path to the output location
-function move() {
+export default function move() {
   return transform
   function transform(_, file) {
     var {pathname} = file.data.meta

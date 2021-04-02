@@ -1,18 +1,19 @@
-var fs = require('fs')
-var path = require('path')
-var {promisify} = require('util')
-var glob = require('glob')
-var sharp = require('sharp')
-var all = require('p-all')
-var mkdirp = require('vfile-mkdirp')
-var trough = require('trough')
-var vfile = require('to-vfile')
-var reporter = require('vfile-reporter')
-var browserify = require('browserify')
-var postcss = require('postcss')
-var postcssPresetEnv = require('postcss-preset-env')
-var cssnano = require('cssnano')
-var pack = require('../package.json')
+import fs from 'fs'
+import path from 'path'
+import {promisify} from 'util'
+import glob from 'glob'
+import sharp from 'sharp'
+import all from 'p-all'
+import mkdirp from 'vfile-mkdirp'
+import trough from 'trough'
+import vfile from 'to-vfile'
+import reporter from 'vfile-reporter'
+import browserify from 'browserify'
+import postcss from 'postcss'
+import postcssPresetEnv from 'postcss-preset-env'
+import cssnano from 'cssnano'
+
+var pack = JSON.parse(fs.readFileSync('package.json'))
 
 var externals = {
   '.css': trough().use(transformCss),
@@ -60,7 +61,7 @@ trough()
   })
   .use(function (files, next) {
     var contents = new URL(pack.homepage).host + '\n'
-    vfile.write({dirname: 'build', basename: 'CNAME', contents: contents}, next)
+    vfile.write({dirname: 'build', basename: 'CNAME', contents}, next)
   })
   .run('asset/**/*.*', function (error) {
     if (error) throw error

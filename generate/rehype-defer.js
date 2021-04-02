@@ -1,11 +1,7 @@
-'use strict'
-
-var visit = require('unist-util-visit')
-
-module.exports = defer
+import visit from 'unist-util-visit'
 
 // Rehype plugin to defer scripts
-function defer() {
+export default function defer() {
   return transform
 
   function transform(tree) {

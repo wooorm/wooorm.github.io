@@ -1,21 +1,17 @@
-'use strict'
-
-var h = require('hastscript')
+import h from 'hastscript'
 
 var title = 'Writing'
 var description = 'A place for things that don’t fit neatly in readmes.'
 
-exports.data = {
-  title: title,
+export var data = {
+  title,
   label: 'blog',
-  description: description,
+  description,
   published: '2020-05-01T00:00:00.000Z',
   modified: Date.now()
 }
 
-exports.render = writing
-
-function writing(pages) {
+export function render(pages) {
   var posts = pages
     .map((d) => d.data)
     .filter((d) => {

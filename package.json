@@ -7,6 +7,7 @@
   "repository": "wooorm/wooorm.github.io",
   "bugs": "https://github.com/wooorm/wooorm.github.io/issues",
   "homepage": "https://wooorm.com",
+  "type": "module",
   "devDependencies": {
     "browserify": "^17.0.0",
     "cssnano": "^4.0.0",
@@ -94,13 +95,11 @@
   },
   "xo": {
     "prettier": true,
-    "esnext": false,
     "rules": {
-      "unicorn/no-array-for-each": "off",
-      "unicorn/no-array-callback-reference": "off",
-      "unicorn/prefer-number-properties": "off",
-      "unicorn/prefer-optional-catch-binding": "off",
-      "unicorn/prefer-set-has": "off"
+      "import/no-mutable-exports": "off",
+      "no-var": "off",
+      "prefer-arrow-callback": "off",
+      "unicorn/no-array-for-each": "off"
     },
     "ignore": [
       "static/index.js"

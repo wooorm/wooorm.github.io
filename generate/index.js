@@ -1,34 +1,31 @@
-'use strict'
-
-var path = require('path')
-var glob = require('glob')
-var all = require('p-all')
-var vfile = require('to-vfile')
-var report = require('vfile-reporter')
-var unified = require('unified')
-var favicon = require('rehype-prevent-favicon-request')
-var minify = require('rehype-preset-minify')
-var doc = require('rehype-document')
-var meta = require('rehype-meta')
-var stringify = require('rehype-stringify')
-var u = require('unist-builder')
-var h = require('hastscript')
-var move = require('./wooorm-move')
-var mkdirp = require('./unified-mkdirp')
-var defer = require('./rehype-defer')
-var pictures = require('./rehype-pictures')
-var renderPost = require('./render-post')
+import path from 'path'
+import glob from 'glob'
+import all from 'p-all'
+import vfile from 'to-vfile'
+import report from 'vfile-reporter'
+import unified from 'unified'
+import favicon from 'rehype-prevent-favicon-request'
+import minify from 'rehype-preset-minify'
+import doc from 'rehype-document'
+import meta from 'rehype-meta'
+import stringify from 'rehype-stringify'
+import u from 'unist-builder'
+import h from 'hastscript'
+import move from './wooorm-move.js'
+import mkdirp from './unified-mkdirp.js'
+import defer from './rehype-defer.js'
+import pictures from './rehype-pictures.js'
+import renderPost from './render-post.js'
+import * as home from './render/home.js'
+import * as thanks from './render/thanks.js'
+import * as writing from './render/writing.js'
+import * as seeing from './render/seeing.js'
+import * as watching from './render/watching.js'
+import * as listening from './render/listening.js'
 
 var tasks = []
 
-var pages = [
-  require('./render/home'),
-  require('./render/thanks'),
-  require('./render/writing'),
-  require('./render/seeing'),
-  require('./render/watching'),
-  require('./render/listening')
-]
+var pages = [home, thanks, writing, seeing, watching, listening]
 
 var posts = glob.sync('post/**/*.md')
 
@@ -122,21 +119,32 @@ function wrap() {
     var self = section(file.data.meta.pathname)
 
     return u('root', [
-      h('header', [h('nav.top', [h('ol', structure.map(map))])]),
+      h('header', [
+        h('nav.top', [
+          h(
+            'ol',
+            structure.map(function (d) {
+              return h('li', {className: [d.label]}, [
+                h(
+                  'span.text',
+                  h(
+                    'a',
+                    {
+                      className:
+                        section(d.pathname) === self ? ['active'] : null,
+                      href: d.pathname
+                    },
+                    d.title || ''
+                  )
+                )
+              ])
+            })
+          )
+        ])
+      ]),
       h('main', tree),
       h('footer')
     ])
-
-    function map(d) {
-      var active = section(d.pathname) === self ? ['active'] : null
-
-      return h('li', {className: [d.label]}, [
-        h(
-          'span.text',
-          h('a', {className: active, href: d.pathname}, d.title || '')
-        )
-      ])
-    }
   }
 
   function section(pathname) {

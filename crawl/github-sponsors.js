@@ -1,8 +1,9 @@
-var fs = require('fs')
-var path = require('path')
-var fetch = require('node-fetch')
+import fs from 'fs'
+import path from 'path'
+import fetch from 'node-fetch'
+import dotenv from 'dotenv'
 
-require('dotenv').config()
+dotenv.config()
 
 var key = process.env.GH_TOKEN
 
@@ -29,31 +30,30 @@ var query = `query {
 
 fetch(endpoint, {
   method: 'POST',
-  body: JSON.stringify({query: query}),
+  body: JSON.stringify({query}),
   headers: {'Content-Type': 'application/json', Authorization: 'bearer ' + key}
 })
   .then((response) => response.json())
   .catch((error) => console.log(error))
   .then(function (result) {
-    var data = result.data.viewer.sponsorshipsAsMaintainer.nodes.map(map)
-
-    return fs.promises
-      .mkdir(path.dirname(outpath), {recursive: true})
-      .then(() =>
-        fs.promises.writeFile(outpath, JSON.stringify(data, null, 2) + '\n')
-      )
-
-    function map(d) {
-      var tier = d.tier.monthlyPriceInDollars
+    var data = result.data.viewer.sponsorshipsAsMaintainer.nodes.map(function (
+      d
+    ) {
       return {
         github: d.sponsorEntity.login,
         name: d.sponsorEntity.name,
         description: d.sponsorEntity.bio || d.sponsorEntity.description,
         image: d.sponsorEntity.avatarUrl,
         url: d.sponsorEntity.websiteUrl,
-        gold: tier >= 50 || undefined
+        gold: d.tier.monthlyPriceInDollars >= 50 || undefined
       }
-    }
+    })
+
+    return fs.promises
+      .mkdir(path.dirname(outpath), {recursive: true})
+      .then(() =>
+        fs.promises.writeFile(outpath, JSON.stringify(data, null, 2) + '\n')
+      )
   })
   .catch((_) => {
     throw new Error('Could not get sponsors')
