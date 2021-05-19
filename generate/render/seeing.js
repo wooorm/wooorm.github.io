@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
-import h from 'hastscript'
+import {h} from 'hastscript'
 
 var photos = yaml
   .load(fs.readFileSync(path.join('asset', 'image', 'index.yml')))

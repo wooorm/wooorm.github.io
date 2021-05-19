@@ -4,10 +4,10 @@ import {promisify} from 'util'
 import glob from 'glob'
 import sharp from 'sharp'
 import all from 'p-all'
-import mkdirp from 'vfile-mkdirp'
-import trough from 'trough'
-import vfile from 'to-vfile'
-import reporter from 'vfile-reporter'
+import {mkdirp} from 'vfile-mkdirp'
+import {trough} from 'trough'
+import {toVFile} from 'to-vfile'
+import {reporter} from 'vfile-reporter'
 import postcss from 'postcss'
 import postcssPresetEnv from 'postcss-preset-env'
 import cssnano from 'cssnano'
@@ -28,19 +28,19 @@ var externals = {
 }
 
 var processPipeline = trough()
-  .use(vfile.read)
+  .use(toVFile.read)
   .use(process)
   .use(move)
   .use(mkdir)
-  .use(vfile.write)
+  .use(toVFile.write)
 
 var copyPipeline = trough().use(move).use(mkdir).use(copy)
 
-var imagePipeline = trough().use(move).use(mkdir).use(vfile.write).use(print)
+var imagePipeline = trough().use(move).use(mkdir).use(toVFile.write).use(print)
 
 var filePipeline = trough()
   .use(function (fp, next) {
-    var file = vfile(fp)
+    var file = toVFile(fp)
     var ext = file.extname
     var pipeline = ext in externals ? processPipeline : copyPipeline
     pipeline.run(file, next)
@@ -58,8 +58,8 @@ trough()
     ).then((files) => done(null, files), done)
   })
   .use(function (files, next) {
-    var contents = new URL(pack.homepage).host + '\n'
-    vfile.write({dirname: 'build', basename: 'CNAME', contents}, next)
+    var value = new URL(pack.homepage).host + '\n'
+    toVFile.write({dirname: 'build', basename: 'CNAME', value}, next)
   })
   .run('asset/**/*.*', function (error) {
     if (error) throw error
@@ -95,7 +95,7 @@ function print(file) {
   file.stored = true
 
   // Clear memory.
-  file.contents = null
+  file.value = null
   console.error(reporter(file))
 }
 
@@ -103,7 +103,7 @@ function transformCss(file) {
   return postcss(postcssPresetEnv({stage: 0}), cssnano({preset: 'advanced'}))
     .process(file.toString('utf8'), {from: file.path})
     .then(function (result) {
-      file.contents = result.css
+      file.value = result.css
     })
 }
 
@@ -114,7 +114,7 @@ function transformImageFactory(options) {
     var formats = Object.keys(options)
 
     var run = promisify(imagePipeline.run)
-    var pipeline = sharp(file.contents)
+    var pipeline = sharp(file.value)
 
     pipeline
       .metadata()
@@ -145,9 +145,9 @@ function transformImageFactory(options) {
         [method](options[media.format])
         .toBuffer()
         .then((buf) => {
-          var copy = vfile(file.path)
+          var copy = toVFile(file.path)
 
-          copy.contents = buf
+          copy.value = buf
           copy.stem += '-' + media.size
           copy.extname = '.' + media.format
 

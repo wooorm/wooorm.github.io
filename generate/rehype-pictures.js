@@ -1,11 +1,11 @@
 import path from 'path'
 import fs from 'fs'
-import vfile from 'to-vfile'
+import {toVFile} from 'to-vfile'
 import sharp from 'sharp'
-import rename from 'vfile-rename'
-import visit from 'unist-util-visit'
-import h from 'hastscript'
-import classnames from 'hast-util-classnames'
+import {rename} from 'vfile-rename'
+import {visit} from 'unist-util-visit'
+import {h} from 'hastscript'
+import {classnames} from 'hast-util-classnames'
 
 export default function pictures(options) {
   var sizes = [600, 1200, 2400, 3600]
@@ -44,7 +44,7 @@ export default function pictures(options) {
         var promises = [].concat(
           // See which images exist.
           sources.map((d) => {
-            var fp = rename(vfile({path: resolved}), d).path
+            var fp = rename(toVFile({path: resolved}), d).path
 
             return fs.promises.access(fp, fs.constants.R_OK).then(
               () => fp,
@@ -72,7 +72,7 @@ export default function pictures(options) {
           var srcs = formats.flatMap((format) => {
             var applicable = sizes
               .map((size) => {
-                var fp = rename(vfile({path: resolved}), {
+                var fp = rename(toVFile({path: resolved}), {
                   stem: {suffix: '-' + size},
                   extname: '.' + format
                 }).path

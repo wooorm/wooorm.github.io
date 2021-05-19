@@ -1,4 +1,4 @@
-import h from 'hastscript'
+import {h} from 'hastscript'
 
 export var data = {
   title: '@wooorm',

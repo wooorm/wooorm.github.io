@@ -1,16 +1,16 @@
 import path from 'path'
 import glob from 'glob'
 import all from 'p-all'
-import vfile from 'to-vfile'
-import report from 'vfile-reporter'
+import {toVFile} from 'to-vfile'
+import {reporter} from 'vfile-reporter'
 import unified from 'unified'
 import favicon from 'rehype-prevent-favicon-request'
 import minify from 'rehype-preset-minify'
 import doc from 'rehype-document'
 import meta from 'rehype-meta'
 import stringify from 'rehype-stringify'
-import u from 'unist-builder'
-import h from 'hastscript'
+import {u} from 'unist-builder'
+import {h} from 'hastscript'
 import move from './wooorm-move.js'
 import mkdirp from './unified-mkdirp.js'
 import defer from './rehype-defer.js'
@@ -40,7 +40,7 @@ while (++index < pages.length) {
 index = -1
 
 while (++index < posts.length) {
-  pages.push(renderPost(vfile.readSync(posts[index])))
+  pages.push(renderPost(toVFile.readSync(posts[index])))
 }
 
 pages.forEach((d) => {
@@ -48,7 +48,7 @@ pages.forEach((d) => {
     var tree = d.render(pages)
     return {
       tree: 'type' in tree ? tree : u('root', tree),
-      file: vfile({data: {meta: d.data}})
+      file: toVFile({data: {meta: d.data}})
     }
   })
 })
@@ -92,14 +92,14 @@ var promises = tasks.map((fn) => () => {
       return pipeline.run(tree, file).then((tree) => ({tree, file}))
     })
     .then(({tree, file}) => {
-      file.contents = pipeline.stringify(tree, file)
+      file.value = pipeline.stringify(tree, file)
       return file
     })
-    .then((file) => vfile.write(file).then(() => file))
+    .then((file) => toVFile.write(file).then(() => file))
     .then(done, done)
 
   function done(x) {
-    console.log(report(x))
+    console.log(reporter(x))
   }
 })
 

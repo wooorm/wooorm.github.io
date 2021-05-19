@@ -1,4 +1,4 @@
-import visit from 'unist-util-visit'
+import {visit} from 'unist-util-visit'
 
 // Rehype plugin to defer scripts
 export default function defer() {

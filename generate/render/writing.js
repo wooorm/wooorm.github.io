@@ -1,4 +1,4 @@
-import h from 'hastscript'
+import {h} from 'hastscript'
 
 var title = 'Writing'
 var description = 'A place for things that don’t fit neatly in readmes.'

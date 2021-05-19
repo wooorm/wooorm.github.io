@@ -1,8 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 import escape from 'escape-string-regexp'
-import distance from 'levenshtein-edit-distance'
-import h from 'hastscript'
+import {levenshteinEditDistance} from 'levenshtein-edit-distance'
+import {h} from 'hastscript'
 
 var artists = []
 var albums = []
@@ -48,7 +48,8 @@ export function render() {
         var name = cleanAlbumName(d.name)
         var similarity =
           1 -
-          distance(name, artist, true) / Math.max(name.length, artist.length)
+          levenshteinEditDistance(name, artist, true) /
+            Math.max(name.length, artist.length)
         var ignoreArist = /various artists/i.test(artist) || similarity > 0.9
 
         if (new RegExp(escape(artist) + '$', 'i').test(name)) {

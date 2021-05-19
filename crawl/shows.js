@@ -78,9 +78,9 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
         body = await response.json()
         posters = body.posters.sort((a, b) => b.vote_average - a.vote_average)
         image =
-          posters.find((d) => d.iso_639_1 === 'en') ||
-          posters.find((d) => d.iso_639_1 === 'nl') ||
-          posters[0]
+          ['en', 'nl', 'fr', 'de', 'it', 'es'].find((l) => {
+            return posters.find((d) => d.iso_639_1 === l)
+          }) || posters[0]
 
         d.image = {
           width: image.width,

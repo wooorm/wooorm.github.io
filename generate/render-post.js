@@ -1,4 +1,4 @@
-import matter from 'vfile-matter'
+import {matter} from 'vfile-matter'
 import unified from 'unified'
 import parse from 'remark-parse'
 import frontmatter from 'remark-frontmatter'
@@ -6,7 +6,7 @@ import remark2rehype from 'remark-rehype'
 import raw from 'rehype-raw'
 import slug from 'rehype-slug'
 import highlight from 'rehype-highlight'
-import h from 'hastscript'
+import {h} from 'hastscript'
 
 var articlePipeline = unified()
   .use(parse, {commonmark: true})

@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import h from 'hastscript'
+import {h} from 'hastscript'
 
 var shows = []
 

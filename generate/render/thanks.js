@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import url from 'humanize-url'
-import h from 'hastscript'
+import {h} from 'hastscript'
 
 var ghSponsors = []
 var ocSponsors = []
