@@ -16,6 +16,8 @@ if (!tmdbKey) throw new Error('Missing `TMDB_TOKEN`')
 
 var outpath = path.join('data', 'shows.json')
 
+const languages = ['en', 'nl', 'fr', 'de', 'it', 'es']
+
 fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
   headers: {
     'Content-Type': 'application/json',
@@ -77,10 +79,13 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
         })
         body = await response.json()
         posters = body.posters.sort((a, b) => b.vote_average - a.vote_average)
-        image =
-          ['en', 'nl', 'fr', 'de', 'it', 'es'].find((l) => {
-            return posters.find((d) => d.iso_639_1 === l)
-          }) || posters[0]
+        image = posters[0]
+
+        languages.some((l) => {
+          const poster = posters.find((d) => d.iso_639_1 === l)
+          if (poster) image = poster
+          return Boolean(poster)
+        })
 
         d.image = {
           width: image.width,
