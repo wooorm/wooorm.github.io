@@ -5,23 +5,23 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-var key = process.env.OC_TOKEN
-var ghKey = process.env.GH_TOKEN
+const key = process.env.OC_TOKEN
+const ghKey = process.env.GH_TOKEN
 
 if (!key) throw new Error('Missing `OC_TOKEN`')
 if (!ghKey) throw new Error('Missing `GH_TOKEN`')
 
-var outpath = path.join('data', 'opencollective.json')
-var min = 5
+const outpath = path.join('data', 'opencollective.json')
+const min = 5
 
-var endpoint = 'https://api.opencollective.com/graphql/v2'
+const endpoint = 'https://api.opencollective.com/graphql/v2'
 
-var variables = {slug: 'unified'}
+const variables = {slug: 'unified'}
 
-var ghBase = 'https://github.com/'
-var twBase = 'https://twitter.com/'
+const ghBase = 'https://github.com/'
+const twBase = 'https://twitter.com/'
 
-var query = `query($slug: String) {
+const query = `query($slug: String) {
   collective(slug: $slug) {
     members(limit: 100, role: BACKER) {
       nodes {
@@ -53,22 +53,22 @@ Promise.all([
     {headers: {Authorization: 'bearer ' + ghKey}}
   ).then((response) => response.text())
 ])
-  .then(function ([result, sponsorsText]) {
-    var control = sponsorsText
+  .then(([result, sponsorsText]) => {
+    const control = sponsorsText
       .split('\n')
       .filter(Boolean)
       .map((d) => {
-        var spam = d.charAt(0) === '-'
+        const spam = d.charAt(0) === '-'
         return {oc: spam ? d.slice(1) : d, spam}
       })
-    var seen = []
-    var members = result.data.collective.members.nodes
+    const seen = []
+    const members = result.data.collective.members.nodes
       .map((d) => {
-        var oc = d.account.slug
-        var github = d.account.githubHandle || undefined
-        var twitter = d.account.twitterHandle || undefined
-        var url = d.account.website || undefined
-        var info = control.find((d) => d.oc === oc)
+        const oc = d.account.slug
+        const github = d.account.githubHandle || undefined
+        const twitter = d.account.twitterHandle || undefined
+        let url = d.account.website || undefined
+        const info = control.find((d) => d.oc === oc)
 
         if (url === ghBase + github || url === twBase + twitter) {
           url = undefined
@@ -94,7 +94,7 @@ Promise.all([
         }
       })
       .filter((d) => {
-        var ignore = d.spam || seen.includes(d.oc) // Ignore dupes in data.
+        const ignore = d.spam || seen.includes(d.oc) // Ignore dupes in data.
         seen.push(d.oc)
         return d.total > min && !ignore
       })

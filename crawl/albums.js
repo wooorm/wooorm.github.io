@@ -5,13 +5,13 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-var key = process.env.LFM_TOKEN
-var user = process.env.LFM_USER
+const key = process.env.LFM_TOKEN
+const user = process.env.LFM_USER
 
 if (!key) throw new Error('Missing `LFM_TOKEN`')
 if (!user) throw new Error('Missing `LFM_USER`')
 
-var outpath = path.join('data', 'albums.json')
+const outpath = path.join('data', 'albums.json')
 
 fetch(
   'http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=' +
@@ -21,9 +21,9 @@ fetch(
     '&format=json&period=1month&limit=60'
 )
   .then((response) => response.json())
-  .then(function (body) {
-    var albums = body.topalbums.album.flatMap(function (d) {
-      var image = d.image
+  .then((body) => {
+    const albums = body.topalbums.album.flatMap((d) => {
+      const image = d.image
         .map((d) => d['#text'])
         .filter(Boolean)
         .pop()

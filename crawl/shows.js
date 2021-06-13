@@ -6,15 +6,15 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-var ttvKey = process.env.TTV_TOKEN
-var user = process.env.TTV_USER
-var tmdbKey = process.env.TMDB_TOKEN
+const ttvKey = process.env.TTV_TOKEN
+const user = process.env.TTV_USER
+const tmdbKey = process.env.TMDB_TOKEN
 
 if (!ttvKey) throw new Error('Missing `TTV_TOKEN`')
 if (!user) throw new Error('Missing `TTV_USER`')
 if (!tmdbKey) throw new Error('Missing `TMDB_TOKEN`')
 
-var outpath = path.join('data', 'shows.json')
+const outpath = path.join('data', 'shows.json')
 
 const languages = ['en', 'nl', 'fr', 'de', 'it', 'es']
 
@@ -26,9 +26,9 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
   }
 })
   .then((response) => response.json())
-  .then(async function (body) {
-    var flat = body.flatMap(function (d) {
-      var type = d.type === 'movie' ? 'movie' : 'show'
+  .then(async (body) => {
+    const flat = body.flatMap((d) => {
+      const type = d.type === 'movie' ? 'movie' : 'show'
       return {
         title: d[type].title,
         type,
@@ -37,8 +37,8 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
         tmdbId: d[type].ids.tmdb
       }
     })
-    var byId = {}
-    var index = -1
+    const byId = {}
+    let index = -1
 
     while (++index < flat.length) {
       if (!(flat[index].tmdbId in byId)) {
@@ -46,9 +46,9 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
       }
     }
 
-    var items = Object.values(byId).sort(sort)
+    const items = Object.values(byId).sort(sort)
 
-    var data = await all(
+    const data = await all(
       items.map((d) => () => getImage(d)),
       {concurrency: 2}
     )
@@ -60,11 +60,11 @@ fetch('https://api.trakt.tv/users/' + user + '/history?limit=300', {
       )
 
     async function getImage(d) {
-      var endpoint
-      var response
-      var body
-      var posters
-      var image
+      let endpoint
+      let response
+      let body
+      let posters
+      let image
 
       try {
         endpoint =

@@ -3,8 +3,8 @@ import path from 'path'
 import url from 'humanize-url'
 import {h} from 'hastscript'
 
-var ghSponsors = []
-var ocSponsors = []
+let ghSponsors = []
+let ocSponsors = []
 
 try {
   ghSponsors = JSON.parse(
@@ -15,7 +15,7 @@ try {
   )
 } catch {}
 
-export var data = {
+export const data = {
   title: 'Thanks',
   label: 'thanks',
   description: 'People Titus wants to thank',
@@ -104,8 +104,8 @@ export function render() {
 }
 
 function map(d) {
-  var gh = d.github ? 'https://github.com/' + d.github : ''
-  var href = d.url
+  const gh = d.github ? 'https://github.com/' + d.github : ''
+  let href = d.url
 
   if (gh && href === gh) {
     href = null

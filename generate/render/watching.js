@@ -2,13 +2,13 @@ import fs from 'fs'
 import path from 'path'
 import {h} from 'hastscript'
 
-var shows = []
+let shows = []
 
 try {
   shows = JSON.parse(fs.readFileSync(path.join('data', 'shows.json')))
 } catch {}
 
-export var data = {
+export const data = {
   title: 'Watching',
   label: 'watching',
   description: 'Things Titus watches',
@@ -24,7 +24,7 @@ export function render() {
       shows
         .filter((d) => d.image)
         .slice(0, 50)
-        .map(function (d) {
+        .map((d) => {
           return h('li.cover', [
             h('img', {
               src: d.image.url,

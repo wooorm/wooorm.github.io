@@ -8,11 +8,11 @@ import {h} from 'hastscript'
 import {classnames} from 'hast-util-classnames'
 
 export default function pictures(options) {
-  var sizes = [600, 1200, 2400, 3600]
-  var formats = ['webp', 'png', 'jpg']
-  var mimes = {webp: 'image/webp', png: 'image/png', jpg: 'image/jpeg'}
-  var base = options.base
-  var sources = formats.flatMap((format) =>
+  const sizes = [600, 1200, 2400, 3600]
+  const formats = ['webp', 'png', 'jpg']
+  const mimes = {webp: 'image/webp', png: 'image/png', jpg: 'image/jpeg'}
+  const base = options.base
+  const sources = formats.flatMap((format) =>
     sizes.flatMap((size) => ({
       stem: {suffix: '-' + size},
       extname: '.' + format
@@ -22,7 +22,7 @@ export default function pictures(options) {
   return transform
 
   function transform(tree) {
-    var promises = []
+    const promises = []
 
     visit(tree, 'element', visitor)
 
@@ -31,7 +31,7 @@ export default function pictures(options) {
     }
 
     function visitor(node, _, parent) {
-      var src = (node.tagName === 'img' && node.properties.src) || ''
+      const src = (node.tagName === 'img' && node.properties.src) || ''
 
       if (!src || src.charAt(0) !== '/') {
         return
@@ -40,11 +40,11 @@ export default function pictures(options) {
       promises.push(rewrite(src, node, parent))
 
       function rewrite(src, node, parent) {
-        var resolved = path.join(base, src.split('/').join(path.sep))
-        var promises = [].concat(
+        const resolved = path.join(base, src.split('/').join(path.sep))
+        const promises = [].concat(
           // See which images exist.
           sources.map((d) => {
-            var fp = rename(toVFile({path: resolved}), d).path
+            const fp = rename(toVFile({path: resolved}), d).path
 
             return fs.promises.access(fp, fs.constants.R_OK).then(
               () => fp,
@@ -60,19 +60,19 @@ export default function pictures(options) {
         )
 
         return Promise.all(promises).then((result) => {
-          var defaults = new Set(['png', 'jpg'])
-          var info = result.pop()
-          var available = new Set(result.filter(Boolean))
-          var siblings = parent.children
-          var width = info.width
-          var height = info.height
-          var biggestDefault
+          const defaults = new Set(['png', 'jpg'])
+          const info = result.pop()
+          const available = new Set(result.filter(Boolean))
+          const siblings = parent.children
+          let width = info.width
+          let height = info.height
+          let biggestDefault
 
           // Generate the sources, but only if they exist.
-          var srcs = formats.flatMap((format) => {
-            var applicable = sizes
+          const srcs = formats.flatMap((format) => {
+            const applicable = sizes
               .map((size) => {
-                var fp = rename(toVFile({path: resolved}), {
+                const fp = rename(toVFile({path: resolved}), {
                   stem: {suffix: '-' + size},
                   extname: '.' + format
                 }).path

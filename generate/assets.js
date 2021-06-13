@@ -12,9 +12,9 @@ import postcss from 'postcss'
 import postcssPresetEnv from 'postcss-preset-env'
 import cssnano from 'cssnano'
 
-var pack = JSON.parse(fs.readFileSync('package.json'))
+const pack = JSON.parse(fs.readFileSync('package.json'))
 
-var externals = {
+const externals = {
   '.css': trough().use(transformCss),
   '.png': trough().use(
     transformImageFactory({
@@ -27,53 +27,57 @@ var externals = {
   )
 }
 
-var processPipeline = trough()
+const processPipeline = trough()
   .use(toVFile.read)
   .use(process)
   .use(move)
   .use(mkdir)
   .use(toVFile.write)
 
-var copyPipeline = trough().use(move).use(mkdir).use(copy)
+const copyPipeline = trough().use(move).use(mkdir).use(copy)
 
-var imagePipeline = trough().use(move).use(mkdir).use(toVFile.write).use(print)
+const imagePipeline = trough()
+  .use(move)
+  .use(mkdir)
+  .use(toVFile.write)
+  .use(print)
 
-var filePipeline = trough()
-  .use(function (fp, next) {
-    var file = toVFile(fp)
-    var ext = file.extname
-    var pipeline = ext in externals ? processPipeline : copyPipeline
+const filePipeline = trough()
+  .use((fp, next) => {
+    const file = toVFile(fp)
+    const ext = file.extname
+    const pipeline = ext in externals ? processPipeline : copyPipeline
     pipeline.run(file, next)
   })
   .use(print)
 
 trough()
   .use(glob)
-  .use(function (paths, done) {
-    var run = promisify(filePipeline.run)
+  .use((paths, done) => {
+    const run = promisify(filePipeline.run)
 
     all(
       paths.map((path) => () => run(path)),
       {concurrency: 3}
     ).then((files) => done(null, files), done)
   })
-  .use(function (files, next) {
-    var value = new URL(pack.homepage).host + '\n'
+  .use((files, next) => {
+    const value = new URL(pack.homepage).host + '\n'
     toVFile.write({dirname: 'build', basename: 'CNAME', value}, next)
   })
-  .run('asset/**/*.*', function (error) {
+  .run('asset/**/*.*', (error) => {
     if (error) throw error
   })
 
 function process(file, next) {
-  externals[file.extname].run(file, function (error) {
+  externals[file.extname].run(file, (error) => {
     file.processed = true
     next(error)
   })
 }
 
 function move(file) {
-  var sep = path.sep
+  const sep = path.sep
   file.dirname = ['build'].concat(file.dirname.split(sep).slice(1)).join(sep)
 }
 
@@ -102,7 +106,7 @@ function print(file) {
 function transformCss(file) {
   return postcss(postcssPresetEnv({stage: 0}), cssnano({preset: 'advanced'}))
     .process(file.toString('utf8'), {from: file.path})
-    .then(function (result) {
+    .then((result) => {
       file.value = result.css
     })
 }
@@ -110,11 +114,11 @@ function transformCss(file) {
 function transformImageFactory(options) {
   return transform
   function transform(file, next) {
-    var sizes = [600, 1200, 2400, 3600]
-    var formats = Object.keys(options)
+    const sizes = [600, 1200, 2400, 3600]
+    const formats = Object.keys(options)
 
-    var run = promisify(imagePipeline.run)
-    var pipeline = sharp(file.value)
+    const run = promisify(imagePipeline.run)
+    const pipeline = sharp(file.value)
 
     pipeline
       .metadata()
@@ -129,7 +133,7 @@ function transformImageFactory(options) {
       )
       .then(
         () => next(null, file),
-        function (error) {
+        (error) => {
           next(
             new Error('Could not transform image `' + file.path + '`: ' + error)
           )
@@ -137,15 +141,15 @@ function transformImageFactory(options) {
       )
 
     function one(media) {
-      var format = media.format
-      var method = format === 'jpg' ? 'jpeg' : format
+      const format = media.format
+      const method = format === 'jpg' ? 'jpeg' : format
       return pipeline
         .clone()
         .resize(media.size)
         [method](options[media.format])
         .toBuffer()
         .then((buf) => {
-          var copy = toVFile(file.path)
+          const copy = toVFile(file.path)
 
           copy.value = buf
           copy.stem += '-' + media.size

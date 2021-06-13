@@ -3,11 +3,11 @@ import path from 'path'
 import yaml from 'js-yaml'
 import {h} from 'hastscript'
 
-var photos = yaml
+const photos = yaml
   .load(fs.readFileSync(path.join('asset', 'image', 'index.yml')))
   .sort(sort)
 
-export var data = {
+export const data = {
   title: 'Photos',
   label: 'photos',
   description: 'Things Titus sees',
@@ -20,7 +20,7 @@ export function render() {
     h('h1', h('span.text', 'Seeing')),
     h(
       'ol.pictures',
-      photos.map(function (d) {
+      photos.map((d) => {
         return h('li.picture', [
           h('img', {src: '/image/' + d.name, alt: ''}),
           h('h2.caption', h('span.text', d.title))

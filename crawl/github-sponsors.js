@@ -5,15 +5,15 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-var key = process.env.GH_TOKEN
+const key = process.env.GH_TOKEN
 
 if (!key) throw new Error('Missing `GH_TOKEN`')
 
-var outpath = path.join('data', 'github-sponsors.json')
+const outpath = path.join('data', 'github-sponsors.json')
 
-var endpoint = 'https://api.github.com/graphql'
+const endpoint = 'https://api.github.com/graphql'
 
-var query = `query($org: String!) {
+const query = `query($org: String!) {
   organization(login: $org) {
     sponsorshipsAsMaintainer(first: 100) {
       nodes {
@@ -46,7 +46,7 @@ fetch(endpoint, {
 })
   .then((response) => response.json())
   .catch((error) => console.log(error))
-  .then(function ({data}) {
+  .then(({data}) => {
     const collective = data.organization.sponsorshipsAsMaintainer.nodes
       .map((d) => clean(d))
       .sort(sort)

@@ -1,9 +1,9 @@
 import {h} from 'hastscript'
 
-var title = 'Writing'
-var description = 'A place for things that don’t fit neatly in readmes.'
+const title = 'Writing'
+const description = 'A place for things that don’t fit neatly in readmes.'
 
-export var data = {
+export const data = {
   title,
   label: 'blog',
   description,
@@ -12,16 +12,16 @@ export var data = {
 }
 
 export function render(pages) {
-  var posts = pages
+  const posts = pages
     .map((d) => d.data)
     .filter((d) => {
-      var parts = d.pathname.replace(/^\/|\/$/g, '').split('/')
+      const parts = d.pathname.replace(/^\/|\/$/g, '').split('/')
       return parts[0] === 'blog' && parts.length === 2
     })
 
-  var items = posts.sort(sort).map((d) => {
-    var pub = fmt(d.published)
-    var mod = fmt(d.modified)
+  const items = posts.sort(sort).map((d) => {
+    let pub = fmt(d.published)
+    const mod = fmt(d.modified)
 
     if (mod === pub) pub = ''
 

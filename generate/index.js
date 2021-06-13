@@ -23,13 +23,13 @@ import * as seeing from './render/seeing.js'
 import * as watching from './render/watching.js'
 import * as listening from './render/listening.js'
 
-var tasks = []
+const tasks = []
 
-var pages = [home, thanks, writing, seeing, watching, listening]
+const pages = [home, thanks, writing, seeing, watching, listening]
 
-var posts = glob.sync('post/**/*.md')
+const posts = glob.sync('post/**/*.md')
 
-var index = -1
+let index = -1
 
 while (++index < pages.length) {
   if (!pages[index].data.pathname) {
@@ -43,17 +43,23 @@ while (++index < posts.length) {
   pages.push(renderPost(toVFile.readSync(posts[index])))
 }
 
-pages.forEach((d) => {
+index = -1
+
+while (++index < pages.length) {
+  add(pages[index])
+}
+
+function add(d) {
   tasks.push(() => {
-    var tree = d.render(pages)
+    const tree = d.render(pages)
     return {
       tree: 'type' in tree ? tree : u('root', tree),
       file: toVFile({data: {meta: d.data}})
     }
   })
-})
+}
 
-var pipeline = unified()
+const pipeline = unified()
   .use(pictures, {base: path.join('build')})
   .use(wrap)
   .use(doc, {
@@ -86,7 +92,7 @@ var pipeline = unified()
   .use(stringify)
   .freeze()
 
-var promises = tasks.map((fn) => () => {
+const promises = tasks.map((fn) => () => {
   return Promise.resolve(fn())
     .then(({tree, file}) => {
       return pipeline.run(tree, file).then((tree) => ({tree, file}))
@@ -106,24 +112,24 @@ var promises = tasks.map((fn) => () => {
 all(promises, {concurrency: 2})
 
 function wrap() {
-  var structure = pages
+  const structure = pages
     .map((d) => d.data)
     .filter((d) => {
-      var parts = d.pathname.replace(/^\/|\/$/g, '').split('/')
+      const parts = d.pathname.replace(/^\/|\/$/g, '').split('/')
       return parts.length === 1
     })
 
   return transform
 
   function transform(tree, file) {
-    var self = section(file.data.meta.pathname)
+    const self = section(file.data.meta.pathname)
 
     return u('root', [
       h('header', [
         h('nav.top', [
           h(
             'ol',
-            structure.map(function (d) {
+            structure.map((d) => {
               return h('li', {className: [d.label]}, [
                 h(
                   'span.text',

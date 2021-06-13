@@ -8,7 +8,7 @@ import slug from 'rehype-slug'
 import highlight from 'rehype-highlight'
 import {h} from 'hastscript'
 
-var articlePipeline = unified()
+const articlePipeline = unified()
   .use(parse, {commonmark: true})
   .use(frontmatter)
   .use(remark2rehype, {allowDangerousHtml: true})
@@ -17,11 +17,11 @@ var articlePipeline = unified()
   .use(slug)
 
 export default function post(file) {
-  var slug = file.stem
+  const slug = file.stem
 
   matter(file)
 
-  var {tags} = file.data.matter
+  const {tags} = file.data.matter
 
   return {
     data: Object.assign({}, file.data.matter, {
@@ -33,7 +33,7 @@ export default function post(file) {
   }
 
   function render() {
-    var tree = articlePipeline.runSync(articlePipeline.parse(file), file)
+    const tree = articlePipeline.runSync(articlePipeline.parse(file), file)
     return h('.article.content', h('.article-inner', tree.children))
   }
 }

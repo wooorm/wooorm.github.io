@@ -1,6 +1,6 @@
 import {h} from 'hastscript'
 
-export var data = {
+export const data = {
   title: '@wooorm',
   label: 'home',
   pathname: '/',
@@ -9,20 +9,20 @@ export var data = {
   modified: '2020-05-01T00:00:00.000Z'
 }
 
-var github = 'https://github.com/wooorm'
-var twitter = 'https://twitter.com/wooorm'
-var email = 'mailto:tituswormer@gmail.com'
-var unified = 'https://unifiedjs.com'
-var tt = 'https://github.com/cmda-tt/course-18-19'
-var backend = 'https://github.com/cmda-be/course-17-18'
-var projects =
+const github = 'https://github.com/wooorm'
+const twitter = 'https://twitter.com/wooorm'
+const email = 'mailto:tituswormer@gmail.com'
+const unified = 'https://unifiedjs.com'
+const tt = 'https://github.com/cmda-tt/course-18-19'
+const backend = 'https://github.com/cmda-be/course-17-18'
+const projects =
   'https://github.com/search?type=Repositories&q=user:wooorm+user:mdx-js+user:micromark+user:remarkjs+user:rehypejs+user:retextjs+user:unifiedjs+user:syntax-tree+user:vfile+user:get-alex+user:words'
-var downloads = 'https://npm-stat.com/charts.html?author=wooorm'
-var thanks = '/thanks/'
-var mm = 'https://github.com/micromark/micromark'
-var mdxsm = 'https://github.com/micromark/mdx-state-machine'
-var books = 'https://twitter.com/SparksZilla/status/1222208487351971840'
-var resume = '/resume.html'
+const downloads = 'https://npm-stat.com/charts.html?author=wooorm'
+const thanks = '/thanks/'
+const mm = 'https://github.com/micromark/micromark'
+const mdxsm = 'https://github.com/micromark/mdx-state-machine'
+const books = 'https://twitter.com/SparksZilla/status/1222208487351971840'
+const resume = '/resume.html'
 
 export function render() {
   return [

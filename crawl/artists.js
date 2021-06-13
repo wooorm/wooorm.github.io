@@ -6,19 +6,19 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-var ref = process.env.SPOT_R_TOKEN
-var cId = process.env.SPOT_C_ID
-var cSecret = process.env.SPOT_C_SECRET
+const ref = process.env.SPOT_R_TOKEN
+const cId = process.env.SPOT_C_ID
+const cSecret = process.env.SPOT_C_SECRET
 
 if (!ref) throw new Error('Missing `SPOT_R_TOKEN`')
 if (!cId) throw new Error('Missing `SPOT_C_ID`')
 if (!cSecret) throw new Error('Missing `SPOT_C_SECRET`')
 
-var URLSearchParameters = url.URLSearchParams
+const URLSearchParameters = url.URLSearchParams
 
-var outpath = path.join('data', 'artists.json')
+const outpath = path.join('data', 'artists.json')
 
-var parameters = new URLSearchParameters()
+const parameters = new URLSearchParameters()
 parameters.append('grant_type', 'refresh_token')
 parameters.append('refresh_token', ref)
 
@@ -39,8 +39,8 @@ fetch('https://accounts.spotify.com/api/token', {
     })
   })
   .then((response) => response.json())
-  .then(function (body) {
-    var artists = body.items.map((d) => ({name: d.name, image: d.images[0]}))
+  .then((body) => {
+    const artists = body.items.map((d) => ({name: d.name, image: d.images[0]}))
 
     return fs.promises
       .mkdir(path.dirname(outpath), {recursive: true})

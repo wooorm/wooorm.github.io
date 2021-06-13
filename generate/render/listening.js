@@ -4,15 +4,15 @@ import escape from 'escape-string-regexp'
 import {levenshteinEditDistance} from 'levenshtein-edit-distance'
 import {h} from 'hastscript'
 
-var artists = []
-var albums = []
+let artists = []
+let albums = []
 
 try {
   artists = JSON.parse(fs.readFileSync(path.join('data', 'artists.json')))
   albums = JSON.parse(fs.readFileSync(path.join('data', 'albums.json')))
 } catch {}
 
-export var data = {
+export const data = {
   title: 'Listening',
   label: 'listening',
   description: 'Things Titus listens to',
@@ -26,8 +26,8 @@ export function render() {
     h('h2', h('span.text', 'Recent artists')),
     h(
       'ol.covers',
-      artists.map(function (d) {
-        var {image, name} = d
+      artists.map((d) => {
+        const {image, name} = d
 
         return h('li.cover.square', [
           h('img', {
@@ -43,14 +43,14 @@ export function render() {
     h('h2', h('span.text', 'Recent albums')),
     h(
       'ol.covers',
-      albums.map(function (d) {
-        var {image, artist} = d
-        var name = cleanAlbumName(d.name)
-        var similarity =
+      albums.map((d) => {
+        const {image, artist} = d
+        const name = cleanAlbumName(d.name)
+        const similarity =
           1 -
           levenshteinEditDistance(name, artist, true) /
             Math.max(name.length, artist.length)
-        var ignoreArist = /various artists/i.test(artist) || similarity > 0.9
+        let ignoreArist = /various artists/i.test(artist) || similarity > 0.9
 
         if (new RegExp(escape(artist) + '$', 'i').test(name)) {
           ignoreArist = true
