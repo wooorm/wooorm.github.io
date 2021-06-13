@@ -26,7 +26,6 @@ var query = `query($slug: String) {
     members(limit: 100, role: BACKER) {
       nodes {
         totalDonations { value }
-        tier { name }
         account {
           id
           slug
@@ -91,18 +90,16 @@ Promise.all([
           github,
           twitter,
           url,
-          gold:
-            (d.tier && d.tier.name && /gold/i.test(d.tier.name)) || undefined,
-          amount: d.totalDonations.value
+          total: d.totalDonations.value
         }
       })
       .filter((d) => {
         var ignore = d.spam || seen.includes(d.oc) // Ignore dupes in data.
         seen.push(d.oc)
-        return d.amount > min && !ignore
+        return d.total > min && !ignore
       })
       .sort(sort)
-      .map((d) => Object.assign(d, {amount: undefined, spam: undefined}))
+      .map((d) => Object.assign(d, {total: undefined, spam: undefined}))
 
     return fs.promises
       .mkdir(path.dirname(outpath), {recursive: true})
@@ -115,5 +112,5 @@ Promise.all([
   })
 
 function sort(a, b) {
-  return b.amount - a.amount
+  return b.total - a.total
 }

@@ -30,13 +30,7 @@ export function render() {
       h(
         'p',
         h('span.text', [
-          'I do ',
-          h(
-            'a',
-            {href: 'https://github.com/sponsors/wooorm'},
-            'most-time open source'
-          ),
-          ', funded by the community. You can support me:'
+          'I do a lot of open source, partially funded by the community. You can support me:'
         ])
       ),
       h('ul', [
@@ -50,7 +44,7 @@ export function render() {
                 'GitHub Sponsors'
               )
             ]),
-            ' (personal; monthly)'
+            ' (personal; monthly or one-time)'
           ])
         ),
         h(
@@ -61,47 +55,46 @@ export function render() {
               {href: 'https://opencollective.com/unified'},
               'OpenCollective'
             ),
+            ' or ',
+            h(
+              'a',
+              {href: 'https://github.com/sponsors/unifiedjs'},
+              'GitHub Sponsors'
+            ),
             ' (unified; monthly or one-time)'
-          ])
-        ),
-        h(
-          'li',
-          h('span.text', [
-            h('a', {href: 'https://www.paypal.me/wooorm'}, 'PayPall'),
-            ' (personal; one-time)'
           ])
         )
       ])
     ]),
-    h('h2', h('span.text', 'Personal')),
     h(
-      'p',
-      h('span.text', [
-        'Thanks to these people for their ',
-        h(
-          'a',
-          {href: 'https://github.com/sponsors/wooorm'},
-          'personal support'
-        ),
-        ':'
-      ])
+      'h2',
+      h(
+        'span.text',
+        h('a', {href: 'https://github.com/sponsors/wooorm'}, 'Personal')
+      )
     ),
     h(
       'ol.cards',
-      ghSponsors.map((d) => map(d))
+      ghSponsors.personal.map((d) => map(d))
     ),
     h('h2', h('span.text', 'unified')),
     h(
-      'p',
-      h('span.text', [
-        'Thanks to these backers for their ',
-        h(
-          'a',
-          {href: 'https://opencollective.com/unified'},
-          'support of unified'
-        ),
-        ':'
-      ])
+      'h3',
+      h(
+        'span.text',
+        h('a', {href: 'https://github.com/sponsors/unifiedjs'}, 'GitHub')
+      )
+    ),
+    h(
+      'ol.cards',
+      ghSponsors.collective.map((d) => map(d))
+    ),
+    h(
+      'h3',
+      h(
+        'span.text',
+        h('a', {href: 'https://opencollective.com/unified'}, 'OpenCollective')
+      )
     ),
     h(
       'ol.cards',
