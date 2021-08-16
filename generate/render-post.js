@@ -1,20 +1,20 @@
 import {matter} from 'vfile-matter'
-import unified from 'unified'
-import parse from 'remark-parse'
-import frontmatter from 'remark-frontmatter'
-import remark2rehype from 'remark-rehype'
-import raw from 'rehype-raw'
-import slug from 'rehype-slug'
-import highlight from 'rehype-highlight'
+import {unified} from 'unified'
+import remarkParse from 'remark-parse'
+import remarkFrontmatter from 'remark-frontmatter'
+import remarkRehype from 'remark-rehype'
+import rehypeRaw from 'rehype-raw'
+import rehypeHighlight from 'rehype-highlight'
+import rehypeSlug from 'rehype-slug'
 import {h} from 'hastscript'
 
 const articlePipeline = unified()
-  .use(parse, {commonmark: true})
-  .use(frontmatter)
-  .use(remark2rehype, {allowDangerousHtml: true})
-  .use(raw)
-  .use(highlight, {subset: false, ignoreMissing: true})
-  .use(slug)
+  .use(remarkParse)
+  .use(remarkFrontmatter)
+  .use(remarkRehype, {allowDangerousHtml: true})
+  .use(rehypeRaw)
+  .use(rehypeHighlight, {subset: false, ignoreMissing: true})
+  .use(rehypeSlug)
 
 export default function post(file) {
   const slug = file.stem

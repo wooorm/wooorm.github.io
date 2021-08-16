@@ -3,18 +3,18 @@ import glob from 'glob'
 import all from 'p-all'
 import {toVFile} from 'to-vfile'
 import {reporter} from 'vfile-reporter'
-import unified from 'unified'
-import favicon from 'rehype-prevent-favicon-request'
-import minify from 'rehype-preset-minify'
-import doc from 'rehype-document'
-import meta from 'rehype-meta'
-import stringify from 'rehype-stringify'
+import {unified} from 'unified'
+import rehypePreventFaviconRequest from 'rehype-prevent-favicon-request'
+import rehypePresetMinify from 'rehype-preset-minify'
+import rehypeDocument from 'rehype-document'
+import rehypeMeta from 'rehype-meta'
+import rehypeStringify from 'rehype-stringify'
 import {u} from 'unist-builder'
 import {h} from 'hastscript'
-import move from './wooorm-move.js'
-import mkdirp from './unified-mkdirp.js'
-import defer from './rehype-defer.js'
-import pictures from './rehype-pictures.js'
+import wooormMove from './wooorm-move.js'
+import unifiedMkdirp from './unified-mkdirp.js'
+import rehypeDefer from './rehype-defer.js'
+import rehypePictures from './rehype-pictures.js'
 import renderPost from './render-post.js'
 import * as home from './render/home.js'
 import * as thanks from './render/thanks.js'
@@ -60,16 +60,16 @@ function add(d) {
 }
 
 const pipeline = unified()
-  .use(pictures, {base: path.join('build')})
-  .use(wrap)
-  .use(doc, {
+  .use(rehypePictures, {base: path.join('build')})
+  .use(rehypeWrap)
+  .use(rehypeDocument, {
     link: [
       {rel: 'stylesheet', href: '/syntax.css'},
       {rel: 'stylesheet', href: '/index.css'},
       {rel: 'stylesheet', media: '(min-width: 32em)', href: '/big.css'}
     ]
   })
-  .use(meta, {
+  .use(rehypeMeta, {
     twitter: true,
     og: true,
     copyright: true,
@@ -84,12 +84,12 @@ const pipeline = unified()
     separator: ' | ',
     color: '#000000'
   })
-  .use(defer)
-  .use(favicon)
-  .use(minify)
-  .use(move)
-  .use(mkdirp)
-  .use(stringify)
+  .use(rehypeDefer)
+  .use(rehypePreventFaviconRequest)
+  .use(rehypePresetMinify)
+  .use(wooormMove)
+  .use(unifiedMkdirp)
+  .use(rehypeStringify)
   .freeze()
 
 const promises = tasks.map((fn) => () => {
@@ -111,7 +111,7 @@ const promises = tasks.map((fn) => () => {
 
 all(promises, {concurrency: 2})
 
-function wrap() {
+function rehypeWrap() {
   const structure = pages
     .map((d) => d.data)
     .filter((d) => {
