@@ -6,8 +6,9 @@
 
 ## Build
 
-To build the site, create a `.env` file with the following tokens, from GitHub,
-OpenCollective, Last.fm, Trakt.tv, and The Movie DB.
+To build the site, create a `.env` file with the following tokens, from GitHub
+(note: it needs `user:*` and `admin:org` scopes), OpenCollective, Last.fm,
+Trakt.tv, and The Movie DB.
 
 ```ini
 GH_TOKEN=123123123
