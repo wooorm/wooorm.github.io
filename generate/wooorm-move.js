@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 // Plugin that moves a file’s path to the output location
 export default function move() {

@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import escape from 'escape-string-regexp'
 import {levenshteinEditDistance} from 'levenshtein-edit-distance'
 import {h} from 'hastscript'

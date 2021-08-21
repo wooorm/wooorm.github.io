@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import {h} from 'hastscript'
 
 let shows = []
@@ -24,8 +24,8 @@ export function render() {
       shows
         .filter((d) => d.image)
         .slice(0, 50)
-        .map((d) => {
-          return h('li.cover', [
+        .map((d) =>
+          h('li.cover', [
             h('img', {
               src: d.image.url,
               alt: '',
@@ -39,7 +39,7 @@ export function render() {
               h('span.text', '(' + d.year + ')')
             )
           ])
-        })
+        )
     )
   ]
 }

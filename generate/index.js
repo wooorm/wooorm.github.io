@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import glob from 'glob'
 import all from 'p-all'
 import {toVFile} from 'to-vfile'
@@ -94,9 +94,9 @@ const pipeline = unified()
 
 const promises = tasks.map((fn) => () => {
   return Promise.resolve(fn())
-    .then(({tree, file}) => {
-      return pipeline.run(tree, file).then((tree) => ({tree, file}))
-    })
+    .then(({tree, file}) =>
+      pipeline.run(tree, file).then((tree) => ({tree, file}))
+    )
     .then(({tree, file}) => {
       file.value = pipeline.stringify(tree, file)
       return file
@@ -129,8 +129,8 @@ function rehypeWrap() {
         h('nav.top', [
           h(
             'ol',
-            structure.map((d) => {
-              return h('li', {className: [d.label]}, [
+            structure.map((d) =>
+              h('li', {className: [d.label]}, [
                 h(
                   'span.text',
                   h(
@@ -144,7 +144,7 @@ function rehypeWrap() {
                   )
                 )
               ])
-            })
+            )
           )
         ])
       ]),

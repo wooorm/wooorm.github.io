@@ -1,6 +1,8 @@
-import url from 'url'
-import fs from 'fs'
-import path from 'path'
+import {Buffer} from 'node:buffer'
+import fs from 'node:fs'
+import path from 'node:path'
+import process from 'node:process'
+import url from 'node:url'
 import fetch from 'node-fetch'
 import dotenv from 'dotenv'
 
@@ -33,11 +35,11 @@ fetch('https://accounts.spotify.com/api/token', {
 })
   .then((response) => response.json())
   // Get top artists.
-  .then((data) => {
-    return fetch('https://api.spotify.com/v1/me/top/artists', {
+  .then((data) =>
+    fetch('https://api.spotify.com/v1/me/top/artists', {
       headers: {Authorization: 'Bearer ' + data.access_token}
     })
-  })
+  )
   .then((response) => response.json())
   .then((body) => {
     const artists = body.items.map((d) => ({name: d.name, image: d.images[0]}))

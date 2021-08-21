@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import yaml from 'js-yaml'
 import {h} from 'hastscript'
 
@@ -20,12 +20,12 @@ export function render() {
     h('h1', h('span.text', 'Seeing')),
     h(
       'ol.pictures',
-      photos.map((d) => {
-        return h('li.picture', [
+      photos.map((d) =>
+        h('li.picture', [
           h('img', {src: '/image/' + d.name, alt: ''}),
           h('h2.caption', h('span.text', d.title))
         ])
-      })
+      )
     )
   ]
 }
