@@ -25,15 +25,17 @@ SPOT_C_SECRET=123123123
 
 Do `npm i` and then `npm t`, which checks and builds the site.
 
-For Spotify, create an app, configure a callback URL as `http://localhost/callback`, note the client ID and secret, then go to (in a browser):
+For Spotify, create an app, configure a callback URL as
+`http://localhost/callback`, note the client ID and secret, then go to (in a
+browser):
 
-```
+```txt
 https://accounts.spotify.com/authorize?client_id=$CLIENT_ID&response_type=code&redirect_uri=http://localhost/callback&scope=user-top-read
 ```
 
 Accept, grab the code from the URL, and do the following in a terminal:
 
-```
+```sh
 curl --verbose \
   -d "grant_type=authorization_code" \
   -d "redirect_uri=http://localhost/callback" \
