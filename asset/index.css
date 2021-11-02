@@ -13,6 +13,7 @@
   /* Sizes. */
   --border: 0.25rem;
   --border-radius: 0.5rem;
+  --squircle-smooth: 1;
 }
 
 * {
@@ -348,6 +349,9 @@ nav ol {
   padding: var(--border);
   border-radius: var(--border-radius);
   position: relative;
+  mask-image: paint(squircle);
+
+  --squircle-radius: 16px;
 }
 
 img {
@@ -369,6 +373,9 @@ img[align="left"] {
   display: block;
   border-radius: calc(var(--border-radius) - var(--border));
   object-fit: cover;
+  mask-image: paint(squircle);
+
+  --squircle-radius: 12px;
 }
 
 .picture img {
@@ -388,12 +395,13 @@ img[align="left"] {
 
 .cover.square img {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: var(--border);
+  inset: var(--border);
+  width: calc(100% - 2 * var(--border));
+  height: calc(100% - 2 * var(--border));
   border-radius: var(--border-radius);
+  mask-image: paint(squircle);
+
+  --squircle-radius: 12px;
 }
 
 .caption {
@@ -435,6 +443,9 @@ img[align="left"] {
   background-color: white;
   border-radius: calc(var(--border-radius) - var(--border));
   overflow: hidden;
+  mask-image: paint(squircle);
+
+  --squircle-radius: 12px;
 }
 
 .card .caption {
