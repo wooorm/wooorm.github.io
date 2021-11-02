@@ -39,11 +39,11 @@
     "remark-frontmatter": "^4.0.0",
     "remark-parse": "^10.0.0",
     "remark-preset-wooorm": "^9.0.0",
-    "remark-rehype": "^9.0.0",
+    "remark-rehype": "^10.0.0",
     "remark-validate-links": "^11.0.0",
     "sharp": "^0.29.0",
-    "stylelint": "^13.0.0",
-    "stylelint-config-standard": "^22.0.0",
+    "stylelint": "^14.0.0",
+    "stylelint-config-standard": "^23.0.0",
     "to-vfile": "^7.0.0",
     "trough": "^2.0.0",
     "unified": "^10.0.0",
@@ -53,7 +53,7 @@
     "vfile-mkdirp": "^3.0.0",
     "vfile-rename": "^2.0.0",
     "vfile-reporter": "^7.0.0",
-    "xo": "^0.44.0"
+    "xo": "^0.46.0"
   },
   "scripts": {
     "format": "remark . -qfo && prettier . -w --loglevel warn && stylelint \"**/*.css\" --fix && xo --fix",

@@ -69,7 +69,7 @@ Time, education, and conversation change language.
 
 It seems documentation is doing okay now: the singular they is common.
 Other sectors too are [dropping insensitive
-terms](https://www.theregister.co.uk/2020/05/02/uks\_ncsc\_whitelist\_blacklist/).
+terms](https://www.theregister.co.uk/2020/05/02/uks_ncsc_whitelist_blacklist/).
 I’m biased but it seems like there’s more positive change here now than 5
 years ago.
 In other parts, language’s outlook is bleak.
