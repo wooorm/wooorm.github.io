@@ -25,18 +25,20 @@ export function render(pages) {
 
     if (mod === pub) pub = ''
 
-    return h('li.card', [
-      h('.caption', [
-        h('h3', h('span.text', h('a', {href: d.pathname}, d.title))),
-        h('p', h('span.text', d.description)),
-        pub || mod
-          ? h(
-              'p',
-              mod ? h('span.text', mod) : '',
-              pub && mod ? h('span.text', ' · ') : '',
-              pub ? h('span.text', (mod ? 'original: ' : '') + pub) : ''
-            )
-          : ''
+    return h('li.card-wrap', [
+      h('.card', [
+        h('.caption', [
+          h('h3', h('span.text', h('a', {href: d.pathname}, d.title))),
+          h('p', h('span.text', d.description)),
+          pub || mod
+            ? h(
+                'p',
+                mod ? h('span.text', mod) : '',
+                pub && mod ? h('span.text', ' · ') : '',
+                pub ? h('span.text', (mod ? 'original: ' : '') + pub) : ''
+              )
+            : ''
+        ])
       ])
     ])
   })

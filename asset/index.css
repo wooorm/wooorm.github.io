@@ -398,7 +398,7 @@ img[align="left"] {
   inset: var(--border);
   width: calc(100% - 2 * var(--border));
   height: calc(100% - 2 * var(--border));
-  border-radius: var(--border-radius);
+  border-radius: calc(var(--border-radius) - 3px);
   mask-image: paint(squircle);
 
   --squircle-radius: 12px;
@@ -410,10 +410,25 @@ img[align="left"] {
   background-repeat: repeat;
 }
 
-.picture::after,
-.cover::after,
-.card::after,
-.article::after {
+.cards > li,
+.pictures > li,
+.covers > li {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.card-wrap,
+.cover-wrap,
+.picture-wrap,
+.article-wrap {
+  position: relative;
+}
+
+.picture-wrap::after,
+.cover-wrap::after,
+.card-wrap::after,
+.article-wrap::after {
   content: "";
   z-index: -1;
   position: absolute;
@@ -424,6 +439,9 @@ img[align="left"] {
   background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><path d="M0 0L4 4ZM4 0L0 4Z" stroke-width="0.5" stroke="black"/></svg>');
   background-repeat: repeat;
   border-radius: var(--border-radius);
+  mask-image: paint(squircle);
+
+  --squircle-radius: 16px;
 }
 
 .picture .caption,

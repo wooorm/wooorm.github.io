@@ -34,6 +34,9 @@ export default function post(file) {
 
   function render() {
     const tree = articlePipeline.runSync(articlePipeline.parse(file), file)
-    return h('.article.content', h('.article-inner', tree.children))
+    return h(
+      '.content',
+      h('.article-wrap', h('.article', h('.article-inner', tree.children)))
+    )
   }
 }

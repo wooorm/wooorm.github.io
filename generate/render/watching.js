@@ -25,19 +25,21 @@ export function render() {
         .filter((d) => d.image)
         .slice(0, 50)
         .map((d) =>
-          h('li.cover', [
-            h('img', {
-              src: d.image.url,
-              alt: '',
-              width: 300,
-              height: Math.floor(d.image.height / (d.image.width / 300))
-            }),
-            h(
-              'h2.caption',
-              h('span.text', d.title),
-              h('br'),
-              h('span.text', '(' + d.year + ')')
-            )
+          h('li.cover-wrap', [
+            h('.cover', [
+              h('img', {
+                src: d.image.url,
+                alt: '',
+                width: 300,
+                height: Math.floor(d.image.height / (d.image.width / 300))
+              }),
+              h(
+                'h2.caption',
+                h('span.text', d.title),
+                h('br'),
+                h('span.text', '(' + d.year + ')')
+              )
+            ])
           ])
         )
     )

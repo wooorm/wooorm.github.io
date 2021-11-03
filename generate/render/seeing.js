@@ -21,9 +21,13 @@ export function render() {
     h(
       'ol.pictures',
       photos.map((d) =>
-        h('li.picture', [
-          h('img', {src: '/image/' + d.name, alt: ''}),
-          h('h2.caption', h('span.text', d.title))
+        h('li.picture-root', [
+          h('.picture-wrap', [
+            h('.picture', [
+              h('img', {src: '/image/' + d.name, alt: ''}),
+              h('h2.caption', h('span.text', d.title))
+            ])
+          ])
         ])
       )
     )

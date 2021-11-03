@@ -29,14 +29,16 @@ export function render() {
       artists.map((d) => {
         const {image, name} = d
 
-        return h('li.cover.square', [
-          h('img', {
-            src: image.url,
-            alt: '',
-            width: image.width,
-            height: image.height
-          }),
-          h('h2.caption', h('span.text', name))
+        return h('li.cover-wrap', [
+          h('.cover.square', [
+            h('img', {
+              src: image.url,
+              alt: '',
+              width: image.width,
+              height: image.height
+            }),
+            h('h2.caption', h('span.text', name))
+          ])
         ])
       })
     ),
@@ -56,13 +58,15 @@ export function render() {
           ignoreArist = true
         }
 
-        return h('li.cover.square', [
-          h('img', {src: image, alt: '', width: 300}),
-          h(
-            'h2.caption',
-            h('span.text', name),
-            ignoreArist ? [] : [h('br'), h('span.text', artist)]
-          )
+        return h('li.cover-wrap', [
+          h('.cover.square', [
+            h('img', {src: image, alt: '', width: 300}),
+            h(
+              'h2.caption',
+              h('span.text', name),
+              ignoreArist ? [] : [h('br'), h('span.text', artist)]
+            )
+          ])
         ])
       })
     )

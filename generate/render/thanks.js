@@ -115,22 +115,24 @@ function map(d) {
     href = 'http://' + href
   }
 
-  return h('li.card', [
-    h('.caption', [
-      h('h3', h('span.text', d.name)),
-      gh || href
-        ? h(
-            'p',
-            gh ? h('span.text', h('a', {href: gh}, ['@' + d.github])) : '',
-            gh && href ? h('span.text', ' · ') : '',
-            href
-              ? h(
-                  'span.text',
-                  h('a', {href, rel: ['sponsored', 'nofollow']}, url(href))
-                )
-              : ''
-          )
-        : ''
+  return h('li.card-wrap', [
+    h('.card', [
+      h('.caption', [
+        h('h3', h('span.text', d.name)),
+        gh || href
+          ? h(
+              'p',
+              gh ? h('span.text', h('a', {href: gh}, ['@' + d.github])) : '',
+              gh && href ? h('span.text', ' · ') : '',
+              href
+                ? h(
+                    'span.text',
+                    h('a', {href, rel: ['sponsored', 'nofollow']}, url(href))
+                  )
+                : ''
+            )
+          : ''
+      ])
     ])
   ])
 }
