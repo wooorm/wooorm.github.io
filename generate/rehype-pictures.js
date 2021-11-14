@@ -106,7 +106,7 @@ export default function pictures(options) {
             return h('source', {
               srcSet: applicable.map(
                 (d) => ['/' + path.relative(base, d[0])] + ' ' + d[1] + 'w'
-              ),
+              ).join(','),
               type: mimes[format]
             })
           })
