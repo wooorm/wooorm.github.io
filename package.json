@@ -9,6 +9,7 @@
   "homepage": "https://wooorm.com",
   "type": "module",
   "devDependencies": {
+    "@mapbox/polyline": "^1.0.0",
     "cssnano": "^5.0.0",
     "cssnano-preset-advanced": "^5.0.0",
     "dotenv": "^10.0.0",
@@ -57,6 +58,7 @@
   },
   "scripts": {
     "format": "remark . -qfo && prettier . -w --loglevel warn && stylelint \"**/*.css\" --fix && xo --fix",
+    "crawl:activity": "node crawl/activity",
     "crawl:github-sponsors": "node crawl/github-sponsors",
     "crawl:opencollective": "node crawl/opencollective",
     "crawl:artists": "node crawl/artists",

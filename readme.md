@@ -1,5 +1,3 @@
-<!-- lint disable lint-first-heading-level -->
-
 # [`wooorm.com`][site]
 
 [![][screenshot]][site]
@@ -21,6 +19,9 @@ TMDB_TOKEN=123123123
 SPOT_R_TOKEN=123123123
 SPOT_C_ID=123123123
 SPOT_C_SECRET=123123123
+STRA_R_TOKEN=123123123
+STRA_C_ID=123123123
+STRA_C_SECRET=123123123
 ```
 
 Do `npm i` and then `npm t`, which checks and builds the site.
@@ -47,6 +48,25 @@ curl --verbose \
 
 Grab the `refresh_token` from the result.
 Place it, the client id, and the client secret in `.env`.
+
+For Strava, create an app, note the client ID and secret, then go to (in a
+browser):
+
+```txt
+http://www.strava.com/oauth/authorize?client_id=$CLIENT_ID&response_type=code&redirect_uri=http://localhost:8000/&approval_prompt=force&scope=activity:read_all
+```
+
+Accept, grab the code from the URL, and do the following in a terminal:
+
+```sh
+curl -X POST https://www.strava.com/oauth/token \
+  -F client_id=$CLIENT_ID \
+  -F client_secret=$CLIENT_SECRET \
+  -F code=$CODE \
+  -F grant_type=authorization_code
+```
+
+And you’re done.
 
 [site]: https://wooorm.com
 

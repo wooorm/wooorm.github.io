@@ -22,10 +22,11 @@ import * as writing from './render/writing.js'
 import * as seeing from './render/seeing.js'
 import * as watching from './render/watching.js'
 import * as listening from './render/listening.js'
+import * as activity from './render/activity.js'
 
 const tasks = []
 
-const pages = [home, thanks, writing, seeing, watching, listening]
+const pages = [home, thanks, writing, activity, seeing, watching, listening]
 
 const posts = glob.sync('post/**/*.md')
 

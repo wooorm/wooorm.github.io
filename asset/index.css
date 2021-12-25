@@ -366,6 +366,7 @@ img[align="left"] {
   padding-right: 1.5em;
 }
 
+.pictures svg,
 .pictures img,
 .cover img {
   height: 100%;
@@ -378,6 +379,7 @@ img[align="left"] {
   --squircle-radius: 12px;
 }
 
+.picture svg,
 .picture img {
   max-height: 100vh;
 }
