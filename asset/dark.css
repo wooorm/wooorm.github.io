@@ -27,7 +27,7 @@ a.active {
 .card::after {
   background-image: none;
   background-color: black;
-  opacity: 50%;
+  opacity: 0.5;
 }
 
 .text {
