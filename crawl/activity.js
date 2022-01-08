@@ -58,9 +58,9 @@ async function main() {
     const distance = (d.distance / 1000).toFixed(1) + 'km'
     const mpkm = ((5 / 3) * 10) / d.average_speed
     const min = Math.floor(mpkm)
+    const seconds = Math.floor(((mpkm - min) / 100) * 60 * 100) / 100
     const duration = h > 0 ? h + ':' + mDisplay + 'h' : mDisplay + 'min'
-    const speed =
-      min + ':' + (((mpkm - min) / 100) * 60).toFixed(2).split('.')[1]
+    const speed = min + ':' + seconds.toFixed(2).split('.')[1]
 
     return {
       date: d.start_date_local.split('T')[0],
