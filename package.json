@@ -12,7 +12,7 @@
     "@mapbox/polyline": "^1.0.0",
     "cssnano": "^5.0.0",
     "cssnano-preset-advanced": "^5.0.0",
-    "dotenv": "^10.0.0",
+    "dotenv": "^16.0.0",
     "escape-string-regexp": "^5.0.0",
     "glob": "^7.0.0",
     "hast-util-classnames": "^2.0.0",
@@ -44,7 +44,7 @@
     "remark-validate-links": "^11.0.0",
     "sharp": "^0.29.0",
     "stylelint": "^14.0.0",
-    "stylelint-config-standard": "^24.0.0",
+    "stylelint-config-standard": "^25.0.0",
     "to-vfile": "^7.0.0",
     "trough": "^2.0.0",
     "unified": "^10.0.0",
@@ -54,7 +54,7 @@
     "vfile-mkdirp": "^3.0.0",
     "vfile-rename": "^2.0.0",
     "vfile-reporter": "^7.0.0",
-    "xo": "^0.47.0"
+    "xo": "^0.48.0"
   },
   "scripts": {
     "format": "remark . -qfo && prettier . -w --loglevel warn && stylelint \"**/*.css\" --fix && xo --fix",
