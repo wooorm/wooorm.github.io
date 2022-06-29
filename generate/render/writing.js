@@ -59,7 +59,7 @@ export function render(pages) {
 
   function fmt(value) {
     return value
-      ? value.toLocaleDateString('en', {
+      ? new Date(value).toLocaleDateString('en', {
           month: 'short',
           year: 'numeric',
           day: 'numeric'
