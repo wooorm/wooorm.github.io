@@ -1,14 +1,15 @@
 import {h} from 'hastscript'
 
 const title = 'Writing'
-const description = 'A place for things that don’t fit neatly in readmes.'
+const description =
+  'A place for things that don’t fit neatly in readmes. Most things are in readmes.'
 
 export const data = {
   title,
   label: 'blog',
   description,
   published: '2020-05-01T00:00:00.000Z',
-  modified: Date.now()
+  modified: '2022-06-29T00:00:00.000Z'
 }
 
 export function render(pages) {

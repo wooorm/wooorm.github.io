@@ -21,7 +21,10 @@ export function render() {
   return [
     h('h1', h('span.text', 'Activity')),
     h('.content', [
-      h('p', h('span.text', ['Here are some of my recent runs:']))
+      h(
+        'p',
+        h('span.text', ['Here are some of my recent runs and bike rides:'])
+      )
     ]),
     h(
       'ol.pictures',

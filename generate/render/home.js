@@ -6,7 +6,7 @@ export const data = {
   pathname: '/',
   description: 'A place for Titus on the web',
   published: '2020-05-01T00:00:00.000Z',
-  modified: '2020-05-01T00:00:00.000Z'
+  modified: '2022-06-29T00:00:00.000Z'
 }
 
 const github = 'https://github.com/wooorm'
@@ -19,6 +19,7 @@ const projects =
   'https://github.com/search?type=Repositories&q=user:wooorm+user:mdx-js+user:micromark+user:remarkjs+user:rehypejs+user:retextjs+user:unifiedjs+user:syntax-tree+user:vfile+user:get-alex+user:words'
 const downloads = 'https://npm-stat.com/charts.html?author=wooorm'
 const thanks = '/thanks/'
+const vc = 'https://vercel.com'
 const mm = 'https://github.com/micromark/micromark'
 const mdxsm = 'https://github.com/micromark/mdx-state-machine'
 const books = 'https://twitter.com/SparksZilla/status/1222208487351971840'
@@ -35,9 +36,9 @@ export function render() {
           ' maintaining ',
           h('a', {href: projects}, '540+ projects'),
           ' that are downloaded ',
-          h('a', {href: downloads}, '15B+ times'),
+          h('a', {href: downloads}, '20B+ times'),
           ' a year. ',
-          'I can spend part of my time as a core team member of ',
+          'I can spend time as a core team member of ',
           h('a', {href: unified}, 'unified'),
           ', building things for content (natural language, markdown, markup) with syntax trees, ',
           h('a', {href: thanks}, 'thanks'),
@@ -47,18 +48,20 @@ export function render() {
       h(
         'p',
         h('span.text', [
-          'I sometimes do contracting as well. Recently for ',
+          'I sometimes do contracting as well. Currently for ',
+          h('a', {href: vc}, 'Vercel'),
+          '. Previously for ',
           h('a', {href: mm}, 'Salesforce who funded part of micromark'),
           ', ',
           h('a', {href: mdxsm}, 'Gatsby speccing MDX'),
           ', and ',
           h('a', {href: books}, 'Holloway making books'),
           '. ',
-          'And I used to teach ',
+          'I used to teach ',
           h('a', {href: tt}, 'data visualisation, frontend'),
           ', and ',
           h('a', {href: backend}, 'backend'),
-          ' for a while.'
+          '.'
         ])
       ),
       h(
