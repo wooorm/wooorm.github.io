@@ -32,12 +32,11 @@ jobs:
           STRA_C_ID: ${{secrets.STRA_C_ID}}
           STRA_C_SECRET: ${{secrets.STRA_C_SECRET}}
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          BRANCH: dist
-          FOLDER: build
-          SINGLE_COMMIT: true
-          COMMIT_MESSAGE: .
-          GIT_CONFIG_NAME: Titus Wormer
-          GIT_CONFIG_EMAIL: tituswormer@gmail.com
+          branch: dist
+          folder: build
+          single-commit: true
+          commit-message: .
+          git-config-name: Titus Wormer
+          git-config-email: tituswormer@gmail.com
