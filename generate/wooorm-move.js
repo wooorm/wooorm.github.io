@@ -1,10 +1,19 @@
+/**
+ * @typedef {import('hast').Root} Root
+ */
+
+import assert from 'node:assert/strict'
 import path from 'node:path'
 
-// Plugin that moves a file’s path to the output location
+/**
+ * Plugin that moves a file’s path to the output location
+ *
+ * @type {import('unified').Plugin<[], Root>}
+ */
 export default function move() {
-  return transform
-  function transform(_, file) {
-    const {pathname} = file.data.meta
+  return function (_, file) {
+    const {pathname} = file.data.meta || {}
+    assert(pathname, 'expected `pathname` on metadata')
     const parts = pathname.slice(1).split(path.posix.sep)
     const last = parts.pop()
 

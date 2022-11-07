@@ -1,5 +1,31 @@
-import fs from 'node:fs'
-import path from 'node:path'
+/***
+ * @typedef Album
+ * @property {string} name
+ * @property {string} artist
+ * @property {string} image
+ * @property {number} count
+ *
+ * @typedef LastfmImage
+ * @property {string} url
+ *
+ * @typedef LastfmArtist
+ * @property {string} url
+ * @property {string} name
+ * @property {string} mbid
+ *
+ * @typedef LastfmAlbum
+ * @property {LastfmArtist} artist
+ * @property {Array<LastfmImage>} image
+ * @property {string} mbid
+ * @property {string} url
+ * @property {string} playcount
+ * @property {string} name
+ *
+ * @typedef LastfmTopAlbumResponse
+ * @property {{album: Array<LastfmAlbum>}} topalbums
+ */
+
+import fs from 'node:fs/promises'
 import process from 'node:process'
 import fetch from 'node-fetch'
 import dotenv from 'dotenv'
@@ -12,38 +38,44 @@ const user = process.env.LFM_USER
 if (!key) throw new Error('Missing `LFM_TOKEN`')
 if (!user) throw new Error('Missing `LFM_USER`')
 
-const outpath = path.join('data', 'albums.json')
+const outUrl = new URL('../data/albums.json', import.meta.url)
 
-fetch(
-  'http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=' +
-    user +
-    '&api_key=' +
-    key +
-    '&format=json&period=1month&limit=60'
-)
-  .then((response) => response.json())
-  .then((body) => {
-    const albums = body.topalbums.album.flatMap((d) => {
-      const image = d.image
-        .map((d) => d['#text'])
-        .filter(Boolean)
-        .pop()
-      return image
-        ? {
-            name: d.name,
-            artist: d.artist.name,
-            image,
-            count: Number.parseInt(d.playcount, 10)
-          }
-        : []
+const url = new URL('http://ws.audioscrobbler.com/2.0/')
+url.searchParams.append('method', 'user.gettopalbums')
+url.searchParams.append('user', user)
+url.searchParams.append('api_key', key)
+url.searchParams.append('format', 'json')
+url.searchParams.append('period', '1month')
+url.searchParams.append('limit', '60')
+
+const response = await fetch(url.href)
+const body = /** @type {LastfmTopAlbumResponse} */ (await response.json())
+
+const albums = body.topalbums.album.flatMap((d) => {
+  const image = d.image
+    .map((d) => {
+      /** @type {string} */
+      // @ts-expect-error: can’t be typed, but it exists
+      const text = d['#text']
+      return text
     })
+    .filter(Boolean)
+    .pop()
 
-    return fs.promises
-      .mkdir(path.dirname(outpath), {recursive: true})
-      .then(() =>
-        fs.promises.writeFile(outpath, JSON.stringify(albums, null, 2) + '\n')
-      )
-  })
-  .catch(() => {
-    throw new Error('Could not get albums')
-  })
+  if (image) {
+    /** @type {Album} */
+    const result = {
+      name: d.name,
+      artist: d.artist.name,
+      image,
+      count: Number.parseInt(d.playcount, 10)
+    }
+
+    return result
+  }
+
+  return []
+})
+
+await fs.mkdir(new URL('../', outUrl), {recursive: true})
+await fs.writeFile(outUrl, JSON.stringify(albums, null, 2) + '\n')

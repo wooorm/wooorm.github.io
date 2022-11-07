@@ -1,6 +1,7 @@
+.DS_Store
+.env
+*.d.ts
 build/
 data/
 node_modules/
-.DS_Store
-.env
 yarn.lock

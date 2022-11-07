@@ -1,5 +1,11 @@
+/**
+ * @typedef {import('../index.js').Render} Render
+ * @typedef {import('../index.js').MetadataRaw} MetadataRaw
+ */
+
 import {h} from 'hastscript'
 
+/** @type {MetadataRaw} */
 export const data = {
   title: '@wooorm',
   label: 'home',
@@ -25,6 +31,7 @@ const mdxsm = 'https://github.com/micromark/mdx-state-machine'
 const books = 'https://twitter.com/SparksZilla/status/1222208487351971840'
 const resume = '/resume.html'
 
+/** @type {Render} */
 export function render() {
   return [
     h('.content', [

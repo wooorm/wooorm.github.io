@@ -1,12 +1,25 @@
-import fs from 'node:fs'
-import path from 'node:path'
+/**
+ * @typedef {import('../index.js').Render} Render
+ * @typedef {import('../index.js').MetadataRaw} MetadataRaw
+ *
+ * @typedef Photo
+ * @property {string} name
+ * @property {string} title
+ * @property {Date} date
+ */
+
+import fs from 'node:fs/promises'
 import yaml from 'js-yaml'
 import {h} from 'hastscript'
 
-const photos = yaml
-  .load(fs.readFileSync(path.join('asset', 'image', 'index.yml')))
-  .sort(sort)
+const url = new URL('../../asset/image/index.yml', import.meta.url)
+const photos = /** @type {Array<Photo>} */ (
+  yaml.load(String(await fs.readFile(url)))
+)
 
+photos.sort(sort)
+
+/** @type {MetadataRaw} */
 export const data = {
   title: 'Photos',
   label: 'photos',
@@ -15,6 +28,7 @@ export const data = {
   modified: photos[photos.length - 1].date
 }
 
+/** @type {Render} */
 export function render() {
   return [
     h('h1', h('span.text', 'Seeing')),
@@ -34,10 +48,17 @@ export function render() {
   ]
 }
 
+/**
+ * @param {Photo} a
+ * @param {Photo} b
+ */
 function sort(a, b) {
-  return pick(b) - pick(a)
+  return pick(b).valueOf() - pick(a).valueOf()
 }
 
+/**
+ * @param {Photo} d
+ */
 function pick(d) {
   return d.date
 }

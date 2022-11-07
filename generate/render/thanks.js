@@ -1,28 +1,47 @@
-import fs from 'node:fs'
-import path from 'node:path'
+/**
+ * @typedef {import('../../crawl/github-sponsors.js').Sponsors} GhSponsors
+ * @typedef {import('../../crawl/github-sponsors.js').Sponsor} GhSponsor
+ * @typedef {import('../../crawl/opencollective.js').Sponsor} OcSponsor
+ * @typedef {import('../index.js').Render} Render
+ * @typedef {import('../index.js').MetadataRaw} MetadataRaw
+ */
+
+import fs from 'node:fs/promises'
 import url from 'humanize-url'
 import {h} from 'hastscript'
 
-let ghSponsors = []
+/** @type {GhSponsors} */
+let ghSponsors = {collective: [], personal: []}
+/** @type {Array<OcSponsor>} */
 let ocSponsors = []
 
 try {
   ghSponsors = JSON.parse(
-    fs.readFileSync(path.join('data', 'github-sponsors.json'))
+    String(
+      await fs.readFile(
+        new URL('../../data/github-sponsors.json', import.meta.url)
+      )
+    )
   )
   ocSponsors = JSON.parse(
-    fs.readFileSync(path.join('data', 'opencollective.json'))
+    String(
+      await fs.readFile(
+        new URL('../../data/opencollective.json', import.meta.url)
+      )
+    )
   )
 } catch {}
 
+/** @type {MetadataRaw} */
 export const data = {
   title: 'Thanks',
   label: 'thanks',
   description: 'People Titus wants to thank',
   published: '2020-05-01T00:00:00.000Z',
-  modified: Date.now()
+  modified: new Date()
 }
 
+/** @type {Render} */
 export function render() {
   return [
     h('h1', h('span.text', 'Thanks')),
@@ -103,12 +122,15 @@ export function render() {
   ]
 }
 
+/**
+ * @param {OcSponsor|GhSponsor} d
+ */
 function map(d) {
   const gh = d.github ? 'https://github.com/' + d.github : ''
   let href = d.url
 
   if (gh && href === gh) {
-    href = null
+    href = undefined
   }
 
   if (href && !/^https?:/.test(href)) {

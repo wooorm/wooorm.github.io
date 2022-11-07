@@ -1,3 +1,7 @@
+/**
+ * @typedef {import('vfile').VFile} VFile
+ */
+
 import {matter} from 'vfile-matter'
 import {unified} from 'unified'
 import remarkParse from 'remark-parse'
@@ -13,15 +17,20 @@ const articlePipeline = unified()
   .use(remarkFrontmatter)
   .use(remarkRehype, {allowDangerousHtml: true})
   .use(rehypeRaw)
-  .use(rehypeHighlight, {subset: false, ignoreMissing: true})
+  .use(rehypeHighlight, {ignoreMissing: true})
   .use(rehypeSlug)
 
+/**
+ *
+ * @param {VFile} file
+ * @returns
+ */
 export default function post(file) {
   const slug = file.stem
 
   matter(file)
 
-  const {tags} = file.data.matter
+  const {tags} = file.data.matter || {}
 
   return {
     data: Object.assign({}, file.data.matter, {

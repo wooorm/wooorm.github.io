@@ -1,5 +1,42 @@
-import fs from 'node:fs'
-import path from 'node:path'
+/**
+ * @typedef {Omit<SponsorRaw, 'spam' | 'total'>} Sponsor
+ *
+ * @typedef SponsorRaw
+ * @property {boolean} spam
+ * @property {string} name
+ * @property {string|undefined} description
+ * @property {string} image
+ * @property {string} oc
+ * @property {string|undefined} github
+ * @property {string|undefined} twitter
+ * @property {string|undefined} url
+ * @property {number} total
+ *
+ * @typedef OcAccount
+ * @property {string} id
+ * @property {string} slug
+ * @property {string} name
+ * @property {string|null} description
+ * @property {string|null} website
+ * @property {string|null} twitterHandle
+ * @property {string|null} githubHandle
+ * @property {string} imageUrl
+ *
+ * @typedef OcMember
+ * @property {{value: number}} totalDonations
+ * @property {OcAccount} account
+ *
+ * @typedef OcCollective
+ * @property {{nodes: Array<OcMember>}} members
+ *
+ * @typedef OcData
+ * @property {OcCollective} collective
+ *
+ * @typedef OcResponse
+ * @property {OcData} data
+ */
+
+import fs from 'node:fs/promises'
 import process from 'node:process'
 import fetch from 'node-fetch'
 import dotenv from 'dotenv'
@@ -12,7 +49,7 @@ const ghKey = process.env.GH_TOKEN
 if (!key) throw new Error('Missing `OC_TOKEN`')
 if (!ghKey) throw new Error('Missing `GH_TOKEN`')
 
-const outpath = path.join('data', 'opencollective.json')
+const outUrl = new URL('../data/opencollective.json', import.meta.url)
 const min = 5
 
 const endpoint = 'https://api.opencollective.com/graphql/v2'
@@ -43,75 +80,88 @@ const query = `query($slug: String) {
 }
 `
 
-Promise.all([
-  fetch(endpoint, {
-    method: 'POST',
-    body: JSON.stringify({query, variables}),
-    headers: {'Content-Type': 'application/json', 'Api-Key': key}
-  }).then((response) => response.json()),
-  fetch(
-    'https://raw.githubusercontent.com/unifiedjs/unifiedjs.github.io/main/crawl/sponsors.txt',
-    {headers: {Authorization: 'bearer ' + ghKey}}
-  ).then((response) => response.text())
-])
-  .then(([result, sponsorsText]) => {
-    const control = sponsorsText
-      .split('\n')
-      .filter(Boolean)
-      .map((d) => {
-        const spam = d.charAt(0) === '-'
-        return {oc: spam ? d.slice(1) : d, spam}
-      })
-    const seen = []
-    const members = result.data.collective.members.nodes
-      .map((d) => {
-        const oc = d.account.slug
-        const github = d.account.githubHandle || undefined
-        const twitter = d.account.twitterHandle || undefined
-        let url = d.account.website || undefined
-        const info = control.find((d) => d.oc === oc)
+const collectiveResponse = await fetch(endpoint, {
+  method: 'POST',
+  body: JSON.stringify({query, variables}),
+  headers: {'Content-Type': 'application/json', 'Api-Key': key}
+})
+const collectiveBody = /** @type {OcResponse} */ (
+  await collectiveResponse.json()
+)
 
-        if (url === ghBase + github || url === twBase + twitter) {
-          url = undefined
-        }
+const githubResponse = await fetch(
+  'https://raw.githubusercontent.com/unifiedjs/unifiedjs.github.io/main/crawl/sponsors.txt',
+  {headers: {Authorization: 'bearer ' + ghKey}}
+)
+const githubBody = await githubResponse.text()
 
-        if (!info) {
-          console.log(
-            ' @%s is an unknown sponsor, please define whether it’s spam or not in `sponsors.txt` in the `unifiedjs/unifiedjs.github.io` repo',
-            oc
-          )
-        }
+const control = githubBody
+  .split('\n')
+  .filter(Boolean)
+  .map((d) => {
+    const spam = d.charAt(0) === '-'
+    return {oc: spam ? d.slice(1) : d, spam}
+  })
 
-        return {
-          spam: !info || info.spam,
-          name: d.account.name,
-          description: d.account.description || undefined,
-          image: d.account.imageUrl,
-          oc,
-          github,
-          twitter,
-          url,
-          total: d.totalDonations.value
-        }
-      })
-      .filter((d) => {
-        const ignore = d.spam || seen.includes(d.oc) // Ignore dupes in data.
-        seen.push(d.oc)
-        return d.total > min && !ignore
-      })
-      .sort(sort)
-      .map((d) => Object.assign(d, {total: undefined, spam: undefined}))
+/** @type {Array<string>} */
+const seen = []
+const members = collectiveBody.data.collective.members.nodes
+  .map((d) => {
+    const oc = d.account.slug
+    const github = d.account.githubHandle || undefined
+    const twitter = d.account.twitterHandle || undefined
+    let url = d.account.website || undefined
+    const info = control.find((d) => d.oc === oc)
 
-    return fs.promises
-      .mkdir(path.dirname(outpath), {recursive: true})
-      .then(() =>
-        fs.promises.writeFile(outpath, JSON.stringify(members, null, 2) + '\n')
+    if (url === ghBase + github || url === twBase + twitter) {
+      url = undefined
+    }
+
+    if (!info) {
+      console.error(
+        ' @%s is an unknown sponsor, please define whether it’s spam or not in `sponsors.txt` in the `unifiedjs/unifiedjs.github.io` repo',
+        oc
       )
-  })
-  .catch(() => {
-    throw new Error('Could not get OC')
-  })
+    }
 
+    /** @type {SponsorRaw} */
+    const result = {
+      spam: !info || info.spam,
+      name: d.account.name,
+      description: d.account.description || undefined,
+      image: d.account.imageUrl,
+      oc,
+      github,
+      twitter,
+      url,
+      total: d.totalDonations.value
+    }
+
+    return result
+  })
+  .filter((d) => {
+    const ignore = d.spam || seen.includes(d.oc) // Ignore dupes in data.
+    seen.push(d.oc)
+    return d.total > min && !ignore
+  })
+  .sort(sort)
+  .map((d) => strip(d))
+
+await fs.mkdir(new URL('../', outUrl), {recursive: true})
+await fs.writeFile(outUrl, JSON.stringify(members, null, 2) + '\n')
+
+/**
+ * @param {SponsorRaw} d
+ * @returns {Sponsor}
+ */
+function strip(d) {
+  return Object.assign(d, {total: undefined, spam: undefined})
+}
+
+/**
+ * @param {SponsorRaw} a
+ * @param {SponsorRaw} b
+ */
 function sort(a, b) {
   return b.total - a.total
 }

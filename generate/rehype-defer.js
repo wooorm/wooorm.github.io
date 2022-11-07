@@ -1,21 +1,34 @@
+/**
+ * @typedef {import('hast').Root} Root
+ * @typedef {import('hast').Element} Element
+ * @typedef {import('hast').ElementContent} ElementContent
+ */
+
 import {visit} from 'unist-util-visit'
 
-// Rehype plugin to defer scripts
+/**
+ * Plugin to defer scripts.
+ *
+ * @type {import('unified').Plugin<[], Root>}
+ */
 export default function defer() {
-  return transform
-
-  function transform(tree) {
+  return function (tree) {
+    /** @type {Array<ElementContent>} */
     const scripts = []
+    /** @type {Element|null} */
     let head = null
 
-    visit(tree, 'element', visitor)
-
-    const scope = head || tree
-    scope.children = scope.children.concat(scripts)
-
-    function visitor(node, index, parent) {
-      if (node.tagName === 'script') {
-        if (!node.properties.type || !/module/i.test(node.properties.type)) {
+    visit(tree, 'element', function (node, index, parent) {
+      if (
+        node.tagName === 'script' &&
+        node.properties &&
+        parent &&
+        typeof index === 'number'
+      ) {
+        if (
+          !node.properties.type ||
+          !/module/i.test(String(node.properties.type))
+        ) {
           node.properties.defer = true
         }
 
@@ -28,6 +41,9 @@ export default function defer() {
       if (node.tagName === 'head') {
         head = node
       }
-    }
+    })
+
+    const scope = head || tree
+    scope.children = scope.children.concat(scripts)
   }
 }

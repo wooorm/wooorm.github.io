@@ -1,22 +1,34 @@
-import fs from 'node:fs'
-import path from 'node:path'
+/**
+ * @typedef {import('../../crawl/activity.js').Activity} Activity
+ * @typedef {import('../index.js').Render} Render
+ * @typedef {import('../index.js').MetadataRaw} MetadataRaw
+ */
+
+import fs from 'node:fs/promises'
 import {h} from 'hastscript'
 import polyline from '@mapbox/polyline'
 
+/** @type {Array<Activity>} */
 let activities = []
 
 try {
-  activities = JSON.parse(fs.readFileSync(path.join('data', 'activities.json')))
+  activities = JSON.parse(
+    String(
+      await fs.readFile(new URL('../../data/activities.json', import.meta.url))
+    )
+  )
 } catch {}
 
+/** @type {MetadataRaw} */
 export const data = {
   title: 'Activity',
   label: 'activity',
   description: 'Titus moves',
   published: '2021-12-25T00:00:00.000Z',
-  modified: Date.now()
+  modified: new Date()
 }
 
+/** @type {Render} */
 export function render() {
   return [
     h('h1', h('span.text', 'Activity')),
@@ -33,6 +45,9 @@ export function render() {
   ]
 }
 
+/**
+ * @param {Activity} d
+ */
 function map(d) {
   const line = polyline.decode(d.polyline)
   let minX = 0

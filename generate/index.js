@@ -1,4 +1,31 @@
-import path from 'node:path'
+/**
+ * @typedef {import('hast').ElementContent} ElementContent
+ * @typedef {import('hast').Element} Element
+ * @typedef {import('hast').Root} Root
+ * @typedef {import('vfile').VFile} VFile
+ *
+ * @callback Render
+ * @param {Array<Page>} pages
+ * @returns {Element|Array<ElementContent>}
+ *
+ * @typedef {string} Label
+ * @typedef {import('vfile').DataMap['meta'] & {label?: Label}} MetadataRaw
+ *
+ * @typedef {Omit<MetadataRaw, 'pathname'> & {pathname: string}} Metadata
+ *
+ * @typedef Page
+ * @property {Metadata} data
+ * @property {Render} render
+ *
+ * @typedef TaskResult
+ * @property {Element|Root} tree
+ * @property {VFile} file
+ *
+ * @callback Task
+ * @returns {TaskResult}
+ */
+
+import assert from 'node:assert/strict'
 import glob from 'glob'
 import all from 'p-all'
 import {toVFile} from 'to-vfile'
@@ -24,8 +51,11 @@ import * as watching from './render/watching.js'
 import * as listening from './render/listening.js'
 import * as activity from './render/activity.js'
 
+/** @type {Array<Task>} */
 const tasks = []
 
+/** @type {Array<{data: Metadata, render: Render}>} */
+// @ts-expect-error: `pathname` is added in a second.
 const pages = [home, thanks, writing, activity, seeing, watching, listening]
 
 const posts = glob.sync('post/**/*.md')
@@ -50,18 +80,21 @@ while (++index < pages.length) {
   add(pages[index])
 }
 
+/**
+ * @param {Page} d
+ */
 function add(d) {
   tasks.push(() => {
     const tree = d.render(pages)
     return {
-      tree: 'type' in tree ? tree : u('root', tree),
+      tree: Array.isArray(tree) ? u('root', tree) : tree,
       file: toVFile({data: {meta: d.data}})
     }
   })
 }
 
 const pipeline = unified()
-  .use(rehypePictures, {base: path.join('build')})
+  .use(rehypePictures, {base: 'build'})
   .use(rehypeWrap)
   .use(rehypeDocument, {
     link: [
@@ -99,6 +132,7 @@ const pipeline = unified()
 const promises = tasks.map((fn) => () => {
   return Promise.resolve(fn())
     .then(({tree, file}) =>
+      // @ts-expect-error: element is fine.
       pipeline.run(tree, file).then((tree) => ({tree, file}))
     )
     .then(({tree, file}) => {
@@ -108,13 +142,17 @@ const promises = tasks.map((fn) => () => {
     .then((file) => toVFile.write(file).then(() => file))
     .then(done, done)
 
+  /**
+   * @param {Error|VFile} x
+   */
   function done(x) {
-    console.log(reporter(x))
+    console.error(reporter(x))
   }
 })
 
 all(promises, {concurrency: 2})
 
+/** @type {import('unified').Plugin<[], Root>} */
 function rehypeWrap() {
   const structure = pages
     .map((d) => d.data)
@@ -123,9 +161,8 @@ function rehypeWrap() {
       return parts.length === 1
     })
 
-  return transform
-
-  function transform(tree, file) {
+  return function (tree, file) {
+    assert(file.data.meta?.pathname, 'expected `pathname` on `meta`')
     const self = section(file.data.meta.pathname)
 
     return u('root', [
@@ -134,7 +171,7 @@ function rehypeWrap() {
           h(
             'ol',
             structure.map((d) =>
-              h('li', {className: [d.label]}, [
+              h('li', {className: d.label ? [d.label] : []}, [
                 h(
                   'span.text',
                   h(
@@ -157,6 +194,9 @@ function rehypeWrap() {
     ])
   }
 
+  /**
+   * @param {string} pathname
+   */
   function section(pathname) {
     return pathname.split('/')[1]
   }

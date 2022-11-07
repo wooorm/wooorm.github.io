@@ -1,5 +1,16 @@
+/**
+ * @typedef {import('hast').Root} Root
+ * @typedef {import('hast').Element} Element
+ *
+ * @typedef {'webp'|'jpg'|'png'} Format
+ *
+ * @typedef Options
+ * @property {string} base
+ */
+
+import assert from 'node:assert/strict'
 import path from 'node:path'
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
 import {toVFile} from 'to-vfile'
 import sharp from 'sharp'
 import {rename} from 'vfile-rename'
@@ -8,9 +19,16 @@ import {h} from 'hastscript'
 import {matches} from 'hast-util-select'
 import {classnames} from 'hast-util-classnames'
 
-export default function pictures(options) {
+/**
+ * Plugin to defer scripts.
+ *
+ * @type {import('unified').Plugin<[Options], Root>}
+ */
+export default function rehypePictures(options) {
   const sizes = [600, 1200, 2400, 3600]
+  /** @type {Array<Format>} */
   const formats = ['webp', 'png', 'jpg']
+  /** @type {{[format in Format]: string}} */
   const mimes = {webp: 'image/webp', png: 'image/png', jpg: 'image/jpeg'}
   const base = options.base
   const sources = formats.flatMap((format) =>
@@ -20,21 +38,21 @@ export default function pictures(options) {
     }))
   )
 
-  return transform
-
-  function transform(tree) {
+  return async function (tree) {
+    /** @type {Array<Promise<void>>} */
     const promises = []
 
     visitParents(tree, 'element', visitor)
 
     if (promises.length > 0) {
-      return Promise.all(promises).then(() => {})
+      await Promise.all(promises)
     }
 
+    /** @type {import('unist-util-visit-parents/complex-types.js').BuildVisitor<Root, Element>} */
     function visitor(node, parents) {
-      const src = (node.tagName === 'img' && node.properties.src) || ''
+      const src = (node.tagName === 'img' && node.properties?.src) || ''
 
-      if (!src || src.charAt(0) !== '/') {
+      if (typeof src !== 'string' || src.charAt(0) !== '/') {
         return
       }
 
@@ -50,88 +68,99 @@ export default function pictures(options) {
         }
       }
 
+      assert(parent.type === 'element', 'expected image parent')
+      assert(root.type === 'element', 'expected image root')
       promises.push(rewrite(src, node, parent, root))
 
-      function rewrite(src, node, parent, root) {
+      /**
+       * @param {string} src
+       * @param {Element} node
+       * @param {Element} parent
+       * @param {Element} root
+       */
+      async function rewrite(src, node, parent, root) {
+        assert(node.properties, 'expected properties on `img`')
         const resolved = path.join(base, src.split('/').join(path.sep))
-        const promises = [].concat(
-          // See which images exist.
-          sources.map((d) => {
+
+        // See dimension.
+        const metadata = await sharp(resolved)
+          .metadata()
+          .catch(() => {
+            throw new Error('Could not find `' + resolved + '`')
+          })
+        assert(metadata.width, 'expected intrinsic `width` of image')
+        assert(metadata.height, 'expected intrinsic `height` of image')
+
+        const results = await Promise.all(
+          sources.map(async (d) => {
             const fp = rename(toVFile({path: resolved}), d).path
 
-            return fs.promises.access(fp, fs.constants.R_OK).then(
+            return fs.access(fp, fs.constants.R_OK).then(
               () => fp,
               () => {}
             )
-          }),
-          // See dimension.
-          sharp(resolved)
-            .metadata()
-            .catch(() => {
-              throw new Error('Could not find `' + resolved + '`')
-            })
+          })
         )
 
-        return Promise.all(promises).then((result) => {
-          const defaults = new Set(['png', 'jpg'])
-          const info = result.pop()
-          const available = new Set(result.filter(Boolean))
-          const siblings = parent.children
-          let width = info.width
-          let height = info.height
-          let biggestDefault
+        const defaults = new Set(['png', 'jpg'])
+        const available = new Set(results.filter(Boolean))
+        const siblings = parent.children
+        let width = metadata.width
+        let height = metadata.height
+        let biggestDefault
 
-          // Generate the sources, but only if they exist.
-          const srcs = formats.flatMap((format) => {
-            const applicable = sizes
-              .map((size) => {
+        // Generate the sources, but only if they exist.
+        const srcs = formats.flatMap((format) => {
+          const applicable = sizes
+            .flatMap(
+              /**
+               * @returns {Array<[string, number]>}
+               */
+              (size) => {
                 const fp = rename(toVFile({path: resolved}), {
                   stem: {suffix: '-' + size},
                   extname: '.' + format
                 }).path
 
-                return available.has(fp) ? [fp, size] : []
-              })
-              .sort((a, b) => a[1] - b[1])
-              .filter((d) => d.length > 0)
+                return available.has(fp) ? [[fp, size]] : []
+              }
+            )
+            .sort((a, b) => a[1] - b[1])
 
-            if (applicable.length === 0) {
-              return []
-            }
+          if (applicable.length === 0) {
+            return []
+          }
 
-            if (defaults.has(format)) {
-              biggestDefault = applicable[applicable.length - 1]
-            }
+          if (defaults.has(format)) {
+            biggestDefault = applicable[applicable.length - 1]
+          }
 
-            return h('source', {
-              srcSet: applicable
-                .map(
-                  (d) => ['/' + path.relative(base, d[0])] + ' ' + d[1] + 'w'
-                )
-                .join(','),
-              type: mimes[format]
-            })
+          return h('source', {
+            srcSet: applicable
+              .map((d) => ['/' + path.relative(base, d[0])] + ' ' + d[1] + 'w')
+              .join(','),
+            type: mimes[format]
           })
-
-          if (biggestDefault) {
-            node.properties.src = path.relative(base, biggestDefault[0])
-            width = biggestDefault[1]
-            height = (width / info.width) * info.height
-          }
-
-          node.properties.loading = 'lazy'
-          node.properties.decoding = 'async'
-          node.properties.width = width
-          node.properties.height = height
-
-          if (width / height > 2) {
-            classnames(root, 'panorama')
-          } else if (width / height > 1) {
-            classnames(root, 'landscape')
-          }
-
-          siblings[siblings.indexOf(node)] = h('picture', srcs.concat(node))
         })
+
+        if (biggestDefault) {
+          node.properties.src = path.relative(base, biggestDefault[0])
+          width = biggestDefault[1]
+          height = (width / metadata.width) * metadata.height
+        }
+
+        node.properties.loading = 'lazy'
+        node.properties.decoding = 'async'
+        node.properties.width = width
+        node.properties.height = height
+
+        if (width / height > 2) {
+          classnames(root, 'panorama')
+        } else if (width / height > 1) {
+          classnames(root, 'landscape')
+        }
+
+        siblings[siblings.indexOf(node)] = h('picture', srcs.concat(node))
       }
     }
   }
