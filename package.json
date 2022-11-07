@@ -25,7 +25,6 @@
     "hastscript": "^7.0.0",
     "highlight.js": "^11.0.0",
     "humanize-url": "^3.0.0",
-    "js-yaml": "^4.0.0",
     "levenshtein-edit-distance": "^3.0.0",
     "node-fetch": "^3.0.0",
     "p-all": "^4.0.0",
@@ -61,7 +60,8 @@
     "vfile-matter": "^4.0.0",
     "vfile-rename": "^2.0.0",
     "vfile-reporter": "^7.0.0",
-    "xo": "^0.52.0"
+    "xo": "^0.52.0",
+    "yaml": "^2.0.0"
   },
   "scripts": {
     "format": "remark . -qfo && prettier . -w --loglevel warn && stylelint \"**/*.css\" --fix && xo --fix",

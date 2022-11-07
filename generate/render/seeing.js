@@ -9,12 +9,12 @@
  */
 
 import fs from 'node:fs/promises'
-import yaml from 'js-yaml'
+import {parse} from 'yaml'
 import {h} from 'hastscript'
 
 const url = new URL('../../asset/image/index.yml', import.meta.url)
 const photos = /** @type {Array<Photo>} */ (
-  yaml.load(String(await fs.readFile(url)))
+  parse(String(await fs.readFile(url)))
 )
 
 photos.sort(sort)
