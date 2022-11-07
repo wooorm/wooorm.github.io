@@ -147,7 +147,7 @@ const members = collectiveBody.data.collective.members.nodes
   .sort(sort)
   .map((d) => strip(d))
 
-await fs.mkdir(new URL('../', outUrl), {recursive: true})
+await fs.mkdir(new URL('./', outUrl), {recursive: true})
 await fs.writeFile(outUrl, JSON.stringify(members, null, 2) + '\n')
 
 /**

@@ -81,5 +81,5 @@ const artists = body.items.map((d) => {
   return result
 })
 
-await fs.mkdir(new URL('../', outUrl), {recursive: true})
+await fs.mkdir(new URL('./', outUrl), {recursive: true})
 await fs.writeFile(outUrl, JSON.stringify(artists, null, 2) + '\n')

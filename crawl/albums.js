@@ -77,5 +77,5 @@ const albums = body.topalbums.album.flatMap((d) => {
   return []
 })
 
-await fs.mkdir(new URL('../', outUrl), {recursive: true})
+await fs.mkdir(new URL('./', outUrl), {recursive: true})
 await fs.writeFile(outUrl, JSON.stringify(albums, null, 2) + '\n')

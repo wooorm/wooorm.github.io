@@ -147,7 +147,7 @@ const data = await all(
   {concurrency: 2}
 )
 
-await fs.mkdir(new URL('../', outUrl), {recursive: true})
+await fs.mkdir(new URL('./', outUrl), {recursive: true})
 await fs.writeFile(outUrl, JSON.stringify(data, null, 2) + '\n')
 
 /**

@@ -142,5 +142,5 @@ const activities = allActivities.map((d) => {
   return activity
 })
 
-await fs.mkdir(new URL('../', outUrl), {recursive: true})
+await fs.mkdir(new URL('./', outUrl), {recursive: true})
 await fs.writeFile(outUrl, JSON.stringify(activities, null, 2) + '\n')

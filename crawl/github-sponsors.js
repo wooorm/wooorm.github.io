@@ -95,7 +95,7 @@ const personal = body.data.viewer.sponsorshipsAsMaintainer.nodes
   .sort(sort)
   .map((d) => strip(d))
 
-await fs.mkdir(new URL('../', outUrl), {recursive: true})
+await fs.mkdir(new URL('./', outUrl), {recursive: true})
 await fs.writeFile(
   outUrl,
   JSON.stringify({collective, personal}, null, 2) + '\n'
