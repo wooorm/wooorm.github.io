@@ -34,9 +34,9 @@ export function render() {
           'I work most-time on ',
           h('a', {href: github}, 'open source'),
           ' maintaining ',
-          h('a', {href: projects}, '540+ projects'),
+          h('a', {href: projects}, '550+ projects'),
           ' that are downloaded ',
-          h('a', {href: downloads}, '20B+ times'),
+          h('a', {href: downloads}, '22B+ times'),
           ' a year. ',
           'I can spend time as a core team member of ',
           h('a', {href: unified}, 'unified'),
@@ -48,9 +48,9 @@ export function render() {
       h(
         'p',
         h('span.text', [
-          'I sometimes do contracting as well. Currently for ',
+          'I sometimes do contracting as well. Previously for ',
           h('a', {href: vc}, 'Vercel'),
-          '. Previously for ',
+          ', ',
           h('a', {href: mm}, 'Salesforce who funded part of micromark'),
           ', ',
           h('a', {href: mdxsm}, 'Gatsby speccing MDX'),
