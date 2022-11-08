@@ -8,8 +8,7 @@
  * @param {Array<Page>} pages
  * @returns {Element|Array<ElementContent>}
  *
- * @typedef {string} Label
- * @typedef {import('vfile').DataMap['meta'] & {label?: Label}} MetadataRaw
+ * @typedef {import('vfile').DataMap['meta'] & {label?: string}} MetadataRaw
  *
  * @typedef {Omit<MetadataRaw, 'pathname'> & {pathname: string}} Metadata
  *
@@ -25,6 +24,7 @@
  * @returns {TaskResult}
  */
 
+import fs from 'node:fs/promises'
 import assert from 'node:assert/strict'
 import glob from 'glob'
 import all from 'p-all'
@@ -35,6 +35,7 @@ import rehypePreventFaviconRequest from 'rehype-prevent-favicon-request'
 import rehypePresetMinify from 'rehype-preset-minify'
 import rehypeDocument from 'rehype-document'
 import rehypeMeta from 'rehype-meta'
+import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta'
 import rehypeStringify from 'rehype-stringify'
 import {u} from 'unist-builder'
 import {h} from 'hastscript'
@@ -50,6 +51,7 @@ import * as seeing from './render/seeing.js'
 import * as watching from './render/watching.js'
 import * as listening from './render/listening.js'
 import * as activity from './render/activity.js'
+import {generateOgImage} from './screenshot.jsx'
 
 /** @type {Array<Task>} */
 const tasks = []
@@ -63,8 +65,9 @@ const posts = glob.sync('post/**/*.md')
 let index = -1
 
 while (++index < pages.length) {
-  if (!pages[index].data.pathname) {
-    pages[index].data.pathname = '/' + pages[index].data.label + '/'
+  const page = pages[index]
+  if (!page.data.pathname) {
+    page.data.pathname = '/' + page.data.label + '/'
   }
 }
 
@@ -85,6 +88,13 @@ while (++index < pages.length) {
  */
 function add(d) {
   tasks.push(() => {
+    // Added later.
+    d.data.image = {
+      width: 2400,
+      height: 1256,
+      url: 'https://wooorm.com' + d.data.pathname + 'index.png'
+    }
+
     const tree = d.render(pages)
     return {
       tree: Array.isArray(tree) ? u('root', tree) : tree,
@@ -106,6 +116,7 @@ const pipeline = unified()
       "if('paintWorklet' in CSS)CSS.paintWorklet.addModule('https://www.unpkg.com/css-houdini-squircle@0.1.5/squircle.min.js')"
     ]
   })
+  .use(rehypeInferReadingTimeMeta)
   .use(rehypeMeta, {
     twitter: true,
     og: true,
@@ -140,6 +151,13 @@ const promises = tasks.map((fn) => () => {
       return file
     })
     .then((file) => toVFile.write(file).then(() => file))
+    .then(async (file) => {
+      const imgPath = file.path.replace(/\.html$/, '.png')
+      const meta = file.data.meta || {}
+      const buf = await generateOgImage(meta)
+      await fs.writeFile(imgPath, buf)
+      return file
+    })
     .then(done, done)
 
   /**
