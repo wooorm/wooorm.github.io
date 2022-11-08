@@ -5,7 +5,7 @@
  * @typedef Photo
  * @property {string} name
  * @property {string} title
- * @property {Date} date
+ * @property {string} date
  */
 
 import fs from 'node:fs/promises'
@@ -60,5 +60,5 @@ function sort(a, b) {
  * @param {Photo} d
  */
 function pick(d) {
-  return d.date
+  return new Date(d.date)
 }
