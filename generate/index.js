@@ -2,7 +2,6 @@
  * @typedef {import('hast').ElementContent} ElementContent
  * @typedef {import('hast').Element} Element
  * @typedef {import('hast').Root} Root
- * @typedef {import('vfile').VFile} VFile
  *
  * @callback Render
  * @param {Array<Page>} pages
@@ -16,12 +15,8 @@
  * @property {Metadata} data
  * @property {Render} render
  *
- * @typedef TaskResult
- * @property {Element|Root} tree
- * @property {VFile} file
- *
  * @callback Task
- * @returns {TaskResult}
+ * @returns {Promise<void>}
  */
 
 import fs from 'node:fs/promises'
@@ -53,14 +48,9 @@ import * as listening from './render/listening.js'
 import * as activity from './render/activity.js'
 import {generateOgImage} from './screenshot.jsx'
 
-/** @type {Array<Task>} */
-const tasks = []
-
 /** @type {Array<{data: Metadata, render: Render}>} */
 // @ts-expect-error: `pathname` is added in a second.
-const pages = [home, thanks, writing, activity, seeing, watching, listening]
-
-const posts = glob.sync('post/**/*.md')
+const pages = [home, writing, activity, seeing, watching, listening, thanks]
 
 let index = -1
 
@@ -71,36 +61,11 @@ while (++index < pages.length) {
   }
 }
 
+const posts = glob.sync('post/**/*.md')
 index = -1
 
 while (++index < posts.length) {
-  pages.push(renderPost(toVFile.readSync(posts[index])))
-}
-
-index = -1
-
-while (++index < pages.length) {
-  add(pages[index])
-}
-
-/**
- * @param {Page} d
- */
-function add(d) {
-  tasks.push(() => {
-    // Added later.
-    d.data.image = {
-      width: 2400,
-      height: 1256,
-      url: 'https://wooorm.com' + d.data.pathname + 'index.png'
-    }
-
-    const tree = d.render(pages)
-    return {
-      tree: Array.isArray(tree) ? u('root', tree) : tree,
-      file: toVFile({data: {meta: d.data}})
-    }
-  })
+  pages.push(renderPost(await toVFile.read(posts[index])))
 }
 
 const pipeline = unified()
@@ -140,35 +105,41 @@ const pipeline = unified()
   .use(rehypeStringify)
   .freeze()
 
-const promises = tasks.map((fn) => () => {
-  return Promise.resolve(fn())
-    .then(({tree, file}) =>
-      // @ts-expect-error: element is fine.
-      pipeline.run(tree, file).then((tree) => ({tree, file}))
-    )
-    .then(({tree, file}) => {
-      file.value = pipeline.stringify(tree, file)
-      return file
-    })
-    .then((file) => toVFile.write(file).then(() => file))
-    .then(async (file) => {
-      const imgPath = file.path.replace(/\.html$/, '.png')
-      const meta = file.data.meta || {}
-      const buf = await generateOgImage(meta)
-      await fs.writeFile(imgPath, buf)
-      return file
-    })
-    .then(done, done)
+/** @type {Array<Task>} */
+const tasks = []
+index = -1
 
-  /**
-   * @param {Error|VFile} x
-   */
-  function done(x) {
-    console.error(reporter(x))
-  }
-})
+while (++index < pages.length) {
+  const page = pages[index]
 
-all(promises, {concurrency: 2})
+  tasks.push(async () => {
+    // Generate OG image.
+    page.data.image = {
+      width: 2400,
+      height: 1256,
+      url: 'https://wooorm.com' + page.data.pathname + 'index.png'
+    }
+    const file = toVFile({data: {meta: page.data}})
+
+    const result = page.render(pages)
+    /** @type {Root} */
+    // @ts-expect-error: fine.
+    let tree = Array.isArray(result) ? u('root', result) : result
+
+    tree = await pipeline.run(tree, file)
+    file.value = pipeline.stringify(tree, file)
+
+    const imgPath = file.path.replace(/\.html$/, '.png')
+    const buf = await generateOgImage(page.data)
+    await fs.writeFile(imgPath, buf)
+
+    await toVFile.write(file)
+
+    console.error(reporter(file))
+  })
+}
+
+all(tasks, {concurrency: 2})
 
 /** @type {import('unified').Plugin<[], Root>} */
 function rehypeWrap() {

@@ -109,7 +109,10 @@
     "trailingComma": "none"
   },
   "xo": {
-    "prettier": true
+    "prettier": true,
+    "rules": {
+      "no-await-in-loop": "off"
+    }
   },
   "remarkConfig": {
     "plugins": [
