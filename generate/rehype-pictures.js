@@ -48,7 +48,7 @@ export default function rehypePictures(options) {
       await Promise.all(promises)
     }
 
-    /** @type {import('unist-util-visit-parents/complex-types.js').BuildVisitor<Root, Element>} */
+    /** @type {import('unist-util-visit-parents/complex-types.js').BuildVisitor<Root, 'element'>} */
     function visitor(node, parents) {
       const src = (node.tagName === 'img' && node.properties?.src) || ''
 

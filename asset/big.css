@@ -15,7 +15,7 @@ h2 {
   margin-bottom: 0.75em;
 }
 
-@media (min-width: 40em) {
+@media (width >= 40em) {
   nav ol {
     display: flex;
   }
@@ -30,13 +30,13 @@ h2 {
   }
 }
 
-@media (min-width: 60em) {
+@media (width >= 60em) {
   .panorama {
     grid-column-start: span 3;
   }
 }
 
-@media (min-width: 80em) {
+@media (width >= 80em) {
   .pictures {
     max-width: 100em;
     margin: 0 auto;

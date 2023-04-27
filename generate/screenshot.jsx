@@ -15,7 +15,7 @@ import {resolve} from 'import-meta-resolve'
 import {Resvg} from '@resvg/resvg-js'
 
 const fontFilesUrl = new URL(
-  await resolve('@fontsource/open-sans/files/', import.meta.url)
+  resolve('@fontsource/open-sans/files/', import.meta.url)
 )
 const fontFiles = await fs.readdir(fontFilesUrl)
 const acceptableFontFiles = fontFiles.filter((d) =>

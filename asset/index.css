@@ -1,14 +1,8 @@
 :root {
   /* Font families. */
   --ff-sans: system-ui;
-  --ff-mono:
-    "San Francisco Mono",
-    "Monaco",
-    "Consolas",
-    "Lucida Console",
-    "DejaVu Sans Mono",
-    "Bitstream Vera Sans Mono",
-    monospace;
+  --ff-mono: 'San Francisco Mono', 'Monaco', 'Consolas', 'Lucida Console',
+    'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
 
   /* Sizes. */
   --border: 0.25rem;
@@ -27,7 +21,7 @@ html {
   word-wrap: break-word;
   font-kerning: normal;
   font-family: var(--ff-sans);
-  font-feature-settings: "kern", "liga", "clig", "calt";
+  font-feature-settings: 'kern', 'liga', 'clig', 'calt';
 }
 
 button,
@@ -130,7 +124,7 @@ h6 {
 
 h5::after,
 h6::after {
-  content: ": ";
+  content: ': ';
   font-weight: normal;
   font-style: normal;
 }
@@ -160,7 +154,7 @@ ul li {
 }
 
 ul > li::before {
-  content: "";
+  content: '';
   background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><circle cx="2" cy="2" r="2" fill="black"/></svg>');
   background-repeat: no-repeat;
   background-position: center;
@@ -256,7 +250,7 @@ blockquote {
 }
 
 blockquote::before {
-  content: "";
+  content: '';
   display: block;
   width: var(--border);
   height: 100%;
@@ -358,11 +352,11 @@ img {
   background-color: transparent;
 }
 
-img[align="right"] {
+img[align='right'] {
   padding-left: 1.5em;
 }
 
-img[align="left"] {
+img[align='left'] {
   padding-right: 1.5em;
 }
 
@@ -431,7 +425,7 @@ img[align="left"] {
 .cover-wrap::after,
 .card-wrap::after,
 .article-wrap::after {
-  content: "";
+  content: '';
   z-index: -1;
   position: absolute;
   left: 0.5em;

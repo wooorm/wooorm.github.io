@@ -13,7 +13,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import {promisify} from 'node:util'
-import glob from 'glob'
+import {glob} from 'glob'
 import sharp from 'sharp'
 import all from 'p-all'
 import {trough} from 'trough'
@@ -24,6 +24,7 @@ import postcssPresetEnv from 'postcss-preset-env'
 import cssnano from 'cssnano'
 
 const postcss = new PostCss([
+  // @ts-expect-error: types out of date?
   postcssPresetEnv({stage: 0}),
   cssnano({preset: 'advanced'})
 ])

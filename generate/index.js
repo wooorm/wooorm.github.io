@@ -21,7 +21,7 @@
 
 import fs from 'node:fs/promises'
 import assert from 'node:assert/strict'
-import glob from 'glob'
+import {glob} from 'glob'
 import all from 'p-all'
 import {toVFile} from 'to-vfile'
 import {reporter} from 'vfile-reporter'
