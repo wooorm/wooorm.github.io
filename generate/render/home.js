@@ -12,11 +12,12 @@ export const data = {
   pathname: '/',
   description: 'A place for Titus on the web',
   published: '2020-05-01T00:00:00.000Z',
-  modified: '2022-06-29T00:00:00.000Z'
+  modified: '2023-04-27T00:00:00.000Z'
 }
 
 const github = 'https://github.com/wooorm'
 const twitter = 'https://twitter.com/wooorm'
+const masto = 'https://mastodon.social/@wooorm'
 const email = 'mailto:tituswormer@gmail.com'
 const unified = 'https://unifiedjs.com'
 const tt = 'https://github.com/cmda-tt/course-18-19'
@@ -80,6 +81,15 @@ export function render() {
           'li',
           h('span.text', [
             h('a', {href: twitter}, [h('strong', 'twitter'), '.com/wooorm'])
+          ])
+        ),
+        h(
+          'li',
+          h('span.text', [
+            h('a', {href: masto}, [
+              h('strong', 'mastodon'),
+              '.social/@wooorm'
+            ])
           ])
         ),
         h(
