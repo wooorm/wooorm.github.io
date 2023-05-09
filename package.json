@@ -68,7 +68,7 @@
     "vfile-matter": "^4.0.0",
     "vfile-rename": "^2.0.0",
     "vfile-reporter": "^7.0.0",
-    "xo": "^0.52.0",
+    "xo": "^0.54.0",
     "yaml": "^2.0.0"
   },
   "scripts": {
