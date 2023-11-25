@@ -1,8 +1,8 @@
-.DS_Store
-.env
 *.d.ts.map
 *.d.ts
-build/
-data/
-node_modules/
+/build/
+/data/
+/node_modules/
+.DS_Store
+.env
 yarn.lock

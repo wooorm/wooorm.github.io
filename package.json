@@ -2,12 +2,13 @@
   "name": "wooorm",
   "private": true,
   "version": "4.0.0",
-  "description": "Website",
+  "description": "website",
   "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
   "repository": "wooorm/wooorm.github.io",
   "bugs": "https://github.com/wooorm/wooorm.github.io/issues",
   "homepage": "https://wooorm.com",
   "type": "module",
+  "exports": null,
   "devDependencies": {
     "@fontsource/open-sans": "^5.0.0",
     "@mapbox/polyline": "^1.0.0",
@@ -73,20 +74,54 @@
     "yaml": "^2.0.0"
   },
   "scripts": {
-    "format": "remark . -qfo && prettier . -w --log-level warn && stylelint \"**/*.css\" --fix && xo --fix",
     "build": "tsc --build --clean && tsc --build && type-coverage",
-    "crawl:activity": "node crawl/activity",
-    "crawl:github-sponsors": "node crawl/github-sponsors",
-    "crawl:opencollective": "node crawl/opencollective",
-    "crawl:artists": "node crawl/artists",
-    "crawl:albums": "node crawl/albums",
-    "crawl:shows": "node crawl/shows",
-    "crawl": "npm run crawl:activity && npm run crawl:github-sponsors && npm run crawl:opencollective && npm run crawl:artists && npm run crawl:albums && npm run crawl:shows",
-    "generate:assets": "node generate/assets",
-    "generate:theme": "cp node_modules/highlight.js/styles/atom-one-light.css build/syntax.css",
+    "crawl:activity": "node --conditions developments crawl/activity.js",
+    "crawl:albums": "node --conditions developments crawl/albums.js",
+    "crawl:artists": "node --conditions developments crawl/artists.js",
+    "crawl:github-sponsors": "node --conditions developments crawl/github-sponsors.js",
+    "crawl:opencollective": "node --conditions developments crawl/opencollective.js",
+    "crawl:shows": "node --conditions developments crawl/shows.js",
+    "crawl": "npm run crawl:activity && npm run crawl:albums && npm run crawl:artists && npm run crawl:github-sponsors && npm run crawl:opencollective && npm run crawl:shows",
+    "format": "remark . --frail --output --quiet && prettier . --log-level warn --write && stylelint \"**/*.css\" --fix && xo --fix",
+    "generate:assets": "node --conditions developments generate/assets.js",
     "generate:structure": "node --no-warnings --experimental-loader=./script/jsx-loader.js generate/index.js",
+    "generate:theme": "cp node_modules/highlight.js/styles/atom-one-light.css build/syntax.css",
     "generate": "npm run generate:assets && npm run generate:theme && npm run generate:structure",
-    "test": "npm run format && npm run build && npm run crawl && npm run generate"
+    "test": "npm run build && npm run crawl && npm run format && npm run generate"
+  },
+  "postcss": {
+    "plugins": {
+      "cssnano": {
+        "preset": "default"
+      }
+    }
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "none",
+    "useTabs": false
+  },
+  "remarkConfig": {
+    "plugins": [
+      "remark-frontmatter",
+      "remark-preset-wooorm",
+      [
+        "remark-preset-wooorm/node_modules/remark-gfm/index.js",
+        false
+      ],
+      "remark-gfm",
+      [
+        "remark-lint-list-item-indent",
+        "space"
+      ],
+      [
+        "remark-lint-first-heading-level",
+        false
+      ]
+    ]
   },
   "stylelint": {
     "extends": "stylelint-config-standard",
@@ -101,46 +136,12 @@
       ]
     }
   },
-  "prettier": {
-    "tabWidth": 2,
-    "useTabs": false,
-    "singleQuote": true,
-    "bracketSpacing": false,
-    "semi": false,
-    "trailingComma": "none"
-  },
   "xo": {
     "prettier": true,
     "rules": {
       "no-await-in-loop": "off",
       "unicorn/prefer-at": "off",
       "unicorn/prefer-string-replace-all": "off"
-    }
-  },
-  "remarkConfig": {
-    "plugins": [
-      "remark-frontmatter",
-      "remark-preset-wooorm",
-      [
-        "remark-lint-list-item-indent",
-        "space"
-      ],
-      [
-        "remark-lint-first-heading-level",
-        false
-      ],
-      [
-        "remark-preset-wooorm/node_modules/remark-gfm/index.js",
-        false
-      ],
-      "remark-gfm"
-    ]
-  },
-  "postcss": {
-    "plugins": {
-      "cssnano": {
-        "preset": "default"
-      }
     }
   }
 }

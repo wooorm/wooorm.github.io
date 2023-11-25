@@ -1,3 +1,4 @@
-build/
 *.md
-asset/*.html
+/asset/*.html
+/asset/image/
+/build/
