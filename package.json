@@ -12,7 +12,6 @@
     "@fontsource/open-sans": "^5.0.0",
     "@mapbox/polyline": "^1.0.0",
     "@resvg/resvg-js": "^2.0.0",
-    "@types/glob": "^8.0.0",
     "@types/mapbox__polyline": "^1.0.0",
     "@types/node": "^20.0.0",
     "@types/postcss-preset-env": "^7.0.0",
