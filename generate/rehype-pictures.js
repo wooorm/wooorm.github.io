@@ -22,7 +22,10 @@ import {classnames} from 'hast-util-classnames'
 /**
  * Plugin to defer scripts.
  *
- * @type {import('unified').Plugin<[Options], Root>}
+ * @param {Options} options
+ *   Configuration.
+ * @returns
+ *   Transform.
  */
 export default function rehypePictures(options) {
   const sizes = [600, 1200, 2400, 3600]
@@ -38,6 +41,12 @@ export default function rehypePictures(options) {
     }))
   )
 
+  /**
+   * @param {Root} tree
+   *   Tree.
+   * @returns {Promise<void>}
+   *   Nothing.
+   */
   return async function (tree) {
     /** @type {Array<Promise<void>>} */
     const promises = []
@@ -48,7 +57,7 @@ export default function rehypePictures(options) {
       await Promise.all(promises)
     }
 
-    /** @type {import('unist-util-visit-parents/complex-types.js').BuildVisitor<Root, 'element'>} */
+    /** @type {import('unist-util-visit-parents').BuildVisitor<Root, 'element'>} */
     function visitor(node, parents) {
       const src = (node.tagName === 'img' && node.properties?.src) || ''
 
@@ -93,7 +102,9 @@ export default function rehypePictures(options) {
 
         const results = await Promise.all(
           sources.map(async (d) => {
-            const fp = rename(toVFile({path: resolved}), d).path
+            const file = toVFile({path: resolved})
+            rename(file, d)
+            const fp = file.path
 
             return fs.access(fp, fs.constants.R_OK).then(
               () => fp,
@@ -117,10 +128,12 @@ export default function rehypePictures(options) {
                * @returns {Array<[string, number]>}
                */
               (size) => {
-                const fp = rename(toVFile({path: resolved}), {
+                const file = toVFile({path: resolved})
+                rename(file, {
                   stem: {suffix: '-' + size},
                   extname: '.' + format
-                }).path
+                })
+                const fp = file.path
 
                 return available.has(fp) ? [[fp, size]] : []
               }

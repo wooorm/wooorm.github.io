@@ -86,10 +86,7 @@ export function render() {
         h(
           'li',
           h('span.text', [
-            h('a', {href: masto}, [
-              h('strong', 'mastodon'),
-              '.social/@wooorm'
-            ])
+            h('a', {href: masto}, [h('strong', 'mastodon'), '.social/@wooorm'])
           ])
         ),
         h(

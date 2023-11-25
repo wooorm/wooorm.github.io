@@ -23,7 +23,7 @@ import fs from 'node:fs/promises'
 import assert from 'node:assert/strict'
 import {glob} from 'glob'
 import all from 'p-all'
-import {toVFile} from 'to-vfile'
+import {toVFile, read, write} from 'to-vfile'
 import {reporter} from 'vfile-reporter'
 import {unified} from 'unified'
 import rehypePreventFaviconRequest from 'rehype-prevent-favicon-request'
@@ -65,7 +65,7 @@ const posts = glob.sync('post/**/*.md')
 index = -1
 
 while (++index < posts.length) {
-  pages.push(renderPost(await toVFile.read(posts[index])))
+  pages.push(renderPost(await read(posts[index])))
 }
 
 const pipeline = unified()
@@ -133,7 +133,7 @@ while (++index < pages.length) {
     const buf = await generateOgImage(page.data)
     await fs.writeFile(imgPath, buf)
 
-    await toVFile.write(file)
+    await write(file)
 
     console.error(reporter(file))
   })

@@ -17,7 +17,7 @@ import {glob} from 'glob'
 import sharp from 'sharp'
 import all from 'p-all'
 import {trough} from 'trough'
-import {toVFile} from 'to-vfile'
+import {toVFile, read, write} from 'to-vfile'
 import {reporter} from 'vfile-reporter'
 import {Processor as PostCss} from 'postcss'
 import postcssPresetEnv from 'postcss-preset-env'
@@ -47,19 +47,15 @@ const externals = {
 }
 
 const processPipeline = trough()
-  .use(toVFile.read)
+  .use(read)
   .use(process)
   .use(move)
   .use(mkdir)
-  .use(toVFile.write)
+  .use(write)
 
 const copyPipeline = trough().use(move).use(mkdir).use(copy)
 
-const imagePipeline = trough()
-  .use(move)
-  .use(mkdir)
-  .use(toVFile.write)
-  .use(print)
+const imagePipeline = trough().use(move).use(mkdir).use(write).use(print)
 
 const filePipeline = trough()
   .use(
@@ -96,7 +92,7 @@ trough()
   .use((files, next) => {
     assert(pack.homepage, 'expected `homepage` in `package.json`')
     const value = new URL(pack.homepage).host + '\n'
-    toVFile.write({dirname: 'build', basename: 'CNAME', value}, next)
+    write({dirname: 'build', basename: 'CNAME', value}, next)
   })
   .run(
     'asset/**/*.*',

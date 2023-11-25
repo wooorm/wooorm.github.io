@@ -18,8 +18,8 @@ const fontFilesUrl = new URL(
   resolve('@fontsource/open-sans/files/', import.meta.url)
 )
 const fontFiles = await fs.readdir(fontFilesUrl)
-const acceptableFontFiles = fontFiles.filter((d) =>
-  d.startsWith('open-sans-all')
+const acceptableFontFiles = fontFiles.filter(
+  (d) => d.startsWith('open-sans-latin-ext') && d.endsWith('.woff')
 )
 const fonts = await Promise.all(
   acceptableFontFiles.map(
@@ -28,8 +28,8 @@ const fonts = await Promise.all(
      */
     async (basename) => {
       const parts = basename.split('.')[0].split('-')
-      const weight = /** @type {FontWeight} */ (Number.parseInt(parts[3], 10))
-      const style = /** @type {FontStyle} */ (parts[4])
+      const weight = /** @type {FontWeight} */ (Number.parseInt(parts[4], 10))
+      const style = /** @type {FontStyle} */ (parts[5])
       assert(
         [100, 200, 300, 400, 500, 600, 700, 800, 900].includes(weight),
         `expected valid weight ${weight}`
@@ -58,11 +58,11 @@ const fonts = await Promise.all(
 export async function generateOgImage(meta) {
   const dateTimeFormat = new Intl.DateTimeFormat('en', {dateStyle: 'long'})
   const modifiedLabel = dateTimeFormat.format(
-    typeof meta.modified === 'object'
+    meta.modified && typeof meta.modified === 'object'
       ? meta.modified
       : meta.modified
-      ? new Date(meta.modified)
-      : new Date()
+        ? new Date(meta.modified)
+        : new Date()
   )
   const time = (
     meta.readingTime

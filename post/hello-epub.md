@@ -130,12 +130,12 @@ The bare minimum, with some extra metadata, looks like so:
 The file consists of a single `<package>` element, which includes three
 sections each in separate container elements:
 
-*   `<metadata>`, which is sort of like the `<head>` in HTML (or
-    [`.webmanifest`][webmanifest])
-*   `<manifest>`, which lists all the files that make up the book with their
-    media types
-*   `<spine>`, which defines the items in `<manifest>` that make up the content
-    of the book, and in what order they are to be placed
+* `<metadata>`, which is sort of like the `<head>` in HTML (or
+  [`.webmanifest`][webmanifest])
+* `<manifest>`, which lists all the files that make up the book with their
+  media types
+* `<spine>`, which defines the items in `<manifest>` that make up the content
+  of the book, and in what order they are to be placed
 
 The last part, `<spine>`, is important to clarify: as books are typically long
 form, and rendering hundreds of pages at once takes a while, ebooks are split

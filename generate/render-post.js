@@ -17,7 +17,7 @@ const articlePipeline = unified()
   .use(remarkFrontmatter)
   .use(remarkRehype, {allowDangerousHtml: true})
   .use(rehypeRaw)
-  .use(rehypeHighlight, {ignoreMissing: true})
+  .use(rehypeHighlight)
   .use(rehypeSlug)
 
 /**
