@@ -1,41 +1,53 @@
+/// <reference types="./types.js" />
+
 /**
- * @typedef {import('hast').ElementContent} ElementContent
  * @typedef {import('hast').Element} Element
+ * @typedef {import('hast').ElementContent} ElementContent
  * @typedef {import('hast').Root} Root
  *
- * @callback Render
- * @param {Array<Page>} pages
- * @returns {Element|Array<ElementContent>}
- *
- * @typedef {import('vfile').DataMap['meta'] & {label?: string}} MetadataRaw
- *
- * @typedef {Omit<MetadataRaw, 'pathname'> & {pathname: string}} Metadata
+ * @typedef {import('vfile').DataMap} DataMap
+ */
+
+/**
+ * @typedef {DataMap['meta']} Metadata
+ *   Metadata.
  *
  * @typedef Page
+ *   Page.
  * @property {Metadata} data
+ *   Data.
  * @property {Render} render
+ *   Render.
+ *
+ * @callback Render
+ *   Render a page.
+ * @param {ReadonlyArray<Readonly<Page>>} pages
+ *   All pages.
+ * @returns {Array<ElementContent> | Element}
+ *   Content.
  *
  * @callback Task
- * @returns {Promise<void>}
+ *   Task.
+ * @returns {Promise<undefined>}
+ *   Promise.
  */
 
 import fs from 'node:fs/promises'
 import assert from 'node:assert/strict'
 import {glob} from 'glob'
-import all from 'p-all'
-import {toVFile, read, write} from 'to-vfile'
-import {reporter} from 'vfile-reporter'
-import {unified} from 'unified'
-import rehypePreventFaviconRequest from 'rehype-prevent-favicon-request'
-import rehypePresetMinify from 'rehype-preset-minify'
-import rehypeDocument from 'rehype-document'
-import rehypeMeta from 'rehype-meta'
-import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta'
-import rehypeStringify from 'rehype-stringify'
-import {u} from 'unist-builder'
 import {h} from 'hastscript'
-import wooormMove from './wooorm-move.js'
-import unifiedMkdirp from './unified-mkdirp.js'
+import all from 'p-all'
+import rehypeDocument from 'rehype-document'
+import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta'
+import rehypeMeta from 'rehype-meta'
+import rehypePresetMinify from 'rehype-preset-minify'
+import rehypePreventFaviconRequest from 'rehype-prevent-favicon-request'
+import rehypeStringify from 'rehype-stringify'
+import {read, write} from 'to-vfile'
+import {unified} from 'unified'
+import {u} from 'unist-builder'
+import {VFile} from 'vfile'
+import {reporter} from 'vfile-reporter'
 import rehypeDefer from './rehype-defer.js'
 import rehypePictures from './rehype-pictures.js'
 import renderPost from './render-post.js'
@@ -47,9 +59,10 @@ import * as watching from './render/watching.js'
 import * as listening from './render/listening.js'
 import * as activity from './render/activity.js'
 import {generateOgImage} from './screenshot.jsx'
+import unifiedMkdirp from './unified-mkdirp.js'
+import wooormMove from './wooorm-move.js'
 
-/** @type {Array<{data: Metadata, render: Render}>} */
-// @ts-expect-error: `pathname` is added in a second.
+/** @type {Array<Page>} */
 const pages = [home, writing, activity, seeing, watching, listening, thanks]
 
 let index = -1
@@ -73,9 +86,9 @@ const pipeline = unified()
   .use(rehypeWrap)
   .use(rehypeDocument, {
     link: [
-      {rel: 'stylesheet', href: '/syntax.css'},
-      {rel: 'stylesheet', href: '/index.css'},
-      {rel: 'stylesheet', media: '(min-width: 32em)', href: '/big.css'}
+      {href: '/syntax.css', rel: 'stylesheet'},
+      {href: '/index.css', rel: 'stylesheet'},
+      {href: '/big.css', media: '(min-width: 32em)', rel: 'stylesheet'}
     ],
     script: [
       "if('paintWorklet' in CSS)CSS.paintWorklet.addModule('https://www.unpkg.com/css-houdini-squircle@0.1.5/squircle.min.js')"
@@ -83,19 +96,19 @@ const pipeline = unified()
   })
   .use(rehypeInferReadingTimeMeta)
   .use(rehypeMeta, {
-    twitter: true,
-    og: true,
-    copyright: true,
-    origin: 'https://wooorm.com',
-    type: 'website',
-    name: 'wooorm.com',
-    siteTags: ['oss', 'open', 'source', 'ties', 'music', 'shows'],
-    siteAuthor: 'Titus Wormer',
-    siteTwitter: '@wooorm',
     author: 'Titus Wormer',
     authorTwitter: '@wooorm',
+    color: '#000000',
+    copyright: true,
+    name: 'wooorm.com',
+    og: true,
+    origin: 'https://wooorm.com',
     separator: ' | ',
-    color: '#000000'
+    siteAuthor: 'Titus Wormer',
+    siteTags: ['oss', 'open', 'source', 'ties', 'music', 'shows'],
+    siteTwitter: '@wooorm',
+    type: 'website',
+    twitter: true
   })
   .use(rehypeDefer)
   .use(rehypePreventFaviconRequest)
@@ -112,19 +125,21 @@ index = -1
 while (++index < pages.length) {
   const page = pages[index]
 
-  tasks.push(async () => {
+  tasks.push(async function () {
     // Generate OG image.
     page.data.image = {
-      width: 2400,
       height: 1256,
-      url: 'https://wooorm.com' + page.data.pathname + 'index.png'
+      url: 'https://wooorm.com' + page.data.pathname + 'index.png',
+      width: 2400
     }
-    const file = toVFile({data: {meta: page.data}})
+    const file = new VFile()
+    file.data.meta = {...file.data.meta, ...page.data}
 
     const result = page.render(pages)
-    /** @type {Root} */
-    // @ts-expect-error: fine.
-    let tree = Array.isArray(result) ? u('root', result) : result
+    let tree = Array.isArray(result)
+      ? /** @type {Root} */ (u('root', result))
+      : // @ts-expect-error: assume root.
+        /** @type {Root} */ (result)
 
     tree = await pipeline.run(tree, file)
     file.value = pipeline.stringify(tree, file)
@@ -141,15 +156,25 @@ while (++index < pages.length) {
 
 all(tasks, {concurrency: 2})
 
-/** @type {import('unified').Plugin<[], Root>} */
 function rehypeWrap() {
   const structure = pages
-    .map((d) => d.data)
-    .filter((d) => {
+    .map(function (d) {
+      return d.data
+    })
+    .filter(function (d) {
+      assert(d.pathname)
       const parts = d.pathname.replace(/^\/|\/$/g, '').split('/')
       return parts.length === 1
     })
 
+  /**
+   * @param {Root} tree
+   *   Tree.
+   * @param {VFile} file
+   *   File
+   * @returns {Root}
+   *   New tree.
+   */
   return function (tree, file) {
     assert(file.data.meta?.pathname, 'expected `pathname` on `meta`')
     const self = section(file.data.meta.pathname)
@@ -159,22 +184,23 @@ function rehypeWrap() {
         h('nav.top', [
           h(
             'ol',
-            structure.map((d) =>
-              h('li', {className: d.label ? [d.label] : []}, [
+            structure.map(function (d) {
+              assert(d.pathname)
+              return h('li', {className: d.label ? [d.label] : []}, [
                 h(
                   'span.text',
                   h(
                     'a',
                     {
                       className:
-                        section(d.pathname) === self ? ['active'] : null,
+                        section(d.pathname) === self ? ['active'] : undefined,
                       href: d.pathname
                     },
                     d.title || ''
                   )
                 )
               ])
-            )
+            })
           )
         ])
       ]),
@@ -185,6 +211,9 @@ function rehypeWrap() {
 
   /**
    * @param {string} pathname
+   *   Pathname.
+   * @returns {string}
+   *   Section.
    */
   function section(pathname) {
     return pathname.split('/')[1]

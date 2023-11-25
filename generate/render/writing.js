@@ -1,38 +1,41 @@
 /**
- * @typedef {import('../index.js').Render} Render
- * @typedef {import('../index.js').MetadataRaw} MetadataRaw
  * @typedef {import('../index.js').Metadata} Metadata
+ * @typedef {import('../index.js').Render} Render
  */
 
+import assert from 'node:assert/strict'
 import {h} from 'hastscript'
 
-const title = 'Writing'
 const description =
   'A place for things that don’t fit neatly in readmes. Most things are in readmes.'
+const title = 'Writing'
 
-/** @type {MetadataRaw} */
+/** @type {Readonly<Metadata>} */
 export const data = {
-  title,
-  label: 'blog',
   description,
+  label: 'blog',
+  modified: '2022-06-29T00:00:00.000Z',
   published: '2020-05-01T00:00:00.000Z',
-  modified: '2022-06-29T00:00:00.000Z'
+  title
 }
 
 /** @type {Render} */
 export function render(pages) {
   const posts = pages
-    .map((d) => d.data)
-    .filter((d) => {
+    .map(function (d) {
+      return d.data
+    })
+    .filter(function (d) {
+      assert(d.pathname)
       const parts = d.pathname.replace(/^\/|\/$/g, '').split('/')
       return parts[0] === 'blog' && parts.length === 2
     })
 
-  const items = posts.sort(sort).map((d) => {
+  const items = posts.sort(sort).map(function (d) {
     let pub = fmt(d.published)
     const mod = fmt(d.modified)
 
-    if (mod === pub) pub = ''
+    if (mod === pub) pub = undefined
 
     return h('li.card-wrap', [
       h('.card', [
@@ -57,33 +60,43 @@ export function render(pages) {
     h('p', h('span.text', description)),
     h('ol.cards', items)
   ]
+}
 
-  /**
-   * @param {Metadata} a
-   * @param {Metadata} b
-   */
-  function sort(a, b) {
-    return pick(b).valueOf() - pick(a).valueOf()
-  }
+/**
+ * @param {Readonly<Metadata>} a
+ *   Left.
+ * @param {Readonly<Metadata>} b
+ *   Right.
+ * @returns {number}
+ *   Sort value.
+ */
+function sort(a, b) {
+  return pick(b).valueOf() - pick(a).valueOf()
+}
 
-  /**
-   * @param {Metadata} d
-   */
-  function pick(d) {
-    const value = d.published?.valueOf()
-    return value === undefined ? new Date() : new Date(value)
-  }
+/**
+ * @param {Readonly<Metadata>} d
+ *   Data.
+ * @returns {Date}
+ *   Date.
+ */
+function pick(d) {
+  const value = d.published?.valueOf()
+  return value === undefined ? new Date() : new Date(value)
+}
 
-  /**
-   * @param {Metadata['published']} value
-   */
-  function fmt(value) {
-    return value
-      ? new Date(value).toLocaleDateString('en', {
-          month: 'short',
-          year: 'numeric',
-          day: 'numeric'
-        })
-      : ''
-  }
+/**
+ * @param {Readonly<Date> | string | null | undefined} value
+ *   Value.
+ * @returns {string | undefined}
+ *   Formatted value.
+ */
+function fmt(value) {
+  return value
+    ? new Date(value).toLocaleDateString('en', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      })
+    : undefined
 }

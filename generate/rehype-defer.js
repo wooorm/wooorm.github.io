@@ -1,30 +1,29 @@
 /**
- * @typedef {import('hast').Root} Root
  * @typedef {import('hast').Element} Element
  * @typedef {import('hast').ElementContent} ElementContent
+ * @typedef {import('hast').Root} Root
  */
 
 import {visit} from 'unist-util-visit'
 
 /**
  * Plugin to defer scripts.
- *
- * @type {import('unified').Plugin<[], Root>}
  */
 export default function defer() {
+  /**
+   * @param {Root} tree
+   *   Tree.
+   * @returns {undefined}
+   *   Nothing.
+   */
   return function (tree) {
     /** @type {Array<ElementContent>} */
     const scripts = []
-    /** @type {Element|null} */
-    let head = null
+    /** @type {Element | undefined} */
+    let head
 
     visit(tree, 'element', function (node, index, parent) {
-      if (
-        node.tagName === 'script' &&
-        node.properties &&
-        parent &&
-        typeof index === 'number'
-      ) {
+      if (node.tagName === 'script' && parent && typeof index === 'number') {
         if (
           !node.properties.type ||
           !/module/i.test(String(node.properties.type))
@@ -44,6 +43,6 @@ export default function defer() {
     })
 
     const scope = head || tree
-    scope.children = scope.children.concat(scripts)
+    scope.children = [...scope.children, ...scripts]
   }
 }

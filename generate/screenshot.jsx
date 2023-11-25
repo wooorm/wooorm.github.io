@@ -1,32 +1,49 @@
 /**
- * @typedef {import('satori').SatoriOptions['fonts'][number]} Font
- * @typedef {Exclude<Font['weight'], undefined>} FontWeight
- * @typedef {Exclude<Font['style'], undefined>} FontStyle
+ * @typedef {import('satori').SatoriOptions} SatoriOptions
+ * @typedef {import('vfile').DataMap} DataMap
+ */
+
+/**
+ * @typedef {Fonts[number]} FontOptions
+ *   Font options.
+ *
+ * @typedef {Exclude<FontOptions['style'], undefined>} FontStyle
+ *   Font style.
+ *
+ * @typedef {Exclude<FontOptions['weight'], undefined>} FontWeight
+ *   Font weight.
+ *
+ * @typedef {SatoriOptions['fonts']} Fonts
+ *   Fonts.
  */
 
 /* @jsx React.createElement */
 /* @jsxFrag React.Fragment */
+
 import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
+import {Resvg} from '@resvg/resvg-js'
+import {resolve} from 'import-meta-resolve'
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import satori from 'satori'
-import {resolve} from 'import-meta-resolve'
-import {Resvg} from '@resvg/resvg-js'
 
 const fontFilesUrl = new URL(
   resolve('@fontsource/open-sans/files/', import.meta.url)
 )
 const fontFiles = await fs.readdir(fontFilesUrl)
-const acceptableFontFiles = fontFiles.filter(
-  (d) => d.startsWith('open-sans-latin-ext') && d.endsWith('.woff')
-)
+const acceptableFontFiles = fontFiles.filter(function (d) {
+  return d.startsWith('open-sans-latin-ext') && d.endsWith('.woff')
+})
 const fonts = await Promise.all(
   acceptableFontFiles.map(
     /**
-     * @returns {Promise<Font>}
+     * @param {string} basename
+     *   Basename.
+     * @returns {Promise<FontOptions>}
+     *   Font options.
      */
-    async (basename) => {
+    async function (basename) {
       const parts = basename.split('.')[0].split('-')
       const weight = /** @type {FontWeight} */ (Number.parseInt(parts[4], 10))
       const style = /** @type {FontStyle} */ (parts[5])
@@ -40,10 +57,10 @@ const fonts = await Promise.all(
       )
 
       return {
-        name: 'Open Sans',
         data: await fs.readFile(new URL(basename, fontFilesUrl)),
-        weight,
-        style
+        name: 'Open Sans',
+        style,
+        weight
       }
     }
   )
@@ -52,8 +69,10 @@ const fonts = await Promise.all(
 /**
  * Generate an OG image.
  *
- * @param {import('vfile').DataMap['meta']} meta
- * @returns {Promise<import('node:buffer').Buffer>}
+ * @param {DataMap['meta']} meta
+ *   Meta.
+ * @returns {Promise<Uint8Array>}
+ *   Image.
  */
 export async function generateOgImage(meta) {
   const dateTimeFormat = new Intl.DateTimeFormat('en', {dateStyle: 'long'})
@@ -70,8 +89,10 @@ export async function generateOgImage(meta) {
         ? meta.readingTime
         : [meta.readingTime, meta.readingTime]
       : []
-  ).map((d) => Math.ceil(d))
-  /** @type {string|undefined} */
+  ).map(function (d) {
+    return Math.ceil(d)
+  })
+  /** @type {string | undefined} */
   let timeLabel
 
   if (time.length > 1 && time[0] !== time[1]) {
@@ -83,38 +104,38 @@ export async function generateOgImage(meta) {
   const svg = await satori(
     <div
       style={{
+        backgroundColor: 'black',
         color: 'black',
         display: 'flex',
-        height: '100%',
-        width: '100%',
-        backgroundColor: 'black',
         fontSize: '32px',
-        padding: '32px 0'
+        height: '100%',
+        padding: '32px 0',
+        width: '100%'
       }}
     >
       <div
         style={{
-          height: '100%',
-          width: '100%',
+          backgroundColor: 'white',
           display: 'flex',
           flexFlow: 'column',
-          backgroundColor: 'white'
+          height: '100%',
+          width: '100%'
         }}
       >
         {/* Title */}
-        <div style={{margin: '32px', display: 'flex'}}>
+        <div style={{display: 'flex', margin: '32px'}}>
           <div
             style={{
-              width: '100%',
               height: '100%',
-              fontWeight: '700',
-              fontStyle: 'normal',
+              flexShrink: 0,
               fontSize: '64px',
+              fontStyle: 'normal',
+              fontWeight: '700',
               // Satori has bugs with text overflow, so this doesn’t often show.
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
-              flexShrink: 0
+              width: '100%'
             }}
           >
             {meta.title}
@@ -123,10 +144,10 @@ export async function generateOgImage(meta) {
         {/* Description */}
         <div
           style={{
-            margin: '32px',
+            display: 'flex',
             flexGrow: 1,
-            overflow: 'hidden',
-            display: 'flex'
+            margin: '32px',
+            overflow: 'hidden'
           }}
         >
           <div style={{display: 'flex', overflow: 'hidden'}}>
@@ -134,13 +155,13 @@ export async function generateOgImage(meta) {
           </div>
         </div>
         {/* Meta */}
-        <div style={{margin: '32px', display: 'flex', flexShrink: 0}}>
+        <div style={{display: 'flex', flexShrink: 0, margin: '32px'}}>
           <div
             style={{
-              width: '100%',
-              height: '100%',
               display: 'flex',
-              justifyContent: 'space-between'
+              height: '100%',
+              justifyContent: 'space-between',
+              width: '100%'
             }}
           >
             <div
@@ -188,7 +209,7 @@ export async function generateOgImage(meta) {
         </div>
       </div>
     </div>,
-    {width: 1200, height: 628, fonts}
+    {fonts, height: 628, width: 1200}
   )
 
   const resvg = new Resvg(svg, {

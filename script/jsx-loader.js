@@ -1,6 +1,5 @@
-import {promises as fs} from 'node:fs'
-import path from 'node:path'
-import {URL, fileURLToPath} from 'node:url'
+import fs from 'node:fs/promises'
+import {fileURLToPath} from 'node:url'
 import {transform} from 'esbuild'
 
 const {load} = createLoader()
@@ -14,33 +13,37 @@ export function createLoader() {
   return {load}
 
   /**
-   * @param {string} url
+   * @param {string} href
+   *   URL.
    * @param {unknown} context
+   *   Context.
    * @param {Function} defaultLoad
+   *   Default `load`.
+   * @returns
+   *   Result.
    */
-  async function load(url, context, defaultLoad) {
-    if (path.extname(url) !== '.jsx') {
-      return defaultLoad(url, context, defaultLoad)
+  async function load(href, context, defaultLoad) {
+    const url = new URL(href)
+
+    if (!url.pathname.endsWith('.jsx')) {
+      return defaultLoad(href, context, defaultLoad)
     }
 
-    const fp = fileURLToPath(new URL(url))
-    const value = await fs.readFile(fp)
-
-    const {code, warnings} = await transform(String(value), {
-      sourcefile: fp,
-      sourcemap: 'both',
+    const {code, warnings} = await transform(String(await fs.readFile(url)), {
+      format: 'esm',
       loader: 'jsx',
-      target: 'esnext',
-      format: 'esm'
+      sourcefile: fileURLToPath(url),
+      sourcemap: 'both',
+      target: 'esnext'
     })
 
-    if (warnings && warnings.length > 0) {
+    if (warnings) {
       for (const warning of warnings) {
         console.log(warning.location)
         console.log(warning.text)
       }
     }
 
-    return {format: 'module', source: code, shortCircuit: true}
+    return {format: 'module', shortCircuit: true, source: code}
   }
 }

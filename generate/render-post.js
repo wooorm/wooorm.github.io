@@ -1,16 +1,18 @@
 /**
  * @typedef {import('vfile').VFile} VFile
+ *
+ * @typedef {import('./index.js').Page} Page
  */
 
-import {matter} from 'vfile-matter'
-import {unified} from 'unified'
-import remarkParse from 'remark-parse'
-import remarkFrontmatter from 'remark-frontmatter'
-import remarkRehype from 'remark-rehype'
-import rehypeRaw from 'rehype-raw'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeSlug from 'rehype-slug'
 import {h} from 'hastscript'
+import rehypeHighlight from 'rehype-highlight'
+import rehypeRaw from 'rehype-raw'
+import rehypeSlug from 'rehype-slug'
+import remarkFrontmatter from 'remark-frontmatter'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import {unified} from 'unified'
+import {matter} from 'vfile-matter'
 
 const articlePipeline = unified()
   .use(remarkParse)
@@ -21,9 +23,10 @@ const articlePipeline = unified()
   .use(rehypeSlug)
 
 /**
- *
  * @param {VFile} file
- * @returns
+ *   File.
+ * @returns {Page}
+ *   Page.
  */
 export default function post(file) {
   const slug = file.stem
@@ -33,11 +36,12 @@ export default function post(file) {
   const {tags} = file.data.matter || {}
 
   return {
-    data: Object.assign({}, file.data.matter, {
-      type: 'article',
+    data: {
+      ...file.data.matter,
+      pathname: ['', 'blog', slug, ''].join('/'),
       tags: tags || [],
-      pathname: ['', 'blog', slug, ''].join('/')
-    }),
+      type: 'article'
+    },
     render
   }
 

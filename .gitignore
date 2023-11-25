@@ -1,5 +1,6 @@
 *.d.ts.map
 *.d.ts
+!/generate/types.d.ts
 /build/
 /data/
 /node_modules/

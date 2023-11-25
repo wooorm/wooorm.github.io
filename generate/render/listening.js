@@ -1,26 +1,23 @@
 /**
- * @typedef {import('../../crawl/artists.js').Artist} Artist
  * @typedef {import('../../crawl/albums.js').Album} Album
+ *
+ * @typedef {import('../../crawl/artists.js').Artist} Artist
+ *
+ * @typedef {import('../index.js').Metadata} Metadata
  * @typedef {import('../index.js').Render} Render
- * @typedef {import('../index.js').MetadataRaw} MetadataRaw
  */
 
 import fs from 'node:fs/promises'
 import escape from 'escape-string-regexp'
-import {levenshteinEditDistance} from 'levenshtein-edit-distance'
 import {h} from 'hastscript'
+import {levenshteinEditDistance} from 'levenshtein-edit-distance'
 
-/** @type {Array<Artist>} */
-let artists = []
-/** @type {Array<Album>} */
+/** @type {ReadonlyArray<Readonly<Album>>} */
 let albums = []
+/** @type {ReadonlyArray<Readonly<Artist>>} */
+let artists = []
 
 try {
-  artists = JSON.parse(
-    String(
-      await fs.readFile(new URL('../../data/artists.json', import.meta.url))
-    )
-  )
   albums = JSON.parse(
     String(
       await fs.readFile(new URL('../../data/albums.json', import.meta.url))
@@ -28,13 +25,21 @@ try {
   )
 } catch {}
 
-/** @type {MetadataRaw} */
+try {
+  artists = JSON.parse(
+    String(
+      await fs.readFile(new URL('../../data/artists.json', import.meta.url))
+    )
+  )
+} catch {}
+
+/** @type {Readonly<Metadata>} */
 export const data = {
-  title: 'Listening',
-  label: 'listening',
   description: 'Things Titus listens to',
+  label: 'listening',
+  modified: new Date(),
   published: '2020-05-01T00:00:00.000Z',
-  modified: new Date()
+  title: 'Listening'
 }
 
 /** @type {Render} */
@@ -44,16 +49,16 @@ export function render() {
     h('h2', h('span.text', 'Recent artists')),
     h(
       'ol.covers',
-      artists.map((d) => {
+      artists.map(function (d) {
         const {image, name} = d
 
         return h('li.cover-wrap', [
           h('.cover.square', [
             h('img', {
-              src: image.url,
               alt: '',
-              width: image.width,
-              height: image.height
+              height: image.height,
+              src: image.url,
+              width: image.width
             }),
             h('h2.caption', h('span.text', name))
           ])
@@ -63,14 +68,18 @@ export function render() {
     h('h2', h('span.text', 'Recent albums')),
     h(
       'ol.covers',
-      albums.map((d) => {
-        const {image, artist} = d
+      albums.map(function (d) {
+        const {artist, image} = d
+        let ignoreArist = /various artists/i.test(artist)
         const name = cleanAlbumName(d.name)
         const similarity =
           1 -
           levenshteinEditDistance(name, artist, true) /
             Math.max(name.length, artist.length)
-        let ignoreArist = /various artists/i.test(artist) || similarity > 0.9
+
+        if (similarity > 0.9) {
+          ignoreArist = true
+        }
 
         if (new RegExp(escape(artist) + '$', 'i').test(name)) {
           ignoreArist = true
@@ -78,7 +87,7 @@ export function render() {
 
         return h('li.cover-wrap', [
           h('.cover.square', [
-            h('img', {src: image, alt: '', width: 300}),
+            h('img', {alt: '', src: image, width: 300}),
             h(
               'h2.caption',
               h('span.text', name),
@@ -93,6 +102,9 @@ export function render() {
 
 /**
  * @param {string} d
+ *   Album name.
+ * @returns {string}
+ *   Clean album name.
  */
 function cleanAlbumName(d) {
   return (

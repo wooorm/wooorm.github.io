@@ -1,18 +1,22 @@
 /**
+ * @typedef {import('hast').Element} Element
+ *
  * @typedef {import('../../crawl/github-sponsors.js').Sponsors} GhSponsors
  * @typedef {import('../../crawl/github-sponsors.js').Sponsor} GhSponsor
+ *
  * @typedef {import('../../crawl/opencollective.js').Sponsor} OcSponsor
+ *
+ * @typedef {import('../index.js').Metadata} Metadata
  * @typedef {import('../index.js').Render} Render
- * @typedef {import('../index.js').MetadataRaw} MetadataRaw
  */
 
 import fs from 'node:fs/promises'
-import url from 'humanize-url'
 import {h} from 'hastscript'
+import url from 'humanize-url'
 
-/** @type {GhSponsors} */
+/** @type {Readonly<GhSponsors>} */
 let ghSponsors = {collective: [], personal: []}
-/** @type {Array<OcSponsor>} */
+/** @type {ReadonlyArray<Readonly<OcSponsor>>} */
 let ocSponsors = []
 
 try {
@@ -23,6 +27,9 @@ try {
       )
     )
   )
+} catch {}
+
+try {
   ocSponsors = JSON.parse(
     String(
       await fs.readFile(
@@ -32,13 +39,13 @@ try {
   )
 } catch {}
 
-/** @type {MetadataRaw} */
+/** @type {Readonly<Metadata>} */
 export const data = {
-  title: 'Thanks',
-  label: 'thanks',
   description: 'People Titus wants to thank',
+  label: 'thanks',
+  modified: new Date(),
   published: '2020-05-01T00:00:00.000Z',
-  modified: new Date()
+  title: 'Thanks'
 }
 
 /** @type {Render} */
@@ -94,7 +101,9 @@ export function render() {
     ),
     h(
       'ol.cards',
-      ghSponsors.personal.map((d) => map(d))
+      ghSponsors.personal.map(function (d) {
+        return map(d)
+      })
     ),
     h('h2', h('span.text', 'unified')),
     h(
@@ -106,7 +115,9 @@ export function render() {
     ),
     h(
       'ol.cards',
-      ghSponsors.collective.map((d) => map(d))
+      ghSponsors.collective.map(function (d) {
+        return map(d)
+      })
     ),
     h(
       'h3',
@@ -117,13 +128,18 @@ export function render() {
     ),
     h(
       'ol.cards',
-      ocSponsors.map((d) => map(d))
+      ocSponsors.map(function (d) {
+        return map(d)
+      })
     )
   ]
 }
 
 /**
- * @param {OcSponsor|GhSponsor} d
+ * @param {Readonly<GhSponsor> | Readonly<OcSponsor>} d
+ *   Sponsor.
+ * @returns {Element}
+ *   Element.
  */
 function map(d) {
   const gh = d.github ? 'https://github.com/' + d.github : ''
@@ -149,7 +165,7 @@ function map(d) {
               href
                 ? h(
                     'span.text',
-                    h('a', {href, rel: ['sponsored', 'nofollow']}, url(href))
+                    h('a', {href, rel: ['nofollow', 'sponsored']}, url(href))
                   )
                 : ''
             )

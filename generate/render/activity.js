@@ -1,14 +1,17 @@
 /**
+ * @typedef {import('hast').Element} Element
+ *
  * @typedef {import('../../crawl/activity.js').Activity} Activity
+ *
+ * @typedef {import('../index.js').Metadata} Metadata
  * @typedef {import('../index.js').Render} Render
- * @typedef {import('../index.js').MetadataRaw} MetadataRaw
  */
 
 import fs from 'node:fs/promises'
-import {h} from 'hastscript'
 import polyline from '@mapbox/polyline'
+import {h} from 'hastscript'
 
-/** @type {Array<Activity>} */
+/** @type {ReadonlyArray<Readonly<Activity>>} */
 let activities = []
 
 try {
@@ -19,13 +22,13 @@ try {
   )
 } catch {}
 
-/** @type {MetadataRaw} */
+/** @type {Readonly<Metadata>} */
 export const data = {
-  title: 'Activity',
-  label: 'activity',
   description: 'Titus moves',
+  label: 'activity',
+  modified: new Date(),
   published: '2021-12-25T00:00:00.000Z',
-  modified: new Date()
+  title: 'Activity'
 }
 
 /** @type {Render} */
@@ -33,20 +36,22 @@ export function render() {
   return [
     h('h1', h('span.text', 'Activity')),
     h('.content', [
-      h(
-        'p',
-        h('span.text', ['Here are some of my recent runs and bike rides:'])
-      )
+      h('p', h('span.text', 'Here are some of my recent runs and bike rides:'))
     ]),
     h(
       'ol.pictures',
-      activities.map((d) => map(d))
+      activities.map(function (d) {
+        return map(d)
+      })
     )
   ]
 }
 
 /**
- * @param {Activity} d
+ * @param {Readonly<Activity>} d
+ *   Activity.
+ * @returns {Element}
+ *   Element.
  */
 function map(d) {
   const line = polyline.decode(d.polyline)
@@ -80,19 +85,21 @@ function map(d) {
     h('.picture-wrap', [
       h('.picture', [
         h('svg', {viewBox: [0, 0, size, size].join(' ')}, [
-          h('rect', {x: 0, y: 0, width: size, height: size, fill: 'white'}),
+          h('rect', {fill: 'white', height: size, width: size, x: 0, y: 0}),
           h('path', {
-            strokeWidth: 1.5,
-            stroke: 'black',
-            fill: 'none',
             d:
               'M' +
               line
-                .flatMap((p) => [
-                  (p[1] - mapCenterX) * scale + size / 2,
-                  (mapCenterY - p[0]) * scale + size / 2
-                ])
-                .join(' ')
+                .flatMap(function (p) {
+                  return [
+                    (p[1] - mapCenterX) * scale + size / 2,
+                    (mapCenterY - p[0]) * scale + size / 2
+                  ]
+                })
+                .join(' '),
+            fill: 'none',
+            stroke: 'black',
+            strokeWidth: 1.5
           })
         ]),
         h('.caption', [

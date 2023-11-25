@@ -1,5 +1,6 @@
 /**
  * @typedef {import('hast').Root} Root
+ * @typedef {import('vfile').VFile} VFile
  */
 
 import assert from 'node:assert/strict'
@@ -7,14 +8,20 @@ import path from 'node:path'
 
 /**
  * Plugin that moves a file’s path to the output location
- *
- * @type {import('unified').Plugin<[], Root>}
  */
 export default function move() {
+  /**
+   * @param {Root} _
+   *   Tree.
+   * @param {VFile} file
+   *   File.
+   * @returns {undefined}
+   *   Nothing.
+   */
   return function (_, file) {
     const {pathname} = file.data.meta || {}
     assert(pathname, 'expected `pathname` on metadata')
-    const parts = pathname.slice(1).split(path.posix.sep)
+    const parts = pathname.slice(1).split('/')
     const last = parts.pop()
 
     parts.unshift('build')

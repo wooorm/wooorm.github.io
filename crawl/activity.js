@@ -1,86 +1,156 @@
 /**
  * @typedef Activity
+ *   Activity.
  * @property {string} date
+ *   Date.
  * @property {string} distance
+ *   Distance.
  * @property {string} duration
- * @property {string} speed
+ *   Duration.
  * @property {string} polyline
- *
- * @typedef StravaTokenData
- * @property {string} token_type
- * @property {string} access_token
- * @property {number} expires_at
- * @property {number} expires_in
- * @property {string} refresh_token
- *
- * @typedef StravaMap
- * @property {string} id
- * @property {string} summary_polyline
- * @property {number} resource_state
- *
- * @typedef StravaUser
- * @property {number} id
- * @property {number} resource_state
- *
- * @typedef {[number, number]} StravaGeo
- *   Lat/Lng.
+ *   Polyline.
+ * @property {string} speed
+ *   Speed.
  *
  * @typedef StravaActivity
- * @property {number} resource_state
- * @property {StravaUser} athlete
- * @property {string} name
- * @property {number} distance
- * @property {number} moving_time
- * @property {number} elapsed_time
- * @property {number} total_elevation_gain
- * @property {unknown} type
- * @property {number|null} workout_type
- * @property {number} id
- * @property {string} start_date
- * @property {string} start_date_local
- * @property {string} timezone
- * @property {number} utc_offset
- * @property {null} location_city
- * @property {null} location_state
- * @property {null} location_country
+ *   Strava activity.
  * @property {number} achievement_count
- * @property {number} kudos_count
- * @property {number} comment_count
+ *   Achievement count.
+ * @property {Readonly<StravaUser>} athlete
+ *   Athlete.
  * @property {number} athlete_count
- * @property {number} photo_count
- * @property {StravaMap} map
- * @property {boolean} trainer
- * @property {boolean} commute
- * @property {boolean} manual
- * @property {boolean} private
- * @property {string} visibility
- * @property {boolean} flagged
- * @property {string} gear_id
- * @property {StravaGeo} start_latlng
- * @property {StravaGeo} end_latlng
- * @property {number} average_speed
- * @property {number} max_speed
- * @property {boolean} has_heartrate
+ *   Athlete count.
  * @property {number} average_heartrate
- * @property {number} max_heartrate
- * @property {boolean} heartrate_opt_out
+ *   Average heartrate.
+ * @property {number} average_speed
+ *   Average speed.
+ * @property {number} comment_count
+ *   Comment count.
+ * @property {boolean} commute
+ *   Commute.
  * @property {boolean} display_hide_heartrate_option
+ *   Display hide heartrate option.
+ * @property {number} distance
+ *   Distance.
+ * @property {number} elapsed_time
+ *   Elapsed time.
  * @property {number} elev_high
+ *   Elevation high.
  * @property {number} elev_low
- * @property {number} upload_id
- * @property {string} upload_id_str
+ *   Elevation low.
+ * @property {Readonly<StravaGeo>} end_latlng
+ *   End location.
  * @property {string} external_id
+ *   Unknown.
+ * @property {boolean} flagged
+ *   Flagged.
  * @property {boolean} from_accepted_tag
- * @property {number} pr_count
- * @property {number} total_photo_count
+ *   Unknown.
+ * @property {string} gear_id
+ *   Gear ID.
+ * @property {boolean} has_heartrate
+ *   Has heartrate.
  * @property {boolean} has_kudoed
+ *   Has kudoed.
+ * @property {boolean} heartrate_opt_out
+ *   Heartrate opt out.
+ * @property {number} id
+ *   ID.
+ * @property {number} kudos_count
+ *   Kudos count.
+ * @property {unknown} location_city
+ *   Location city.
+ * @property {unknown} location_country
+ *   Location country.
+ * @property {unknown} location_state
+ *   Location state.
+ * @property {boolean} manual
+ *   Manual.
+ * @property {Readonly<StravaMap>} map
+ *   Map.
+ * @property {number} max_heartrate
+ *   Max heartrate.
+ * @property {number} max_speed
+ *   Max speed.
+ * @property {number} moving_time
+ *   Moving time.
+ * @property {string} name
+ *   Name.
+ * @property {number} photo_count
+ *   Photo count.
+ * @property {boolean} private
+ *   Private.
+ * @property {number} pr_count
+ *   PR count.
+ * @property {number} resource_state
+ *   Resource state.
+ * @property {string} start_date
+ *   Start date.
+ * @property {string} start_date_local
+ *   Start date local.
+ * @property {Readonly<StravaGeo>} start_latlng
+ *   Start location.
  * @property {number} suffer_score
+ *   Suffer score.
+ * @property {string} timezone
+ *   Timezone.
+ * @property {number} total_elevation_gain
+ *   Total elevation gain.
+ * @property {number} total_photo_count
+ *   Total photo count.
+ * @property {boolean} trainer
+ *   Unknown.
+ * @property {unknown} type
+ *   Unknown.
+ * @property {number} upload_id
+ *   Upload ID.
+ * @property {string} upload_id_str
+ *   Unknown.
+ * @property {number} utc_offset
+ *   UTC offset.
+ * @property {string} visibility
+ *   Visibility.
+ * @property {number | null | undefined} workout_type
+ *   Workout type.
+ *
+ * @typedef {[lat: number, lng: number]} StravaGeo
+ *   Lat/Lng.
+ *
+ * @typedef StravaMap
+ *   Strava map.
+ * @property {string} id
+ *   ID.
+ * @property {number} resource_state
+ *   Resource state.
+ * @property {string} summary_polyline
+ *   Summary polyline.
+ *
+ * @typedef StravaTokenData
+ *   Strava token data.
+ * @property {string} access_token
+ *   Access token.
+ * @property {number} expires_at
+ *   Expires at.
+ * @property {number} expires_in
+ *   Expires in.
+ * @property {string} refresh_token
+ *   Refresh token.
+ * @property {string} token_type
+ *   Token type.
+ *
+ * @typedef StravaUser
+ *   Strava user.
+ * @property {number} id
+ *   ID.
+ * @property {number} resource_state
+ *   Resource state.
+ *
  */
 
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import fetch from 'node-fetch'
 import dotenv from 'dotenv'
+import fetch from 'node-fetch'
 
 dotenv.config()
 
@@ -102,23 +172,23 @@ parameters.append('refresh_token', ref)
 
 // Get token.
 const tokenResponse = await fetch('https://www.strava.com/api/v3/oauth/token', {
-  method: 'POST',
-  body: parameters
+  body: parameters,
+  method: 'POST'
 })
-const tokenData = /** @type {StravaTokenData} */ (await tokenResponse.json())
+const tokenData = /** @type {Readonly<StravaTokenData>} */ (
+  await tokenResponse.json()
+)
 const token = tokenData.access_token
 
 const allActivitiesReponse = await fetch(
   'https://www.strava.com/api/v3/athlete/activities',
-  {
-    headers: {Authorization: 'Bearer ' + token}
-  }
+  {headers: {Authorization: 'Bearer ' + token}}
 )
-const allActivities = /** @type {Array<StravaActivity>} */ (
+const allActivities = /** @type {ReadonlyArray<Readonly<StravaActivity>>} */ (
   await allActivitiesReponse.json()
 )
 
-const activities = allActivities.map((d) => {
+const activities = allActivities.map(function (d) {
   const movingTime = d.moving_time
   const h = Math.floor(movingTime / 60 / 60)
   const m = Math.floor((movingTime - h * 60 * 60) / 60)
@@ -130,17 +200,17 @@ const activities = allActivities.map((d) => {
   const duration = h > 0 ? h + ':' + mDisplay + 'h' : mDisplay + 'min'
   const speed = min + ':' + seconds.toFixed(2).split('.')[1]
 
-  /** @type {Activity} */
+  /** @type {Readonly<Activity>} */
   const activity = {
     date: d.start_date_local.split('T')[0],
     distance,
     duration,
-    speed,
-    polyline: d.map.summary_polyline
+    polyline: d.map.summary_polyline,
+    speed
   }
 
   return activity
 })
 
 await fs.mkdir(new URL('./', outUrl), {recursive: true})
-await fs.writeFile(outUrl, JSON.stringify(activities, null, 2) + '\n')
+await fs.writeFile(outUrl, JSON.stringify(activities, undefined, 2) + '\n')

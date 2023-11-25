@@ -1,47 +1,76 @@
 /**
- * @typedef Sponsors
- * @property {Array<Sponsor>} collective
- * @property {Array<Sponsor>} personal
- *
- * @typedef {Omit<SponsorRaw, 'monthly'>} Sponsor
- *
- * @typedef SponsorRaw
- * @property {string} github
- * @property {string|null} name
- * @property {string|null} description
- * @property {string} image
- * @property {string|null} url
- * @property {number} monthly
+ * @typedef GithubOrganizationData
+ *   Github organization data.
+ * @property {{nodes: ReadonlyArray<Readonly<GithubSponsorNode>>}} sponsorshipsAsMaintainer
+ *   Sponsorships.
  *
  * @typedef GithubSponsor
- * @property {string} login
- * @property {string|null} name
- * @property {string|null} [bio]
- * @property {string|null} [description]
+ *   GitHub sponsor.
  * @property {string} avatarUrl
- * @property {string|null} websiteUrl
- *
- * @typedef GithubTier
- * @property {number} monthlyPriceInDollars
+ *   Avatar URL.
+ * @property {string | null | undefined} [bio]
+ *   Bio.
+ * @property {string | null | undefined} [description]
+ *   Description.
+ * @property {string} login
+ *   Username.
+ * @property {string | null} name
+ *   Name.
+ * @property {string | null} websiteUrl
+ *   URL.
  *
  * @typedef GithubSponsorNode
- * @property {GithubSponsor} sponsorEntity
- * @property {GithubTier} tier
- *
- * @typedef GithubOrganizationData
- * @property {{nodes: Array<GithubSponsorNode>}} sponsorshipsAsMaintainer
- *
- * @typedef GithubViewerData
- * @property {{nodes: Array<GithubSponsorNode>}} sponsorshipsAsMaintainer
+ *   GitHub sponsor node.
+ * @property {Readonly<GithubSponsor>} sponsorEntity
+ *   Sponsor.
+ * @property {Readonly<GithubTier>} tier
+ *   Tier.
  *
  * @typedef GithubSponsorsResponse
- * @property {{organization: GithubOrganizationData, viewer: GithubViewerData}} data
+ *   GitHub sponsors response.
+ * @property {{organization: Readonly<GithubOrganizationData>, viewer: Readonly<GithubViewerData>}} data
+ *   Data.
+ *
+ * @typedef GithubTier
+ *   GitHub tier.
+ * @property {number} monthlyPriceInDollars
+ *   Monthly price.
+ *
+ * @typedef GithubViewerData
+ *   GitHub viewer data.
+ * @property {{nodes: ReadonlyArray<Readonly<GithubSponsorNode>>}} sponsorshipsAsMaintainer
+ *   Sponsorships.
+ *
+ * @typedef {Omit<SponsorRaw, 'monthly'>} Sponsor
+ *   Sponsor.
+ *
+ * @typedef SponsorRaw
+ *   Sponsor (raw).
+ * @property {string | undefined} description
+ *   Description.
+ * @property {string} github
+ *   GitHub username.
+ * @property {string} image
+ *   Image.
+ * @property {number} monthly
+ *   Monthly price.
+ * @property {string | undefined} name
+ *   Name.
+ * @property {string | undefined} url
+ *   URL.
+ *
+ * @typedef Sponsors
+ *   Sponsors.
+ * @property {ReadonlyArray<Readonly<Sponsor>>} collective
+ *   Collective sponsors.
+ * @property {ReadonlyArray<Readonly<Sponsor>>} personal
+ *   Personal sponsors.
  */
 
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import fetch from 'node-fetch'
 import dotenv from 'dotenv'
+import fetch from 'node-fetch'
 
 dotenv.config()
 
@@ -80,53 +109,73 @@ const query = `query($org: String!) {
 `
 
 const response = await fetch(endpoint, {
-  method: 'POST',
   body: JSON.stringify({query, variables: {org: 'unifiedjs'}}),
-  headers: {'Content-Type': 'application/json', Authorization: 'bearer ' + key}
+  headers: {Authorization: 'bearer ' + key, 'Content-Type': 'application/json'},
+  method: 'POST'
 })
-const body = /** @type {GithubSponsorsResponse} */ (await response.json())
+const body = /** @type {Readonly<GithubSponsorsResponse>} */ (
+  await response.json()
+)
 
 const collective = body.data.organization.sponsorshipsAsMaintainer.nodes
-  .map((d) => clean(d))
+  .map(function (d) {
+    return clean(d)
+  })
   .sort(sort)
-  .map((d) => strip(d))
+  .map(function (d) {
+    return strip(d)
+  })
 const personal = body.data.viewer.sponsorshipsAsMaintainer.nodes
-  .map((d) => clean(d))
+  .map(function (d) {
+    return clean(d)
+  })
   .sort(sort)
-  .map((d) => strip(d))
+  .map(function (d) {
+    return strip(d)
+  })
 
 await fs.mkdir(new URL('./', outUrl), {recursive: true})
 await fs.writeFile(
   outUrl,
-  JSON.stringify({collective, personal}, null, 2) + '\n'
+  JSON.stringify({collective, personal}, undefined, 2) + '\n'
 )
 
 /**
- * @param {GithubSponsorNode} d
+ * @param {Readonly<GithubSponsorNode>} d
+ *   Sponsor node.
  * @returns {SponsorRaw}
+ *   Sponsor.
  */
 function clean(d) {
   return {
+    description:
+      d.sponsorEntity.bio || d.sponsorEntity.description || undefined,
     github: d.sponsorEntity.login,
-    name: d.sponsorEntity.name,
-    description: d.sponsorEntity.bio || d.sponsorEntity.description || null,
     image: d.sponsorEntity.avatarUrl,
-    url: d.sponsorEntity.websiteUrl,
-    monthly: d.tier.monthlyPriceInDollars
+    monthly: d.tier.monthlyPriceInDollars,
+    name: d.sponsorEntity.name || undefined,
+    url: d.sponsorEntity.websiteUrl || undefined
   }
 }
 
 /**
- * @param {SponsorRaw} d
+ * @param {Readonly<SponsorRaw>} d
+ *   Sponsor.
  * @returns {Sponsor}
+ *   Sponsor.
  */
 function strip(d) {
-  return Object.assign(d, {monthly: undefined})
+  const {monthly, ...rest} = d
+  return rest
 }
 
 /**
- * @param {SponsorRaw} a
- * @param {SponsorRaw} b
+ * @param {Readonly<SponsorRaw>} a
+ *   Left.
+ * @param {Readonly<SponsorRaw>} b
+ *   Right.
+ * @returns {number}
+ *   Sort order.
  */
 function sort(a, b) {
   return b.monthly - a.monthly

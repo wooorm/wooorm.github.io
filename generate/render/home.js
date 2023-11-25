@@ -1,36 +1,36 @@
 /**
+ * @typedef {import('../index.js').Metadata} Metadata
  * @typedef {import('../index.js').Render} Render
- * @typedef {import('../index.js').MetadataRaw} MetadataRaw
  */
 
 import {h} from 'hastscript'
 
-/** @type {MetadataRaw} */
+/** @type {Readonly<Metadata>} */
 export const data = {
-  title: '@wooorm',
-  label: 'home',
-  pathname: '/',
   description: 'A place for Titus on the web',
+  label: 'home',
+  modified: '2023-04-27T00:00:00.000Z',
+  pathname: '/',
   published: '2020-05-01T00:00:00.000Z',
-  modified: '2023-04-27T00:00:00.000Z'
+  title: '@wooorm'
 }
 
-const github = 'https://github.com/wooorm'
-const twitter = 'https://twitter.com/wooorm'
-const masto = 'https://mastodon.social/@wooorm'
-const email = 'mailto:tituswormer@gmail.com'
-const unified = 'https://unifiedjs.com'
-const tt = 'https://github.com/cmda-tt/course-18-19'
 const backend = 'https://github.com/cmda-be/course-17-18'
+const books = 'https://twitter.com/SparksZilla/status/1222208487351971840'
+const downloads = 'https://npm-stat.com/charts.html?author=wooorm'
+const email = 'mailto:tituswormer@gmail.com'
+const github = 'https://github.com/wooorm'
+const masto = 'https://mastodon.social/@wooorm'
+const mdxsm = 'https://github.com/micromark/mdx-state-machine'
+const mm = 'https://github.com/micromark/micromark'
 const projects =
   'https://github.com/search?type=Repositories&q=user:wooorm+user:mdx-js+user:micromark+user:remarkjs+user:rehypejs+user:retextjs+user:unifiedjs+user:syntax-tree+user:vfile+user:get-alex+user:words'
-const downloads = 'https://npm-stat.com/charts.html?author=wooorm'
-const thanks = '/thanks/'
-const vc = 'https://vercel.com'
-const mm = 'https://github.com/micromark/micromark'
-const mdxsm = 'https://github.com/micromark/mdx-state-machine'
-const books = 'https://twitter.com/SparksZilla/status/1222208487351971840'
 const resume = '/resume.html'
+const thanks = '/thanks/'
+const tt = 'https://github.com/cmda-tt/course-18-19'
+const twitter = 'https://twitter.com/wooorm'
+const unified = 'https://unifiedjs.com'
+const vc = 'https://vercel.com'
 
 /** @type {Render} */
 export function render() {

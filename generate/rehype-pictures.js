@@ -1,45 +1,53 @@
 /**
- * @typedef {import('hast').Root} Root
  * @typedef {import('hast').Element} Element
- *
- * @typedef {'webp'|'jpg'|'png'} Format
+ * @typedef {import('hast').Root} Root
+ */
+
+/**
+ * @typedef {'jpg' | 'png' | 'webp'} Format
+ *   Image format.
  *
  * @typedef Options
+ *   Configuration.
  * @property {string} base
+ *   Base folder.
  */
 
 import assert from 'node:assert/strict'
-import path from 'node:path'
 import fs from 'node:fs/promises'
-import {toVFile} from 'to-vfile'
+import path from 'node:path'
 import sharp from 'sharp'
-import {rename} from 'vfile-rename'
-import {visitParents} from 'unist-util-visit-parents'
 import {h} from 'hastscript'
-import {matches} from 'hast-util-select'
 import {classnames} from 'hast-util-classnames'
+import {matches} from 'hast-util-select'
+import {toVFile} from 'to-vfile'
+import {visitParents} from 'unist-util-visit-parents'
+import {rename} from 'vfile-rename'
 
 /**
  * Plugin to defer scripts.
  *
- * @param {Options} options
+ * @param {Readonly<Options>} options
  *   Configuration.
  * @returns
  *   Transform.
  */
 export default function rehypePictures(options) {
   const sizes = [600, 1200, 2400, 3600]
-  /** @type {Array<Format>} */
-  const formats = ['webp', 'png', 'jpg']
+  /** @type {ReadonlyArray<Readonly<Format>>} */
+  const formats = ['jpg', 'png', 'webp']
   /** @type {{[format in Format]: string}} */
-  const mimes = {webp: 'image/webp', png: 'image/png', jpg: 'image/jpeg'}
+  const mimes = {jpg: 'image/jpeg', png: 'image/png', webp: 'image/webp'}
   const base = options.base
-  const sources = formats.flatMap((format) =>
-    sizes.flatMap((size) => ({
-      stem: {suffix: '-' + size},
-      extname: '.' + format
-    }))
-  )
+
+  const sources = formats.flatMap(function (format) {
+    return sizes.flatMap(function (size) {
+      return {
+        extname: '.' + format,
+        stem: {suffix: '-' + size}
+      }
+    })
+  })
 
   /**
    * @param {Root} tree
@@ -48,7 +56,7 @@ export default function rehypePictures(options) {
    *   Nothing.
    */
   return async function (tree) {
-    /** @type {Array<Promise<void>>} */
+    /** @type {Array<Promise<undefined>>} */
     const promises = []
 
     visitParents(tree, 'element', visitor)
@@ -59,7 +67,7 @@ export default function rehypePictures(options) {
 
     /** @type {import('unist-util-visit-parents').BuildVisitor<Root, 'element'>} */
     function visitor(node, parents) {
-      const src = (node.tagName === 'img' && node.properties?.src) || ''
+      const src = (node.tagName === 'img' && node.properties.src) || ''
 
       if (typeof src !== 'string' || src.charAt(0) !== '/') {
         return
@@ -83,9 +91,15 @@ export default function rehypePictures(options) {
 
       /**
        * @param {string} src
+       *   Source.
        * @param {Element} node
+       *   Node.
        * @param {Element} parent
+       *   Parent.
        * @param {Element} root
+       *   Root.
+       * @returns {Promise<undefined>}
+       *   Nothing.
        */
       async function rewrite(src, node, parent, root) {
         assert(node.properties, 'expected properties on `img`')
@@ -94,21 +108,23 @@ export default function rehypePictures(options) {
         // See dimension.
         const metadata = await sharp(resolved)
           .metadata()
-          .catch(() => {
+          .catch(function () {
             throw new Error('Could not find `' + resolved + '`')
           })
         assert(metadata.width, 'expected intrinsic `width` of image')
         assert(metadata.height, 'expected intrinsic `height` of image')
 
         const results = await Promise.all(
-          sources.map(async (d) => {
+          sources.map(async function (d) {
             const file = toVFile({path: resolved})
             rename(file, d)
             const fp = file.path
 
             return fs.access(fp, fs.constants.R_OK).then(
-              () => fp,
-              () => {}
+              function () {
+                return fp
+              },
+              function () {}
             )
           })
         )
@@ -121,24 +137,27 @@ export default function rehypePictures(options) {
         let biggestDefault
 
         // Generate the sources, but only if they exist.
-        const srcs = formats.flatMap((format) => {
+        const srcs = formats.flatMap(function (format) {
           const applicable = sizes
             .flatMap(
               /**
-               * @returns {Array<[string, number]>}
+               * @returns {ReadonlyArray<readonly [filePath: string, size: number]>}
+               *   Sizes.
                */
-              (size) => {
+              function (size) {
                 const file = toVFile({path: resolved})
                 rename(file, {
-                  stem: {suffix: '-' + size},
-                  extname: '.' + format
+                  extname: '.' + format,
+                  stem: {suffix: '-' + size}
                 })
                 const fp = file.path
 
                 return available.has(fp) ? [[fp, size]] : []
               }
             )
-            .sort((a, b) => a[1] - b[1])
+            .sort(function (a, b) {
+              return a[1] - b[1]
+            })
 
           if (applicable.length === 0) {
             return []
@@ -150,7 +169,9 @@ export default function rehypePictures(options) {
 
           return h('source', {
             srcSet: applicable
-              .map((d) => ['/' + path.relative(base, d[0])] + ' ' + d[1] + 'w')
+              .map(function (d) {
+                return ['/' + path.relative(base, d[0])] + ' ' + d[1] + 'w'
+              })
               .join(','),
             type: mimes[format]
           })
@@ -162,10 +183,10 @@ export default function rehypePictures(options) {
           height = (width / metadata.width) * metadata.height
         }
 
-        node.properties.loading = 'lazy'
         node.properties.decoding = 'async'
-        node.properties.width = width
         node.properties.height = height
+        node.properties.loading = 'lazy'
+        node.properties.width = width
 
         if (width / height > 2) {
           classnames(root, 'panorama')
@@ -173,7 +194,8 @@ export default function rehypePictures(options) {
           classnames(root, 'landscape')
         }
 
-        siblings[siblings.indexOf(node)] = h('picture', srcs.concat(node))
+        const position = siblings.indexOf(node)
+        siblings[position] = h('picture', [...srcs, node])
       }
     }
   }

@@ -1,46 +1,83 @@
 /**
  * @typedef Artist
- * @property {string} name
+ *   Artist.
  * @property {SpotifyImage} image
+ *   Image.
+ * @property {string} name
+ *   Name.
  *
- * @typedef SpotifyTokenData
- * @property {string} access_token
- * @property {string} token_type
- * @property {number} expires_in
- * @property {string} scope
+ * @typedef SpotifyFollowers
+ *   Spotify followers.
+ * @property {string | null} href
+ *   URL.
+ * @property {number} total
+ *   Total.
  *
  * @typedef SpotifyImage
+ *   Spotify image.
  * @property {number} height
+ *   Height.
  * @property {string} url
+ *   URL.
  * @property {number} width
+ *   Width.
+ *
+ * @typedef SpotifyTokenData
+ *   Spotify token data.
+ * @property {string} access_token
+ *   Access token.
+ * @property {number} expires_in
+ *   Expires in.
+ * @property {string} scope
+ *   Scope.
+ * @property {string} token_type
+ *   Token type.
  *
  * @typedef SpotifyTopArtist
- * @property {Record<string, string>} external_urls
- * @property {{href: null, total: number}} followers
- * @property {Array<string>} genres
+ *   Spotify top artist.
+ * @property {Readonly<Record<string, string>>} external_urls
+ *   External URLs.
+ * @property {Readonly<SpotifyFollowers>} followers
+ *   Followers.
+ * @property {ReadonlyArray<string>} genres
+ *   Genres.
  * @property {string} href
+ *   URL.
  * @property {string} id
- * @property {Array<SpotifyImage>} images
+ *   ID.
+ * @property {ReadonlyArray<Readonly<SpotifyImage>>} images
+ *   Images.
  * @property {string} name
+ *   Name.
  * @property {number} popularity
+ *   Popularity.
  * @property {'artist'} type
+ *   Type.
  * @property {string} uri
+ *   URI.
  *
  * @typedef SpotifyTopArtistsResponse
- * @property {Array<SpotifyTopArtist>} items
- * @property {number} total
- * @property {number} limit
- * @property {number} offset
+ *   Spotify top artists response.
  * @property {string} href
- * @property {string|null} previous
- * @property {string|null} next
+ *   URL.
+ * @property {ReadonlyArray<Readonly<SpotifyTopArtist>>} items
+ *   Items.
+ * @property {number} limit
+ *   Limit.
+ * @property {string | null} next
+ *   Next page.
+ * @property {number} offset
+ *   Offset.
+ * @property {string | null} previous
+ *   Previous page.
+ * @property {number} total
+ *   Total pages.
  */
 
-import {Buffer} from 'node:buffer'
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import fetch from 'node-fetch'
 import dotenv from 'dotenv'
+import fetch from 'node-fetch'
 
 dotenv.config()
 
@@ -60,26 +97,27 @@ parameters.append('refresh_token', ref)
 
 // Get token.
 const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
-  method: 'POST',
-  headers: {
-    Authorization:
-      'Basic ' + Buffer.from(cId + ':' + cSecret).toString('base64')
-  },
-  body: parameters
+  body: parameters,
+  headers: {Authorization: 'Basic ' + btoa(cId + ':' + cSecret)},
+  method: 'POST'
 })
-const tokenData = /** @type {SpotifyTokenData} */ (await tokenResponse.json())
+const tokenData = /** @type {Readonly<SpotifyTokenData>} */ (
+  await tokenResponse.json()
+)
 
 const response = await fetch('https://api.spotify.com/v1/me/top/artists', {
   headers: {Authorization: 'Bearer ' + tokenData.access_token}
 })
 
-const body = /** @type {SpotifyTopArtistsResponse} */ (await response.json())
+const body = /** @type {Readonly<SpotifyTopArtistsResponse>} */ (
+  await response.json()
+)
 
-const artists = body.items.map((d) => {
-  /** @type {Artist} */
-  const result = {name: d.name, image: d.images[0]}
+const artists = body.items.map(function (d) {
+  /** @type {Readonly<Artist>} */
+  const result = {image: d.images[0], name: d.name}
   return result
 })
 
 await fs.mkdir(new URL('./', outUrl), {recursive: true})
-await fs.writeFile(outUrl, JSON.stringify(artists, null, 2) + '\n')
+await fs.writeFile(outUrl, JSON.stringify(artists, undefined, 2) + '\n')

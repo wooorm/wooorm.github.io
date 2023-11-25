@@ -1,13 +1,14 @@
 /**
  * @typedef {import('../../crawl/shows.js').Thing} Thing
+ *
+ * @typedef {import('../index.js').Metadata} Metadata
  * @typedef {import('../index.js').Render} Render
- * @typedef {import('../index.js').MetadataRaw} MetadataRaw
  */
 
 import fs from 'node:fs/promises'
 import {h} from 'hastscript'
 
-/** @type {Array<Thing>} */
+/** @type {ReadonlyArray<Readonly<Thing>>} */
 let shows = []
 
 try {
@@ -16,13 +17,13 @@ try {
   )
 } catch {}
 
-/** @type {MetadataRaw} */
+/** @type {Readonly<Metadata>} */
 export const data = {
-  title: 'Watching',
-  label: 'watching',
   description: 'Things Titus watches',
+  label: 'watching',
+  modified: new Date(),
   published: '2020-05-01T00:00:00.000Z',
-  modified: new Date()
+  title: 'Watching'
 }
 
 /** @type {Render} */
@@ -32,18 +33,20 @@ export function render() {
     h(
       'ol.covers',
       shows
-        .filter((d) => d.image)
+        .filter(function (d) {
+          return d.image
+        })
         .slice(0, 50)
-        .map((d) =>
-          h('li.cover-wrap', [
+        .map(function (d) {
+          return h('li.cover-wrap', [
             h('.cover', [
               // Already filtered on this: it exists.
               d.image
                 ? h('img', {
-                    src: d.image.url,
                     alt: '',
-                    width: 300,
-                    height: Math.floor(d.image.height / (d.image.width / 300))
+                    height: Math.floor(d.image.height / (d.image.width / 300)),
+                    src: d.image.url,
+                    width: 300
                   })
                 : undefined,
               h(
@@ -54,7 +57,7 @@ export function render() {
               )
             ])
           ])
-        )
+        })
     )
   ]
 }

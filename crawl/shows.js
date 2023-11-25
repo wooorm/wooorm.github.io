@@ -1,172 +1,248 @@
 /**
- * @typedef {ThingRaw & ImageFields} Thing
+ * @typedef Image
+ *   Image.
+ * @property {number} height
+ *   Height.
+ * @property {string} url
+ *   URL.
+ * @property {number} width
+ *   Width.
  *
  * @typedef ImageFields
- * @property {Image} [image]
+ *   Image fields.
+ * @property {Readonly<Image> | undefined} [image]
+ *   Image.
  *
- * @typedef Image
- * @property {number} width
- * @property {number} height
- * @property {string} url
- *
- * @typedef ThingRaw
- * @property {string} title
- * @property {'show'|'movie'} type
- * @property {number} year
- * @property {Date} last
- * @property {number} tmdbId
+ * @typedef {ImageFields & ThingRaw} Thing
+ *   Thing.
  *
  * @typedef TmdbImage
+ *   The Movie Database image.
  * @property {number} aspect_ratio
- * @property {number} height
- * @property {string|null} iso_639_1
+ *   Aspect ratio.
  * @property {string} file_path
+ *   File path.
+ * @property {number} height
+ *   Height.
+ * @property {string | null} iso_639_1
+ *   ISO 639-1.
  * @property {number} vote_average
+ *   Vote average.
  * @property {number} vote_count
+ *   Vote count.
  * @property {number} width
+ *   Width.
+ *
+ * @typedef ThingRaw
+ *   Thing (raw).
+ * @property {Readonly<Date>} last
+ *   Last watched.
+ * @property {string} title
+ *   Title.
+ * @property {number} tmdbId
+ *   The Movie Database ID.
+ * @property {'movie' | 'show'} type
+ *   Type.
+ * @property {number} year
+ *   Year.
  *
  * @typedef TmdbImageResponse
- * @property {Array<TmdbImage>} backdrops
+ *   The Movie Database image response.
+ * @property {ReadonlyArray<Readonly<TmdbImage>>} backdrops
+ *   Backdrops.
  * @property {number} id
- * @property {Array<TmdbImage>} logos
- * @property {Array<TmdbImage>} posters
- *
- * @typedef TraktIds
- * @property {number} trakt
- * @property {string} [slug]
- * @property {number|null} tvdb
- * @property {string} imdb
- * @property {number} tmdb
- * @property {number|null} tvrage
+ *   ID.
+ * @property {ReadonlyArray<Readonly<TmdbImage>>} logos
+ *   Logos.
+ * @property {ReadonlyArray<Readonly<TmdbImage>>} posters
+ *   Posters.
  *
  * @typedef TraktEpisode
- * @property {number} season
+ *   Trakt episode.
+ * @property {Readonly<TraktIds>} ids
+ *   Episodes.
  * @property {number} number
+ *   Number.
+ * @property {number} season
+ *   Season.
  * @property {string} title
- * @property {TraktIds} ids
+ *   Title.
  *
- * @typedef TraktMovie
- *   Note: might include more results.
- * @property {number} year
- * @property {string} title
- * @property {TraktIds} ids
- *
- * @typedef TraktShow
- * @property {string} title
- * @property {number} year
- * @property {TraktIds} ids
+ * @typedef {TraktHistoryEpisode | TraktHistoryMovie} TraktHistoryEntry
+ *   Trakt history entry.
  *
  * @typedef TraktHistoryEpisode
- * @property {number} id
- * @property {string} watched_at
+ *   Trakt history episode.
  * @property {unknown} action
+ *   Action.
+ * @property {Readonly<TraktEpisode>} episode
+ *   Episode.
+ * @property {number} id
+ *   ID.
+ * @property {Readonly<TraktShow>} show
+ *   Show.
  * @property {'episode'} type
- * @property {TraktEpisode} episode
- * @property {TraktShow} show
+ *   Type.
+ * @property {string} watched_at
+ *   Watched at.
  *
  * @typedef TraktHistoryMovie
- * @property {number} id
- * @property {string} watched_at
+ *   Trakt history movie.
  * @property {unknown} action
+ *   Action.
+ * @property {number} id
+ *   ID.
+ * @property {Readonly<TraktMovie>} movie
+ *   Movie.
  * @property {'movie'} type
- * @property {TraktMovie} movie
+ *   Type.
+ * @property {string} watched_at
+ *   Watched at.
  *
- * @typedef {TraktHistoryEpisode|TraktHistoryMovie} TraktHistoryEntry
+ * @typedef TraktIds
+ *   Trakt IDs.
+ * @property {string} imdb
+ *   IMDB ID.
+ * @property {string | undefined} [slug]
+ *   Slug.
+ * @property {number} tmdb
+ *   The Movie Database ID.
+ * @property {number} trakt
+ *   Trakt ID.
+ * @property {number | null} tvdb
+ *   The TV Database ID.
+ * @property {number | null} tvrage
+ *   TVRage ID.
+ *
+ * @typedef TraktMovie
+ *   Trakt movie;
+ *   note: might include more results.
+ * @property {Readonly<TraktIds>} ids
+ *   IDs.
+ * @property {string} title
+ *   Title.
+ * @property {number} year
+ *   Year.
+ *
+ * @typedef TraktShow
+ *   Trakt show.
+ * @property {Readonly<TraktIds>} ids
+ *   IDs.
+ * @property {string} title
+ *   Title.
+ * @property {number} year
+ *   Year.
  */
 
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import all from 'p-all'
-import fetch from 'node-fetch'
 import dotenv from 'dotenv'
+import fetch from 'node-fetch'
+import all from 'p-all'
 
 dotenv.config()
 
-const ttvKey = process.env.TTV_TOKEN
-const user = process.env.TTV_USER
 const tmdbKey = process.env.TMDB_TOKEN
+const ttvKey = process.env.TTV_TOKEN
+const ttvUser = process.env.TTV_USER
 
-if (!ttvKey) throw new Error('Missing `TTV_TOKEN`')
-if (!user) throw new Error('Missing `TTV_USER`')
 if (!tmdbKey) throw new Error('Missing `TMDB_TOKEN`')
+if (!ttvKey) throw new Error('Missing `TTV_TOKEN`')
+if (!ttvUser) throw new Error('Missing `TTV_USER`')
 
 const outUrl = new URL('../data/shows.json', import.meta.url)
 
+// Order-sensitive.
 const languages = ['en', 'nl', 'fr', 'de', 'it', 'es']
 
 const response = await fetch(
-  'https://api.trakt.tv/users/' + user + '/history?limit=300',
+  'https://api.trakt.tv/users/' + ttvUser + '/history?limit=300',
   {
     headers: {
       'Content-Type': 'application/json',
-      'trakt-api-version': '2',
-      'trakt-api-key': ttvKey
+      'trakt-api-key': ttvKey,
+      'trakt-api-version': '2'
     }
   }
 )
-const body = /** @type {Array<TraktHistoryEntry>} */ (await response.json())
+const body = /** @type {ReadonlyArray<Readonly<TraktHistoryEntry>>} */ (
+  await response.json()
+)
 
-/** @type {Array<ThingRaw>} */
-const flat = body.flatMap((d) => {
+/** @type {ReadonlyArray<Readonly<ThingRaw>>} */
+const flat = body.flatMap(function (d) {
   if (d.type === 'movie') {
     return {
-      title: d.movie.title,
-      type: d.type,
-      year: d.movie.year,
       last: new Date(d.watched_at),
-      tmdbId: d.movie.ids.tmdb
+      title: d.movie.title,
+      tmdbId: d.movie.ids.tmdb,
+      type: d.type,
+      year: d.movie.year
     }
   }
 
   // Ignore info on the episode, just take the show.
   return {
-    title: d.show.title,
-    type: 'show',
-    year: d.show.year,
     last: new Date(d.watched_at),
-    tmdbId: d.show.ids.tmdb
+    title: d.show.title,
+    tmdbId: d.show.ids.tmdb,
+    type: 'show',
+    year: d.show.year
   }
 })
 
-/** @type {Record<number, ThingRaw>} */
-const byId = {}
+/** @type {Map<number, Readonly<ThingRaw>>} */
+const byId = new Map()
 let index = -1
 
 while (++index < flat.length) {
-  if (!(flat[index].tmdbId in byId)) {
-    byId[flat[index].tmdbId] = flat[index]
+  const id = flat[index].tmdbId
+  if (!byId.has(id)) {
+    byId.set(id, flat[index])
   }
 }
 
-const items = Object.values(byId)
-
-items.sort(sort)
+const items = [...byId.values()].sort(sort)
 
 const data = await all(
-  items.map((d) => () => getImage(d)),
+  items.map(function (d) {
+    return function () {
+      return getImage(d)
+    }
+  }),
   {concurrency: 2}
 )
 
 await fs.mkdir(new URL('./', outUrl), {recursive: true})
-await fs.writeFile(outUrl, JSON.stringify(data, null, 2) + '\n')
+await fs.writeFile(outUrl, JSON.stringify(data, undefined, 2) + '\n')
 
 /**
- * @param {ThingRaw} a
- * @param {ThingRaw} b
+ * @param {Readonly<ThingRaw>} a
+ *   Left.
+ * @param {Readonly<ThingRaw>} b
+ *   Right.
+ * @returns {number}
+ *   Sort value.
  */
 function sort(a, b) {
   return score(b).valueOf() - score(a).valueOf()
 }
 
 /**
- * @param {ThingRaw} d
+ * @param {Readonly<ThingRaw>} d
+ *   Thing.
+ * @returns {Readonly<Date>}
+ *   Score.
  */
 function score(d) {
   return d.last
 }
 
 /**
- * @param {ThingRaw} d
+ * @param {Readonly<ThingRaw>} d
+ *   Thing.
+ * @returns {Promise<Thing>}
+ *   Thing.
  */
 async function getImage(d) {
   /** @type {Thing} */
@@ -187,19 +263,23 @@ async function getImage(d) {
     })
     const body = /** @type {TmdbImageResponse} */ (await response.json())
 
-    const posters = body.posters.sort((a, b) => b.vote_average - a.vote_average)
+    const posters = [...body.posters].sort(function (a, b) {
+      return b.vote_average - a.vote_average
+    })
     let image = posters[0]
 
-    languages.some((l) => {
-      const poster = posters.find((d) => d.iso_639_1 === l)
+    languages.some(function (l) {
+      const poster = posters.find(function (d) {
+        return d.iso_639_1 === l
+      })
       if (poster) image = poster
       return Boolean(poster)
     })
 
     copy.image = {
-      width: image.width,
       height: image.height,
-      url: 'https://image.tmdb.org/t/p/w300' + image.file_path
+      url: 'https://image.tmdb.org/t/p/w300' + image.file_path,
+      width: image.width
     }
   } catch {
     console.warn('Could not get image for:', d.title)

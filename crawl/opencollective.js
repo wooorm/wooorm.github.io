@@ -1,45 +1,75 @@
 /**
- * @typedef {Omit<SponsorRaw, 'spam' | 'total'>} Sponsor
- *
- * @typedef SponsorRaw
- * @property {boolean} spam
- * @property {string} name
- * @property {string|undefined} description
- * @property {string} image
- * @property {string} oc
- * @property {string|undefined} github
- * @property {string|undefined} twitter
- * @property {string|undefined} url
- * @property {number} total
- *
  * @typedef OcAccount
+ *   Open Collective account.
+ * @property {string | null} description
+ *   Description.
+ * @property {string | null} githubHandle
+ *   GitHub username.
  * @property {string} id
- * @property {string} slug
- * @property {string} name
- * @property {string|null} description
- * @property {string|null} website
- * @property {string|null} twitterHandle
- * @property {string|null} githubHandle
+ *   ID.
  * @property {string} imageUrl
- *
- * @typedef OcMember
- * @property {{value: number}} totalDonations
- * @property {OcAccount} account
+ *   Image URL.
+ * @property {string} name
+ *   Name.
+ * @property {string} slug
+ *   Slug.
+ * @property {string | null} twitterHandle
+ *   Twitter username.
+ * @property {string | null} website
+ *   Website.
  *
  * @typedef OcCollective
- * @property {{nodes: Array<OcMember>}} members
+ *   Open Collective collective.
+ * @property {{nodes: ReadonlyArray<Readonly<OcMember>>}} members
+ *   Members.
  *
  * @typedef OcData
- * @property {OcCollective} collective
+ *   Open Collective data.
+ * @property {Readonly<OcCollective>} collective
+ *   Collective.
+ *
+ * @typedef OcMember
+ *   Open Collective member.
+ * @property {Readonly<OcAccount>} account
+ *   Account.
+ * @property {Readonly<{value: number}>} totalDonations
+ *   Total donations.
  *
  * @typedef OcResponse
- * @property {OcData} data
+ *   Open Collective response.
+ * @property {Readonly<OcData>} data
+ *   Data.
+ *
+ * @typedef {Omit<SponsorRaw, 'spam' | 'total'>} Sponsor
+ *   Sponsor.
+ *
+ * @typedef SponsorRaw
+ *   Sponsor (raw).
+ * @property {string | undefined} description
+ *   Description.
+ * @property {string | undefined} github
+ *   GitHub username.
+ * @property {string} image
+ *   Image.
+ * @property {string} name
+ *   Name.
+ * @property {string} oc
+ *   Open Collective slug.
+ * @property {boolean} spam
+ *   Whether it’s spam.
+ * @property {number} total
+ *   Total donations.
+ * @property {string | undefined} twitter
+ *   Twitter username.
+ * @property {string | undefined} url
+ *   URL.
+ *
  */
 
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import fetch from 'node-fetch'
 import dotenv from 'dotenv'
+import fetch from 'node-fetch'
 
 dotenv.config()
 
@@ -65,14 +95,14 @@ const query = `query($slug: String) {
       nodes {
         totalDonations { value }
         account {
-          id
-          slug
-          name
           description
-          website
-          twitterHandle
           githubHandle
+          id
           imageUrl
+          name
+          slug
+          twitterHandle
+          website
         }
       }
     }
@@ -81,11 +111,11 @@ const query = `query($slug: String) {
 `
 
 const collectiveResponse = await fetch(endpoint, {
-  method: 'POST',
   body: JSON.stringify({query, variables}),
-  headers: {'Content-Type': 'application/json', 'Api-Key': key}
+  headers: {'Content-Type': 'application/json', 'Api-Key': key},
+  method: 'POST'
 })
-const collectiveBody = /** @type {OcResponse} */ (
+const collectiveBody = /** @type {Readonly<OcResponse>} */ (
   await collectiveResponse.json()
 )
 
@@ -98,20 +128,22 @@ const githubBody = await githubResponse.text()
 const control = githubBody
   .split('\n')
   .filter(Boolean)
-  .map((d) => {
+  .map(function (d) {
     const spam = d.charAt(0) === '-'
     return {oc: spam ? d.slice(1) : d, spam}
   })
 
-/** @type {Array<string>} */
-const seen = []
+/** @type {Set<string>} */
+const seen = new Set()
 const members = collectiveBody.data.collective.members.nodes
-  .map((d) => {
+  .map(function (d) {
     const oc = d.account.slug
     const github = d.account.githubHandle || undefined
     const twitter = d.account.twitterHandle || undefined
     let url = d.account.website || undefined
-    const info = control.find((d) => d.oc === oc)
+    const info = control.find(function (d) {
+      return d.oc === oc
+    })
 
     if (url === ghBase + github || url === twBase + twitter) {
       url = undefined
@@ -124,43 +156,52 @@ const members = collectiveBody.data.collective.members.nodes
       )
     }
 
-    /** @type {SponsorRaw} */
+    /** @type {Readonly<SponsorRaw>} */
     const result = {
-      spam: !info || info.spam,
-      name: d.account.name,
       description: d.account.description || undefined,
-      image: d.account.imageUrl,
-      oc,
       github,
+      image: d.account.imageUrl,
+      name: d.account.name,
+      oc,
+      spam: !info || info.spam,
+      total: d.totalDonations.value,
       twitter,
-      url,
-      total: d.totalDonations.value
+      url
     }
 
     return result
   })
-  .filter((d) => {
-    const ignore = d.spam || seen.includes(d.oc) // Ignore dupes in data.
-    seen.push(d.oc)
+  .filter(function (d) {
+    const ignore = d.spam || seen.has(d.oc) // Ignore dupes in data.
+    seen.add(d.oc)
     return d.total > min && !ignore
   })
   .sort(sort)
-  .map((d) => strip(d))
+  .map(function (d) {
+    return strip(d)
+  })
 
 await fs.mkdir(new URL('./', outUrl), {recursive: true})
-await fs.writeFile(outUrl, JSON.stringify(members, null, 2) + '\n')
+await fs.writeFile(outUrl, JSON.stringify(members, undefined, 2) + '\n')
 
 /**
- * @param {SponsorRaw} d
+ * @param {Readonly<SponsorRaw>} d
+ *   Sponsor (raw).
  * @returns {Sponsor}
+ *   Sponsor.
  */
 function strip(d) {
-  return Object.assign(d, {total: undefined, spam: undefined})
+  const {spam, total, ...rest} = d
+  return rest
 }
 
 /**
- * @param {SponsorRaw} a
- * @param {SponsorRaw} b
+ * @param {Readonly<SponsorRaw>} a
+ *   Left.
+ * @param {Readonly<SponsorRaw>} b
+ *   Right.
+ * @returns {number}
+ *   Sort value.
  */
 function sort(a, b) {
   return b.total - a.total

@@ -1,34 +1,53 @@
 /***
  * @typedef Album
- * @property {string} name
+ *   Album.
  * @property {string} artist
- * @property {string} image
+ *   Artist.
  * @property {number} count
+ *   Plays.
+ * @property {string} image
+ *   Image.
+ * @property {string} name
+ *   Name.
  *
- * @typedef LastfmImage
- * @property {string} url
+ * @typedef {{'#text': string, url: string}} LastfmImage
+ *   Last.fm image;
+ *   Note: has to be typed like this to allow `#text`.
  *
  * @typedef LastfmArtist
- * @property {string} url
- * @property {string} name
+ *   Last.fm artist.
  * @property {string} mbid
+ *   MusicBrainz ID.
+ * @property {string} name
+ *   Name.
+ * @property {string} url
+ *   URL.
  *
  * @typedef LastfmAlbum
+ *   Last.fm album.
  * @property {LastfmArtist} artist
- * @property {Array<LastfmImage>} image
+ *   Artist.
+ * @property {ReadonlyArray<Readonly<LastfmImage>>} image
+ *   Images.
  * @property {string} mbid
- * @property {string} url
- * @property {string} playcount
+ *   MusicBrainz ID.
  * @property {string} name
+ *   Name.
+ * @property {string} playcount
+ *   Plays.
+ * @property {string} url
+ *   URL.
  *
  * @typedef LastfmTopAlbumResponse
- * @property {{album: Array<LastfmAlbum>}} topalbums
+ *   Last.fm top album response.
+ * @property {{album: ReadonlyArray<Readonly<LastfmAlbum>>}} topalbums
+ *   Top albums.
  */
 
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import fetch from 'node-fetch'
 import dotenv from 'dotenv'
+import fetch from 'node-fetch'
 
 dotenv.config()
 
@@ -41,21 +60,21 @@ if (!user) throw new Error('Missing `LFM_USER`')
 const outUrl = new URL('../data/albums.json', import.meta.url)
 
 const url = new URL('http://ws.audioscrobbler.com/2.0/')
-url.searchParams.append('method', 'user.gettopalbums')
-url.searchParams.append('user', user)
 url.searchParams.append('api_key', key)
 url.searchParams.append('format', 'json')
-url.searchParams.append('period', '1month')
 url.searchParams.append('limit', '60')
+url.searchParams.append('method', 'user.gettopalbums')
+url.searchParams.append('period', '1month')
+url.searchParams.append('user', user)
 
 const response = await fetch(url.href)
-const body = /** @type {LastfmTopAlbumResponse} */ (await response.json())
+const body = /** @type {Readonly<LastfmTopAlbumResponse>} */ (
+  await response.json()
+)
 
-const albums = body.topalbums.album.flatMap((d) => {
+const albums = body.topalbums.album.flatMap(function (d) {
   const image = d.image
-    .map((d) => {
-      /** @type {string} */
-      // @ts-expect-error: can’t be typed, but it exists
+    .map(function (d) {
       const text = d['#text']
       return text
     })
@@ -63,12 +82,12 @@ const albums = body.topalbums.album.flatMap((d) => {
     .pop()
 
   if (image) {
-    /** @type {Album} */
+    /** @type {Readonly<Album>} */
     const result = {
-      name: d.name,
       artist: d.artist.name,
+      count: Number.parseInt(d.playcount, 10),
       image,
-      count: Number.parseInt(d.playcount, 10)
+      name: d.name
     }
 
     return result
@@ -78,4 +97,4 @@ const albums = body.topalbums.album.flatMap((d) => {
 })
 
 await fs.mkdir(new URL('./', outUrl), {recursive: true})
-await fs.writeFile(outUrl, JSON.stringify(albums, null, 2) + '\n')
+await fs.writeFile(outUrl, JSON.stringify(albums, undefined, 2) + '\n')

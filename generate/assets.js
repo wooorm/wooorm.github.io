@@ -1,35 +1,42 @@
 /**
- * @typedef {import('trough').Callback} Next
- * @typedef {import('trough').Pipeline} Pipeline
- * @typedef {import('vfile').VFile} VFile
- * @typedef {import('type-fest').PackageJson} PackageJson
  * @typedef {import('sharp').Sharp} Sharp
  *
- * @typedef {'jpeg'|'jp2'|'png'|'webp'|'gif'|'avif'|'heif'|'tiff'|'raw'} SharpKey
+ * @typedef {import('trough').Callback} Callback
+ * @typedef {import('trough').Pipeline} Pipeline
+ *
+ * @typedef {import('type-fest').PackageJson} PackageJson
+ */
+
+/**
  * @typedef {{[key in SharpKey]?: Parameters<Sharp[key]>[0]}} SharpConfig
+ *   Configuration.
+ *
+ * @typedef {'avif' | 'gif' | 'heif' | 'jp2' | 'jpeg' | 'png' | 'raw' | 'tiff' | 'webp'} SharpKey
+ *   Sharp key.
  */
 
 import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import {promisify} from 'node:util'
+import cssnano from 'cssnano'
 import {glob} from 'glob'
-import sharp from 'sharp'
 import all from 'p-all'
-import {trough} from 'trough'
-import {toVFile, read, write} from 'to-vfile'
-import {reporter} from 'vfile-reporter'
 import {Processor as PostCss} from 'postcss'
 import postcssPresetEnv from 'postcss-preset-env'
-import cssnano from 'cssnano'
+import sharp from 'sharp'
+import {read, write} from 'to-vfile'
+import {trough} from 'trough'
+import {VFile} from 'vfile'
+import {reporter} from 'vfile-reporter'
 
 const postcss = new PostCss([
-  // @ts-expect-error: types out of date?
+  // @ts-expect-error: types are wrong.
   postcssPresetEnv({stage: 0}),
   cssnano({preset: 'advanced'})
 ])
 
-/** @type {PackageJson} */
+/** @type {Readonly<PackageJson>} */
 const pack = JSON.parse(String(await fs.readFile('package.json')))
 
 /** @type {Record<string, Pipeline>} */
@@ -37,12 +44,12 @@ const externals = {
   '.css': trough().use(transformCss),
   '.png': trough().use(
     transformImageFactory({
-      webp: {quality: 50, alphaQuality: 50},
-      png: {quality: 50}
+      png: {quality: 50},
+      webp: {alphaQuality: 50, quality: 50}
     })
   ),
   '.jpg': trough().use(
-    transformImageFactory({webp: {quality: 50}, jpeg: {quality: 50}})
+    transformImageFactory({jpeg: {quality: 50}, webp: {quality: 50}})
   )
 }
 
@@ -60,11 +67,15 @@ const imagePipeline = trough().use(move).use(mkdir).use(write).use(print)
 const filePipeline = trough()
   .use(
     /**
-     *  @param {string} fp
-     *  @param {Next} next
+     * @param {string} fp
+     *   File path.
+     * @param {Callback} next
+     *   Callback.
+     * @returns {undefined}
+     *   Nothing.
      */
-    (fp, next) => {
-      const file = toVFile(fp)
+    function (fp, next) {
+      const file = new VFile({path: fp})
       const ext = file.extname
       const pipeline = ext && ext in externals ? processPipeline : copyPipeline
       pipeline.run(file, next)
@@ -76,30 +87,55 @@ trough()
   .use(glob)
   .use(
     /**
-     *  @param {Array<string>} paths
-     *  @param {Next} done
+     * @param {ReadonlyArray<string>} paths
+     *   File paths.
+     * @param {Callback} done
+     *   Callback.
+     * @returns {undefined}
+     *   Nothing.
      */
-    (paths, done) => {
+    function (paths, done) {
       /** @type {(fp: string) => Promise<VFile>} */
       const run = promisify(filePipeline.run)
 
       all(
-        paths.map((path) => () => run(path)),
+        paths.map(function (path) {
+          return function () {
+            return run(path)
+          }
+        }),
         {concurrency: 3}
-      ).then((files) => done(null, files), done)
+      ).then(function (files) {
+        return done(undefined, files)
+      }, done)
     }
   )
-  .use((files, next) => {
-    assert(pack.homepage, 'expected `homepage` in `package.json`')
-    const value = new URL(pack.homepage).host + '\n'
-    write({dirname: 'build', basename: 'CNAME', value}, next)
-  })
+  .use(
+    /**
+     * @param {ReadonlyArray<VFile>} _
+     *   Files.
+     * @param {Callback} next
+     *   Callback.
+     * @returns {undefined}
+     *   Nothing.
+     */
+    function (_, next) {
+      assert(pack.homepage, 'expected `homepage` in `package.json`')
+      const value = new URL(pack.homepage).host + '\n'
+      write({basename: 'CNAME', dirname: 'build', value}, function (error) {
+        next(error)
+      })
+    }
+  )
   .run(
     'asset/**/*.*',
     /**
-     * @param {Error|null} error
+     * @param {Error | undefined} error
+     *   Error.
+     * @returns {undefined}
+     *   Nothing.
      */
-    (error) => {
+    function (error) {
       if (error) throw error
     }
   )
@@ -107,14 +143,18 @@ trough()
 /**
  *
  * @param {VFile} file
- * @param {Next} next
+ *   File.
+ * @param {Callback} next
+ *   Callback.
+ * @returns {undefined}
+ *   Nothing.
  */
 function process(file, next) {
   assert(file.extname, 'expected `extname` in `file`')
   externals[file.extname].run(
     file,
-    /** @type {Next} */
-    (error) => {
+    /** @type {Callback} */
+    function (error) {
       next(error)
     }
   )
@@ -122,15 +162,21 @@ function process(file, next) {
 
 /**
  * @param {VFile} file
+ *   File.
+ * @returns {undefined}
+ *   Nothing.
  */
 function move(file) {
   assert(file.dirname, 'expected `dirname` on file')
-  const sep = path.sep
-  file.dirname = ['build'].concat(file.dirname.split(sep).slice(1)).join(sep)
+  const parts = ['build', ...file.dirname.split(path.sep).slice(1)]
+  file.dirname = parts.join(path.sep)
 }
 
 /**
  * @param {VFile} file
+ *   File.
+ * @returns {Promise<undefined>}
+ *   Nothing.
  */
 async function mkdir(file) {
   assert(file.dirname, 'expected `dirname` on file')
@@ -139,6 +185,9 @@ async function mkdir(file) {
 
 /**
  * @param {VFile} file
+ *   File.
+ * @returns {Promise<undefined>}
+ *   Nothing.
  */
 async function copy(file) {
   await fs.copyFile(file.history[0], file.path)
@@ -146,17 +195,20 @@ async function copy(file) {
 
 /**
  * @param {VFile} file
+ *   File.
+ * @returns {undefined}
+ *   Nothing.
  */
 function print(file) {
   file.stored = true
-  // Clear memory.
-  // @ts-expect-error: hush
-  file.value = null
   console.error(reporter(file))
 }
 
 /**
  * @param {VFile} file
+ *   File.
+ * @returns {Promise<undefined>}
+ *   Nothing.
  */
 async function transformCss(file) {
   const result = await postcss.process(file.toString('utf8'), {from: file.path})
@@ -165,39 +217,60 @@ async function transformCss(file) {
 
 /**
  * @param {SharpConfig} options
+ *   Configuration.
+ * @returns
+ *   Transform.
  */
 function transformImageFactory(options) {
   return transform
+
   /**
    * @param {VFile} file
-   * @param {Next} next
+   *   File.
+   * @param {Callback} next
+   *   Callback.
+   * @returns {undefined}
+   *   Nothing.
    */
   function transform(file, next) {
     const sizes = [600, 1200, 2400, 3600]
-    /** @type {Array<SharpKey>} */
-    // @ts-expect-error: yeah they are keys.
-    const formats = Object.keys(options)
+    const formats = /** @type {ReadonlyArray<SharpKey>} */ (
+      Object.keys(options)
+    )
     /** @type {(file: VFile) => Promise<VFile>} */
     const run = promisify(imagePipeline.run)
     const pipeline = sharp(file.value)
 
     pipeline
       .metadata()
-      .then((metadata) =>
-        all(
+      .then(function (metadata) {
+        return all(
           sizes
-            .flatMap((size) => formats.map((format) => ({size, format})))
-            .filter(
-              (d) =>
+            .flatMap(function (size) {
+              return formats.map(function (format) {
+                return {format, size}
+              })
+            })
+            .filter(function (d) {
+              return (
                 typeof metadata.width === 'number' && d.size <= metadata.width
-            )
-            .map((config) => () => one(config).then((d) => run(d))),
+              )
+            })
+            .map(function (config) {
+              return function () {
+                return one(config).then(function (d) {
+                  return run(d)
+                })
+              }
+            }),
           {concurrency: 3}
         )
-      )
+      })
       .then(
-        () => next(null, file),
-        (error) => {
+        function () {
+          return next(undefined, file)
+        },
+        function (error) {
           next(
             new Error('Could not transform image `' + file.path + '`: ' + error)
           )
@@ -205,8 +278,10 @@ function transformImageFactory(options) {
       )
 
     /***
-     * @param {{size: number, format: SharpKey}} media
+     * @param {{format: SharpKey, size: number}} media
+     *   Media.
      * @returns {Promise<VFile>}
+     *   File.
      */
     function one(media) {
       const format = media.format
@@ -214,12 +289,12 @@ function transformImageFactory(options) {
       // @ts-expect-error: key and value match.
       const fn = pipeline.clone().resize(media.size)[format](config)
 
-      return fn.toBuffer().then((buf) => {
-        const copy = toVFile(file.path)
+      return fn.toBuffer().then(function (buf) {
+        const copy = new VFile({path: file.path})
 
-        copy.value = buf
-        copy.stem += '-' + media.size
         copy.extname = '.' + media.format
+        copy.stem += '-' + media.size
+        copy.value = buf
 
         return copy
       })
