@@ -1,23 +1,15 @@
-name: main
-on:
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: '30 7 * * *'
 jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: dcodeIO/setup-node-nvm@master
+      - uses: actions/setup-node@v4
         with:
           node-version: node
       - run: npm install
-      - run: npm test
-        env:
+      - env:
           GH_TOKEN: ${{secrets.GH_TOKEN}}
           LFM_TOKEN: ${{secrets.LFM_TOKEN}}
           LFM_USER: ${{secrets.LFM_USER}}
@@ -25,18 +17,25 @@ jobs:
           SPOT_C_ID: ${{secrets.SPOT_C_ID}}
           SPOT_C_SECRET: ${{secrets.SPOT_C_SECRET}}
           SPOT_R_TOKEN: ${{secrets.SPOT_R_TOKEN}}
+          STRA_C_ID: ${{secrets.STRA_C_ID}}
+          STRA_C_SECRET: ${{secrets.STRA_C_SECRET}}
+          STRA_R_TOKEN: ${{secrets.STRA_R_TOKEN}}
           TMDB_TOKEN: ${{secrets.TMDB_TOKEN}}
           TTV_TOKEN: ${{secrets.TTV_TOKEN}}
           TTV_USER: ${{secrets.TTV_USER}}
-          STRA_R_TOKEN: ${{secrets.STRA_R_TOKEN}}
-          STRA_C_ID: ${{secrets.STRA_C_ID}}
-          STRA_C_SECRET: ${{secrets.STRA_C_SECRET}}
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        run: npm test
+      - uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
           branch: dist
-          folder: build
-          single-commit: true
           commit-message: .
-          git-config-name: Titus Wormer
+          folder: build
           git-config-email: tituswormer@gmail.com
+          git-config-name: Titus Wormer
+          single-commit: true
+name: main
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '30 7 * * *'
