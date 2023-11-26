@@ -7,7 +7,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.9
+          node-version: node
       - run: npm install
       - env:
           GH_TOKEN: ${{secrets.GH_TOKEN}}
