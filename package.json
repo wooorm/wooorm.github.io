@@ -19,6 +19,7 @@
     "@types/postcss-preset-env": "^7.0.0",
     "@types/react": "^18.0.0",
     "@types/sharp": "^0.31.0",
+    "@wooorm/starry-night": "^3.0.0",
     "cssnano": "^6.0.0",
     "cssnano-preset-advanced": "^6.0.0",
     "dotenv": "^16.0.0",
@@ -28,7 +29,6 @@
     "hast-util-classnames": "^3.0.0",
     "hast-util-select": "^6.0.0",
     "hastscript": "^8.0.0",
-    "highlight.js": "^11.0.0",
     "humanize-url": "^3.0.0",
     "import-meta-resolve": "^4.0.0",
     "levenshtein-edit-distance": "^3.0.0",
@@ -39,7 +39,6 @@
     "prettier": "^3.0.0",
     "react": "^18.0.0",
     "rehype-document": "^7.0.0",
-    "rehype-highlight": "^7.0.0",
     "rehype-infer-reading-time-meta": "^2.0.0",
     "rehype-meta": "^4.0.0",
     "rehype-preset-minify": "^7.0.0",
@@ -87,7 +86,7 @@
     "format": "remark . --frail --output --quiet && prettier . --log-level warn --write && stylelint \"**/*.css\" --fix && xo --fix",
     "generate:assets": "node --conditions developments generate/assets.js",
     "generate:structure": "node --no-warnings --experimental-loader=./script/jsx-loader.js generate/index.js",
-    "generate:theme": "cp node_modules/highlight.js/styles/atom-one-light.css build/syntax.css",
+    "generate:theme": "cp node_modules/@wooorm/starry-night/style/light.css build/syntax.css",
     "generate": "npm run generate:assets && npm run generate:theme && npm run generate:structure",
     "test": "npm run build && npm run crawl && npm run format && npm run generate"
   },
@@ -137,6 +136,12 @@
         }
       ]
     }
+  },
+  "typeCoverage": {
+    "atLeast": 100,
+    "detail": true,
+    "ignoreCatch": true,
+    "strict": true
   },
   "xo": {
     "prettier": true,

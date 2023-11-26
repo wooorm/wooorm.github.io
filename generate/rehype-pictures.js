@@ -11,6 +11,9 @@
  *   Configuration.
  * @property {string} base
  *   Base folder.
+ *
+ * @typedef {[filePath: string, size: number]} InfoTuple
+ *   Size.
  */
 
 import assert from 'node:assert/strict'
@@ -134,6 +137,7 @@ export default function rehypePictures(options) {
         const siblings = parent.children
         let width = metadata.width
         let height = metadata.height
+        /** @type {Readonly<InfoTuple> | undefined} */
         let biggestDefault
 
         // Generate the sources, but only if they exist.
@@ -141,7 +145,7 @@ export default function rehypePictures(options) {
           const applicable = sizes
             .flatMap(
               /**
-               * @returns {ReadonlyArray<readonly [filePath: string, size: number]>}
+               * @returns {ReadonlyArray<Readonly<InfoTuple>>}
                *   Sizes.
                */
               function (size) {

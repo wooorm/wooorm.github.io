@@ -23,7 +23,7 @@
  *   Render a page.
  * @param {ReadonlyArray<Readonly<Page>>} pages
  *   All pages.
- * @returns {Array<ElementContent> | Element}
+ * @returns {Promise<Array<ElementContent> | Element> | Array<ElementContent> | Element}
  *   Content.
  *
  * @callback Task
@@ -74,7 +74,7 @@ while (++index < pages.length) {
   }
 }
 
-const posts = glob.sync('post/**/*.md')
+const posts = await glob('post/**/*.md')
 index = -1
 
 while (++index < posts.length) {
@@ -135,13 +135,12 @@ while (++index < pages.length) {
     const file = new VFile()
     file.data.meta = {...file.data.meta, ...page.data}
 
-    const result = page.render(pages)
-    let tree = Array.isArray(result)
-      ? /** @type {Root} */ (u('root', result))
-      : // @ts-expect-error: assume root.
-        /** @type {Root} */ (result)
+    const result = await page.render(pages)
+    /** @type {Root} */
+    // @ts-expect-error: non-roots are actually fine for `run`.
+    const inputTree = Array.isArray(result) ? u('root', result) : result
 
-    tree = await pipeline.run(tree, file)
+    const tree = await pipeline.run(inputTree, file)
     file.value = pipeline.stringify(tree, file)
 
     const imgPath = file.path.replace(/\.html$/, '.png')

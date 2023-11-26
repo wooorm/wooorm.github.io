@@ -270,6 +270,9 @@ function transformImageFactory(options) {
         function () {
           return next(undefined, file)
         },
+        /**
+         * @param {Error | null | undefined} [error]
+         */
         function (error) {
           next(
             new Error('Could not transform image `' + file.path + '`: ' + error)

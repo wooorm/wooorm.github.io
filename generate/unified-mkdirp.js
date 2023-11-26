@@ -15,7 +15,7 @@ export default function mkdir() {
    *   Tree.
    * @param {VFile} file
    *   File.
-   * @returns {Promise<void>}
+   * @returns {Promise<undefined>}
    *   Nothing.
    */
   return async function (_, file) {
