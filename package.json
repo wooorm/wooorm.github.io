@@ -27,7 +27,9 @@
     "escape-string-regexp": "^5.0.0",
     "glob": "^10.0.0",
     "hast-util-classnames": "^3.0.0",
+    "hast-util-from-html": "^2.0.0",
     "hast-util-select": "^6.0.0",
+    "hast-util-to-html": "^9.0.0",
     "hastscript": "^8.0.0",
     "humanize-url": "^3.0.0",
     "import-meta-resolve": "^4.0.0",
@@ -71,6 +73,8 @@
     "vfile-matter": "^5.0.0",
     "vfile-rename": "^3.0.0",
     "vfile-reporter": "^8.0.0",
+    "xast-util-feed": "^2.0.0",
+    "xast-util-to-xml": "^4.0.0",
     "xo": "^0.56.0",
     "yaml": "^2.0.0"
   },

@@ -6,6 +6,8 @@
  * @typedef {import('hast').Root} Root
  *
  * @typedef {import('vfile').DataMap} DataMap
+ *
+ * @typedef {import('xast-util-feed').Entry} Entry
  */
 
 /**
@@ -28,7 +30,7 @@
  *
  * @callback Task
  *   Task.
- * @returns {Promise<undefined>}
+ * @returns {Promise<VFile>}
  *   Promise.
  */
 
@@ -36,6 +38,9 @@ import fs from 'node:fs/promises'
 import assert from 'node:assert/strict'
 import {glob} from 'glob'
 import {h} from 'hastscript'
+import {fromHtml} from 'hast-util-from-html'
+import {select} from 'hast-util-select'
+import {toHtml} from 'hast-util-to-html'
 import all from 'p-all'
 import rehypeDocument from 'rehype-document'
 import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta'
@@ -48,6 +53,8 @@ import {unified} from 'unified'
 import {u} from 'unist-builder'
 import {VFile} from 'vfile'
 import {reporter} from 'vfile-reporter'
+import {rss} from 'xast-util-feed'
+import {toXml} from 'xast-util-to-xml'
 import rehypeDefer from './rehype-defer.js'
 import rehypePictures from './rehype-pictures.js'
 import renderPost from './render-post.js'
@@ -61,6 +68,13 @@ import * as activity from './render/activity.js'
 import {generateOgImage} from './screenshot.jsx'
 import unifiedMkdirp from './unified-mkdirp.js'
 import wooormMove from './wooorm-move.js'
+
+const siteAuthor = 'Titus Wormer'
+const siteLanguage = 'en'
+const siteName = 'wooorm.com'
+const siteTags = ['oss', 'open', 'source', 'ties', 'music', 'shows']
+const siteTwitter = '@wooorm'
+const siteOrigin = 'https://wooorm.com'
 
 /** @type {Array<Page>} */
 const pages = [home, writing, activity, seeing, watching, listening, thanks]
@@ -85,10 +99,11 @@ const pipeline = unified()
   .use(rehypePictures, {base: 'build'})
   .use(rehypeWrap)
   .use(rehypeDocument, {
+    language: siteLanguage,
     link: [
-      {href: '/syntax.css', rel: 'stylesheet'},
       {href: '/index.css', rel: 'stylesheet'},
-      {href: '/big.css', media: '(min-width: 32em)', rel: 'stylesheet'}
+      {href: '/big.css', media: '(min-width: 32em)', rel: 'stylesheet'},
+      {href: '/syntax.css', rel: 'stylesheet'}
     ],
     script: [
       "if('paintWorklet' in CSS)CSS.paintWorklet.addModule('https://www.unpkg.com/css-houdini-squircle@0.1.5/squircle.min.js')"
@@ -96,17 +111,17 @@ const pipeline = unified()
   })
   .use(rehypeInferReadingTimeMeta)
   .use(rehypeMeta, {
-    author: 'Titus Wormer',
-    authorTwitter: '@wooorm',
+    author: siteAuthor,
+    authorTwitter: siteTwitter,
     color: '#000000',
     copyright: true,
-    name: 'wooorm.com',
+    name: siteName,
     og: true,
-    origin: 'https://wooorm.com',
+    origin: siteOrigin,
     separator: ' | ',
-    siteAuthor: 'Titus Wormer',
-    siteTags: ['oss', 'open', 'source', 'ties', 'music', 'shows'],
-    siteTwitter: '@wooorm',
+    siteAuthor,
+    siteTags,
+    siteTwitter,
     type: 'website',
     twitter: true
   })
@@ -150,10 +165,83 @@ while (++index < pages.length) {
     await write(file)
 
     console.error(reporter(file))
+
+    return file
   })
 }
 
-all(tasks, {concurrency: 2})
+const files = await all(tasks, {concurrency: 2})
+
+const now = new Date()
+
+await fs.writeFile(
+  new URL('../build/rss.xml', import.meta.url),
+  toXml(
+    rss(
+      {
+        author: siteAuthor,
+        description: 'website',
+        feedUrl: new URL('rss.xml', siteOrigin).href,
+        lang: siteLanguage,
+        tags: siteTags,
+        title: siteName,
+        url: siteOrigin
+      },
+      files
+        // All blog entries that are published in the past.
+        .filter(function (d) {
+          assert(d.data.meta)
+          return (
+            d.data.meta.pathname &&
+            d.data.meta.pathname.startsWith('/blog/') &&
+            d.data.meta.pathname !== '/blog/' &&
+            d.data.meta.published !== null &&
+            d.data.meta.published !== undefined &&
+            new Date(d.data.meta.published) < now
+          )
+        })
+        // Sort.
+        .sort(function (a, b) {
+          assert(a.data.meta)
+          assert(b.data.meta)
+          assert(a.data.meta.published)
+          assert(b.data.meta.published)
+          return (
+            new Date(b.data.meta.published).valueOf() -
+            new Date(a.data.meta.published).valueOf()
+          )
+        })
+        // Ten most recently published articles.
+        .slice(0, 10)
+        .map(function (file) {
+          const meta = file.data.meta
+          assert(meta)
+          assert(meta.author)
+          assert(typeof meta.modified === 'string')
+          assert(meta.pathname)
+          assert(typeof meta.published === 'string')
+          assert(meta.tags)
+          assert(meta.title)
+
+          const root = fromHtml(file.value)
+          const content = select('.article-inner', root)
+          assert(content)
+
+          return {
+            author: meta.author,
+            descriptionHtml: toHtml(content),
+            modified: meta.modified,
+            published: meta.published,
+            tags: meta.tags,
+            title: meta.title,
+            url: new URL(meta.pathname, siteOrigin).href
+          }
+        })
+    )
+  ) + '\n'
+)
+
+console.log('✔ `/rss.xml`')
 
 function rehypeWrap() {
   const structure = pages
