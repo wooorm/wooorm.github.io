@@ -69,7 +69,7 @@
 import fs from 'node:fs/promises'
 import process from 'node:process'
 import dotenv from 'dotenv'
-import fetch from 'node-fetch'
+import {fetch} from 'undici'
 
 dotenv.config()
 
