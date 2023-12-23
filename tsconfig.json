@@ -10,6 +10,7 @@
     // `dom` included because VS Code stuff needs `WebAssembly`.
     "lib": ["dom", "es2022"],
     "module": "node16",
+    "skipLibCheck": true,
     "strict": true,
     "target": "es2022"
   },
