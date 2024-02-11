@@ -70,9 +70,9 @@ export default function rehypePictures(options) {
 
     /** @type {import('unist-util-visit-parents').BuildVisitor<Root, 'element'>} */
     function visitor(node, parents) {
-      const src = (node.tagName === 'img' && node.properties.src) || ''
+      const source = (node.tagName === 'img' && node.properties.src) || ''
 
-      if (typeof src !== 'string' || src.charAt(0) !== '/') {
+      if (typeof source !== 'string' || source.charAt(0) !== '/') {
         return
       }
 
@@ -90,10 +90,10 @@ export default function rehypePictures(options) {
 
       assert(parent.type === 'element', 'expected image parent')
       assert(root.type === 'element', 'expected image root')
-      promises.push(rewrite(src, node, parent, root))
+      promises.push(rewrite(source, node, parent, root))
 
       /**
-       * @param {string} src
+       * @param {string} source
        *   Source.
        * @param {Element} node
        *   Node.
@@ -104,9 +104,9 @@ export default function rehypePictures(options) {
        * @returns {Promise<undefined>}
        *   Nothing.
        */
-      async function rewrite(src, node, parent, root) {
+      async function rewrite(source, node, parent, root) {
         assert(node.properties, 'expected properties on `img`')
-        const resolved = path.join(base, src.split('/').join(path.sep))
+        const resolved = path.join(base, source.split('/').join(path.sep))
 
         // See dimension.
         const metadata = await sharp(resolved)

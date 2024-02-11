@@ -81,11 +81,11 @@ import {fetch} from 'undici'
 
 dotenv.config()
 
-const ref = process.env.SPOT_R_TOKEN
+const refreshToken = process.env.SPOT_R_TOKEN
 const cId = process.env.SPOT_C_ID
 const cSecret = process.env.SPOT_C_SECRET
 
-if (!ref) throw new Error('Missing `SPOT_R_TOKEN`')
+if (!refreshToken) throw new Error('Missing `SPOT_R_TOKEN`')
 if (!cId) throw new Error('Missing `SPOT_C_ID`')
 if (!cSecret) throw new Error('Missing `SPOT_C_SECRET`')
 
@@ -93,7 +93,7 @@ const outUrl = new URL('../data/artists.json', import.meta.url)
 
 const parameters = new URLSearchParams()
 parameters.append('grant_type', 'refresh_token')
-parameters.append('refresh_token', ref)
+parameters.append('refresh_token', refreshToken)
 
 // Get token.
 const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {

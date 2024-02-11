@@ -32,22 +32,24 @@ export function render(pages) {
     })
 
   const items = posts.sort(sort).map(function (d) {
-    let pub = fmt(d.published)
-    const mod = fmt(d.modified)
+    let published = fmt(d.published)
+    const modified = fmt(d.modified)
 
-    if (mod === pub) pub = undefined
+    if (modified === published) published = undefined
 
     return h('li.card-wrap', [
       h('.card', [
         h('.caption', [
           h('h3', h('span.text', h('a', {href: d.pathname}, d.title))),
           h('p', h('span.text', d.description)),
-          pub || mod
+          published || modified
             ? h(
                 'p',
-                mod ? h('span.text', mod) : '',
-                pub && mod ? h('span.text', ' · ') : '',
-                pub ? h('span.text', (mod ? 'original: ' : '') + pub) : ''
+                modified ? h('span.text', modified) : '',
+                published && modified ? h('span.text', ' · ') : '',
+                published
+                  ? h('span.text', (modified ? 'original: ' : '') + published)
+                  : ''
               )
             : ''
         ])

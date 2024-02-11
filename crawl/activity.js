@@ -154,11 +154,11 @@ import {fetch} from 'undici'
 
 dotenv.config()
 
-const ref = process.env.STRA_R_TOKEN
+const refreshToken = process.env.STRA_R_TOKEN
 const cId = process.env.STRA_C_ID
 const cSecret = process.env.STRA_C_SECRET
 
-if (!ref) throw new Error('Missing `STRA_R_TOKEN`')
+if (!refreshToken) throw new Error('Missing `STRA_R_TOKEN`')
 if (!cId) throw new Error('Missing `STRA_C_ID`')
 if (!cSecret) throw new Error('Missing `STRA_C_SECRET`')
 
@@ -168,7 +168,7 @@ const parameters = new URLSearchParams()
 parameters.append('client_id', cId)
 parameters.append('client_secret', cSecret)
 parameters.append('grant_type', 'refresh_token')
-parameters.append('refresh_token', ref)
+parameters.append('refresh_token', refreshToken)
 
 // Get token.
 const tokenResponse = await fetch('https://www.strava.com/api/v3/oauth/token', {

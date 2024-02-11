@@ -76,8 +76,9 @@ const filePipeline = trough()
      */
     function (fp, next) {
       const file = new VFile({path: fp})
-      const ext = file.extname
-      const pipeline = ext && ext in externals ? processPipeline : copyPipeline
+      const extname = file.extname
+      const pipeline =
+        extname && extname in externals ? processPipeline : copyPipeline
       pipeline.run(file, next)
     }
   )
@@ -290,9 +291,9 @@ function transformImageFactory(options) {
       const format = media.format
       const config = options[format]
       // @ts-expect-error: key and value match.
-      const fn = pipeline.clone().resize(media.size)[format](config)
+      const sharp = pipeline.clone().resize(media.size)[format](config)
 
-      return fn.toBuffer().then(function (buf) {
+      return sharp.toBuffer().then(function (buf) {
         const copy = new VFile({path: file.path})
 
         copy.extname = '.' + media.format
