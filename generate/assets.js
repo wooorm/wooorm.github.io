@@ -31,7 +31,6 @@ import {VFile} from 'vfile'
 import {reporter} from 'vfile-reporter'
 
 const postcss = new PostCss([
-  // @ts-expect-error: types are wrong.
   postcssPresetEnv({stage: 0}),
   cssnano({preset: 'advanced'})
 ])
