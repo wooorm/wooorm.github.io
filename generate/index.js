@@ -61,6 +61,7 @@ import renderPost from './render-post.js'
 import * as home from './render/home.js'
 import * as thanks from './render/thanks.js'
 import * as writing from './render/writing.js'
+import * as reading from './render/reading.js'
 import * as seeing from './render/seeing.js'
 import * as watching from './render/watching.js'
 import * as listening from './render/listening.js'
@@ -77,7 +78,16 @@ const siteTwitter = '@wooorm'
 const siteOrigin = 'https://wooorm.com'
 
 /** @type {Array<Page>} */
-const pages = [home, writing, activity, seeing, watching, listening, thanks]
+const pages = [
+  home,
+  writing,
+  activity,
+  seeing,
+  reading,
+  watching,
+  listening,
+  thanks
+]
 
 let index = -1
 
