@@ -20,10 +20,10 @@
     "@types/react": "^18.0.0",
     "@types/sharp": "^0.31.0",
     "@wooorm/starry-night": "^3.0.0",
-    "cssnano": "^6.0.0",
-    "cssnano-preset-advanced": "^6.0.0",
+    "cssnano": "^7.0.0",
+    "cssnano-preset-advanced": "^7.0.0",
     "dotenv": "^16.0.0",
-    "esbuild": "^0.20.0",
+    "esbuild": "^0.21.0",
     "escape-string-regexp": "^5.0.0",
     "glob": "^10.0.0",
     "hast-util-classnames": "^3.0.0",
@@ -53,7 +53,7 @@
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.0",
     "remark-parse": "^11.0.0",
-    "remark-preset-wooorm": "^9.0.0",
+    "remark-preset-wooorm": "^10.0.0",
     "remark-rehype": "^11.0.0",
     "remark-validate-links": "^13.0.0",
     "satori": "^0.10.0",
@@ -122,7 +122,7 @@
       "remark-gfm",
       [
         "remark-lint-list-item-indent",
-        "space"
+        "one"
       ],
       [
         "remark-lint-first-heading-level",

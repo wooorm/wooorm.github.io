@@ -10,7 +10,7 @@ published: 2020-05-27
 modified: 2020-05-27
 ---
 
-# Hello, EPUB!  👋
+# Hello, EPUB!
 
 EPUB (*Electronic Publication*) is a format for ebooks.
 It’s the most widely used open format for digital books.

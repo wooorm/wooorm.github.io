@@ -187,8 +187,8 @@ To focus more on education.
 A project that does focus on education is
 [Self-Defined](https://www.selfdefined.app)
 ([`tatianamac/selfdefined`](https://github.com/tatianamac/selfdefined)).
-Described in their own words as “A modern dictionary about us.  We define our
-words, but they don’t define us.”
+Described in their own words as “A modern dictionary about us;
+We define our words, but they don’t define us.”
 While work in progress, it’s a valuable resource.
 The continued effort is worthy of support.
 I’m a sponsor, and dear reader, would suggest you do the same
