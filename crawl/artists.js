@@ -33,6 +33,13 @@
  * @property {string} token_type
  *   Token type.
  *
+ * @typedef SpotifyTokenError
+ *   Spotify token error.
+ * @property {string} error
+ *   Error code.
+ * @property {string} error_description
+ *   Error description.
+ *
  * @typedef SpotifyTopArtist
  *   Spotify top artist.
  * @property {Readonly<Record<string, string>>} external_urls
@@ -55,6 +62,11 @@
  *   Type.
  * @property {string} uri
  *   URI.
+ *
+ * @typedef SpotifyErrorResponse
+ *   Spotify error response.
+ * @property {{status: number, message: string}} error
+ *   Error.
  *
  * @typedef SpotifyTopArtistsResponse
  *   Spotify top artists response.
@@ -101,17 +113,28 @@ const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
   headers: {Authorization: 'Basic ' + btoa(cId + ':' + cSecret)},
   method: 'POST'
 })
-const tokenData = /** @type {Readonly<SpotifyTokenData>} */ (
-  await tokenResponse.json()
-)
+
+const tokenData =
+  /** @type {Readonly<SpotifyTokenData> | Readonly<SpotifyTokenError>} */ (
+    await tokenResponse.json()
+  )
+
+if ('error' in tokenData) {
+  throw new Error(tokenData.error_description)
+}
 
 const response = await fetch('https://api.spotify.com/v1/me/top/artists', {
   headers: {Authorization: 'Bearer ' + tokenData.access_token}
 })
 
-const body = /** @type {Readonly<SpotifyTopArtistsResponse>} */ (
-  await response.json()
-)
+const body =
+  /** @type {Readonly<SpotifyTopArtistsResponse> | Readonly<SpotifyErrorResponse>} */ (
+    await response.json()
+  )
+
+if ('error' in body) {
+  throw new Error(body.error.message)
+}
 
 const artists = body.items.map(function (d) {
   /** @type {Readonly<Artist>} */
