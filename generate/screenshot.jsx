@@ -33,7 +33,7 @@ const fontFilesUrl = new URL(
 )
 const fontFiles = await fs.readdir(fontFilesUrl)
 const acceptableFontFiles = fontFiles.filter(function (d) {
-  return d.startsWith('open-sans-latin-ext') && d.endsWith('.woff')
+  return /^open-sans-latin(?!-ext)/.test(d) && d.endsWith('.woff')
 })
 const fonts = await Promise.all(
   acceptableFontFiles.map(
@@ -45,8 +45,8 @@ const fonts = await Promise.all(
      */
     async function (basename) {
       const parts = basename.split('.')[0].split('-')
-      const weight = /** @type {FontWeight} */ (Number.parseInt(parts[4], 10))
-      const style = /** @type {FontStyle} */ (parts[5])
+      const weight = /** @type {FontWeight} */ (Number.parseInt(parts[3], 10))
+      const style = /** @type {FontStyle} */ (parts[4])
       assert(
         [100, 200, 300, 400, 500, 600, 700, 800, 900].includes(weight),
         `expected valid weight ${weight}`
