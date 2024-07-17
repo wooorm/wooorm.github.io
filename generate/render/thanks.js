@@ -1,13 +1,8 @@
 /**
- * @typedef {import('hast').Element} Element
- *
- * @typedef {import('../../crawl/github-sponsors.js').Sponsors} GhSponsors
- * @typedef {import('../../crawl/github-sponsors.js').Sponsor} GhSponsor
- *
- * @typedef {import('../../crawl/opencollective.js').Sponsor} OcSponsor
- *
- * @typedef {import('../index.js').Metadata} Metadata
- * @typedef {import('../index.js').Render} Render
+ * @import {Element} from 'hast'
+ * @import {Sponsors as GhSponsors, Sponsor as GhSponsor} from '../../crawl/github-sponsors.js'
+ * @import {Sponsor as OcSponsor} from '../../crawl/opencollective.js'
+ * @import {Metadata, Render} from '../index.js'
  */
 
 import fs from 'node:fs/promises'

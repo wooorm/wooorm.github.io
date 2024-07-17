@@ -1,10 +1,7 @@
 /**
- * @typedef {import('../../crawl/albums.js').Album} Album
- *
- * @typedef {import('../../crawl/artists.js').Artist} Artist
- *
- * @typedef {import('../index.js').Metadata} Metadata
- * @typedef {import('../index.js').Render} Render
+ * @import {Album} from '../../crawl/albums.js'
+ * @import {Artist} from '../../crawl/artists.js'
+ * @import {Metadata, Render} from '../index.js'
  */
 
 import fs from 'node:fs/promises'

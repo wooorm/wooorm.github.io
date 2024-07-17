@@ -1,8 +1,6 @@
 /**
- * @typedef {import('../../crawl/shows.js').Thing} Thing
- *
- * @typedef {import('../index.js').Metadata} Metadata
- * @typedef {import('../index.js').Render} Render
+ * @import {Thing} from '../../crawl/shows.js'
+ * @import {Metadata, Render} from '../index.js'
  */
 
 import fs from 'node:fs/promises'

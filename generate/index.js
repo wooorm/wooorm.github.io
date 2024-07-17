@@ -1,13 +1,7 @@
-/// <reference types="./types.js" />
-
 /**
- * @typedef {import('hast').Element} Element
- * @typedef {import('hast').ElementContent} ElementContent
- * @typedef {import('hast').Root} Root
- *
- * @typedef {import('vfile').DataMap} DataMap
- *
- * @typedef {import('xast-util-feed').Entry} Entry
+ * @import {ElementContent, Element, Root} from 'hast'
+ * @import {DataMap} from 'vfile'
+ * @import {} from './types.js'
  */
 
 /**

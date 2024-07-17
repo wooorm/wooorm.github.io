@@ -1,6 +1,6 @@
 /**
- * @typedef {import('hast').Root} Root
- * @typedef {import('vfile').VFile} VFile
+ * @import {Root} from 'hast'
+ * @import {VFile} from 'vfile'
  */
 
 import assert from 'node:assert/strict'

@@ -1,6 +1,5 @@
 /**
- * @typedef {import('../index.js').Metadata} Metadata
- * @typedef {import('../index.js').Render} Render
+ * @import {Metadata, Render} from '../index.js'
  */
 
 /**

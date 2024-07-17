@@ -1,10 +1,7 @@
 /**
- * @typedef {import('hast').Element} Element
- *
- * @typedef {import('../../crawl/activity.js').Activity} Activity
- *
- * @typedef {import('../index.js').Metadata} Metadata
- * @typedef {import('../index.js').Render} Render
+ * @import {Element} from 'hast'
+ * @import {Activity} from '../../crawl/activity.js'
+ * @import {Metadata, Render} from '../index.js'
  */
 
 import fs from 'node:fs/promises'

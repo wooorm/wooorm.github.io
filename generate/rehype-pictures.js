@@ -1,6 +1,6 @@
 /**
- * @typedef {import('hast').Element} Element
- * @typedef {import('hast').Root} Root
+ * @import {Element, Root} from 'hast'
+ * @import {BuildVisitor} from 'unist-util-visit-parents'
  */
 
 /**
@@ -68,7 +68,7 @@ export default function rehypePictures(options) {
       await Promise.all(promises)
     }
 
-    /** @type {import('unist-util-visit-parents').BuildVisitor<Root, 'element'>} */
+    /** @type {BuildVisitor<Root, 'element'>} */
     function visitor(node, parents) {
       const source = (node.tagName === 'img' && node.properties.src) || ''
 

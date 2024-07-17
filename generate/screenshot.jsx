@@ -1,6 +1,6 @@
 /**
- * @typedef {import('satori').SatoriOptions} SatoriOptions
- * @typedef {import('vfile').DataMap} DataMap
+ * @import {SatoriOptions} from 'satori'
+ * @import {DataMap} from 'vfile'
  */
 
 /**

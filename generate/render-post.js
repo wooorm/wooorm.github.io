@@ -1,12 +1,8 @@
 /**
- * @typedef {import('@wooorm/starry-night').Grammar} Grammar
- *
- * @typedef {import('hast').ElementContent} ElementContent
- * @typedef {import('hast').Root} Root
- *
- * @typedef {import('vfile').VFile} VFile
- *
- * @typedef {import('./index.js').Page} Page
+ * @import {Grammar} from '@wooorm/starry-night'
+ * @import {ElementContent, Root} from 'hast'
+ * @import {VFile} from 'vfile'
+ * @import {Page} from './index.js'
  */
 
 /**

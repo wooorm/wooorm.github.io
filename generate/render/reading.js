@@ -1,8 +1,6 @@
 /**
- * @typedef {import('../../crawl/books.js').Book} Book
- *
- * @typedef {import('../index.js').Metadata} Metadata
- * @typedef {import('../index.js').Render} Render
+ * @import {Book} from '../../crawl/books.js'
+ * @import {Metadata, Render} from '../index.js'
  */
 
 import assert from 'node:assert/strict'

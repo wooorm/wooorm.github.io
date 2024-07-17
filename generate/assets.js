@@ -1,10 +1,7 @@
 /**
- * @typedef {import('sharp').Sharp} Sharp
- *
- * @typedef {import('trough').Callback} Callback
- * @typedef {import('trough').Pipeline} Pipeline
- *
- * @typedef {import('type-fest').PackageJson} PackageJson
+ * @import {Sharp} from 'sharp'
+ * @import {Callback, Pipeline} from 'trough'
+ * @import {PackageJson} from 'type-fest'
  */
 
 /**
