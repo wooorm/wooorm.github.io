@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang=en>
+<meta charset=utf8>
+<title>Résumé | Titus Wormer | wooorm.com</title>
+<meta name=viewport content=width=device-width,initial-scale=1>
+<link href=https://wooorm.com/resume.html rel=canonical>
+<meta name=description content="Resume of Titus">
+<meta name=keywords content=oss,open,source,ties,music,shows,resume,curriculum,vitae>
+<meta name=author content="Titus Wormer">
+<meta name=copyright content="© 1992 Titus Wormer">
+<meta property=og:type content=article>
+<meta property=og:site_name content=wooorm.com>
+<meta property=og:url content=https://wooorm.com/resume.html>
+<meta property=og:title content="Résumé | Titus Wormer">
+<meta property=og:description content="Resume of Titus">
+<meta content=@wooorm name=twitter:site>
+<meta content=@wooorm name=twitter:creator>
+<link rel="shortcut icon"type=image/x-icon href=data:image/x-icon;,>
+<style>
+* { line-height: calc(1em + 1ex); box-sizing: border-box; }
+
+html {
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, Helvetica Neue, Segoe UI, Oxygen, Ubuntu, Cantarell, Open Sans, sans-serif;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+body {
+  margin: 0 auto;
+  padding: calc(1em + 1ex);
+  max-width: 40em;
+  display: flex;
+  flex-direction: column;
+}
+
+header, footer, main, article, section, div { margin: calc(1em + 1ex) 0; }
+h1, h2, h3, p, ol { margin-top: calc(0.5rem + 0.5ex); margin-bottom: calc(0.5rem + 0.5ex) }
+h1:first-child, h2:first-child, h3:first-child, p:first-child, ol:first-child, header:first-child, footer:first-child, main:first-child, article:first-child, section:first-child { margin-top: 0; }
+h1:last-child, h2:last-child, h3:last-child, p:last-child, ol:last-child, header:last-child, footer:last-child, main:last-child, article:last-child, section:last-child { margin-bottom: 0; }
+
+h1 { letter-spacing: 0.0625em; }
+h1, h2 { text-transform: uppercase; color: black; }
+h3 { font-weight: normal; }
+.title, .project { font-weight: bold; color: black; }
+.range { margin-top: calc(-0.5rem - 0.5ex) }
+.low { color: rgba(0, 0, 0, 0.25) }
+time { color: rgba(0, 0, 0, 0.75) }
+footer { font-size: smaller; }
+main ol { list-style-type: circle }
+
+header ol { list-style: none; padding: 0; }
+a { color: inherit; text-decoration: none; transition: color 200ms; color: black; font-weight: bold; }
+a:hover, a:focus { color: hsl(212, 97%, 43%); }
+
+@media screen and (min-width: 42em) {
+  main ol { padding-left: 0 }
+}
+
+@media screen and (min-width: 60em) {
+  header ol { margin: 0 -0.25em; }
+  header li { display: inline-block; margin: 0 0.25em; }
+  header li::after { content: '·'; margin-left: 0.33em; }
+  header li:last-child::after { display: none; }
+  body { max-width: 70em; }
+  main { flex: 1; display: flex; margin-left: calc(-0.5em - 0.5ex); margin-right: calc(-0.5em - 0.5ex); }
+  div { margin-left: calc(0.5em + 0.5ex); margin-right: calc(0.5em + 0.5ex); }
+  .side { max-width: 20em; min-width: 15em; }
+}
+
+@media print {
+  * { color: black !important; }
+  a { font-weight: inherit !important; }
+  main ol { padding-left: 0 }
+}
+
+@media (prefers-color-scheme: dark) {
+  html { background: black; }
+  a, h1, h2, .title, .project { color: white; }
+  html, time { color: rgba(255, 255, 255, 0.75); }
+  .low { color: rgba(255, 255, 255, 0.25); }
+}
+</style>
+<header>
+  <h1>Titus Wormer</h1>
+  <ol>
+    <li><a href=mailto:tituswormer@gmail.com>tituswormer@gmail.com</a>
+    <li><a href=https://wooorm.com>wooorm.com</a>
+    <li><a href=https://github.com/wooorm>github.com/wooorm</a>
+  </ol>
+</header>
+<main>
+  <div class=side>
+    <article>
+      <h2>Skills</h2>
+      <section>
+        <p>
+          My open source work ranges from advanced technical concepts such as
+          parsers and syntax trees, to people-focussed community management.
+        </p>
+        <p>
+          I am experienced in JavaScript, Node.js, and frontend development.
+          This includes topics such as tooling, web frameworks, performance,
+          and accessibility.
+          I know a lot about the inner workings of HTML, JavaScript, DOM, Web
+          APIs, Node, npm, Git, GitHub, Bash.
+          The code I work on is well tested (100% coverage and CI/CD) and
+          documented in detail.
+        </p>
+        <p>
+          I am not a designer in the sense that I can make something pretty,
+          but everything I do focusses on the people that use the things I make.
+        </p>
+      </section>
+    </article>
+  </div>
+  <div>
+    <article>
+      <h2>Projects</h2>
+      <section>
+        <section>
+          <h3><b class=project>unified</b>, Open Source Software</h3>
+          <p class="range low"><time datetime=2014-6>June 2014</time> — present</p>
+          <p>
+            As core team member and creator of the
+            <a href=https://unifiedjs.github.io>unified</a> ecosystem and the
+            300+ projects under its umbrella I’m working to make it easier for
+            developers to develop.
+            unified is an ecosystem of text processing libraries, plugins, and
+            utilities.
+            Since May 2019, my work on unified has been funded by the community,
+            including sponsors such as ZEIT, Gatsby, Netlify, on
+            <a href=https://opencollective.com/unified>OpenCollective</a>.
+          </p>
+          <p>
+            In total, including unified, I work on open source since 2013,
+            mostly around content, markup, natural language, and syntax trees.
+            I actively maintain about ±400 repositories and ±600 packages, that
+            are collectively downloaded ±10 billion times a year.
+            Outside of unified, I like to work on
+            <a href=https://github.com/wooorm/vendors>tiny</a>
+            <a href=https://github.com/words/emoji-emotion>lego-brick</a>
+            <a href=https://github.com/words/syllable>utilities</a>,
+            <a href=https://wooorm.com/write-music>fun</a>
+            <a href=https://wooorm.com/readability>experiments</a>,
+            <a href=https://github.com/wooorm/lowlight>syntax</a>
+            <a href=https://github.com/wooorm/refractor>highlighting</a>,
+            <a href=https://github.com/wooorm/nspell>spell</a>
+            <a href=https://github.com/wooorm/nspell>checking</a>,
+            <a href=https://github.com/wooorm/franc>detecting language</a>,
+            <a href=https://alexjs.com>being considerate</a>,
+            <a href="https://github.com/search?q=user%3Awooorm+user%3Amdx-js+user%3Amicromark+user%3Aremarkjs+user%3Arehypejs+user%3Aretextjs+user%3Aunifiedjs+user%3Asyntax-tree+user%3Avfile+user%3Aget-alex+user%3Awords&type=Repositories">and many more things</a>!
+          </p>
+          <p>
+            I get really excited about content and syntax trees.
+            We’re already seeing interesting things (such as JAMstack and MDX)
+            pop up, and I can’t wait to see what the the future holds in store
+            for content and syntax trees and want to work towards advancing
+            that.
+          </p>
+        </section>
+        <h3><b class=project>Frontend Applications</b>, <b class=project>Functional Programming</b>, and <b class=project>Frontend Data</b>, University of Applied Sciences Amsterdam</h3>
+        <p class="range low"><time datetime=2018-10>October 2018</time> — <time datetime=2018-11>November 2018</time></p>
+        <p>
+          As coordinator (and teacher) of these three advanced technical
+          courses, I was responsible for the curriculum and syllabus of this new
+          track, a programme on mastering frontend libraries such as D3,
+          frameworks such as React and Vue, dealing with big datasets, and
+          visualising data.
+        </p>
+        <p>
+          In an earlier iteration, when only the course frontend data existed,
+          I built a system where students handed in code through GitHub,
+          continuous integration automatically checked their submissions, and
+          immediately deployed to a website when their work was up to standards.
+          This allowed students to get feedback earlier and at all times.
+          This worked well in “old-school” education where there is limited
+          time for teachers and students to interact.
+        </p>
+        <p>
+          In this iteration, we instead focussed on finding a place where
+          students and teachers could work full-time for six weeks to learn
+          together.
+          We collaborated with three public sector partners (such as the public
+          library of Amsterdam) to work with their data and attempting to solve
+          their challenges, in return for their facilities.
+        </p>
+        <p>
+          It was a lot of fun to work on actual problems and to learn together
+          with 35 students, 10 guest speakers, 3 industry partners, and 2
+          teachers, building ±100 prototypes.
+        </p>
+        <p>
+          See <a href=https://github.com/cmda-tt/course-18-19>GitHub</a>.
+        </p>
+      </section>
+    </article>
+    <article>
+      <h2>Experience</h2>
+      <section>
+        <h3><b class=title>Lecturer</b>, University of Applied Sciences Amsterdam</h3>
+        <p class="range low"><time datetime=2015-8>August 2015</time> — <time datetime=2019-01>January 2019</time></p>
+        <p>
+          I am a qualified teacher with 4½ years experience.
+          I coordinated courses, lectured, mentored one-on-one and in small
+          groups, and taught about technical topics ranging from
+          a student’s first prototype to complex apps.
+        </p>
+      </section>
+      <section>
+        <h3><b class=title>Software Engineer</b>, AndSafety</h3>
+        <p class="range low"><time datetime=2015-1>Januari 2015</time> — <time datetime=2018-9>September 2018</time></p>
+        <p>
+          As a developer I built apps and online services to improve quality,
+          efficiency, and safety in the workplace.
+        </p>
+      </section>
+      <section>
+        <h3><b class=title>Software Engineer</b>, Vidacle</h3>
+        <p class="range low"><time datetime=2013-5>May 2013</time> — <time datetime=2016-3>March 2016</time></p>
+        <p>
+          As a developer I built a social platform for sharing videos and
+          telling stories.
+        </p>
+      </section>
+      <section>
+        <h3><b class=title>Visiting Lecturer</b>, University of Applied Sciences Amsterdam</h3>
+        <p class="range low"><time datetime=2014-11>November 2014</time> — <time datetime=2015-1>Januari 2015</time></p>
+        <p>
+          As a visiting lecturer I taught students how to build data
+          visualisations with D3.
+        </p>
+      </section>
+    </article>
+  </div>
+  <div class=side>
+    <article>
+      <h2>Education</h2>
+      <section>
+        <h3><b class=title>B. of Communication & Multimedia Design</b>, University of Applied Sciences Amsterdam</h3>
+        <p class="range low"><time datetime=2010-9>September 2010</time> — <time datetime=2014-8>August 2014</time></p>
+        <p>
+          I studied at a design bachelor programme focused on interactive
+          digital products and services.
+          Half way through my studies I started focussing on how to make those
+          things reality.
+        </p>
+      </section>
+    </article>
+  </div>
+</main>
+<footer>
+  <p>© 1992 Titus Wormer</p>
+</footer>
