@@ -71,6 +71,13 @@ export function render() {
         h(
           'li',
           h('span.text', [
+            h('a', {href: 'https://thanks.dev'}, h('code', 'thanks.dev')),
+            ' (your entire codebase)'
+          ])
+        ),
+        h(
+          'li',
+          h('span.text', [
             h(
               'a',
               {href: 'https://opencollective.com/unified'},
