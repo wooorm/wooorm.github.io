@@ -8,11 +8,11 @@
     "exactOptionalPropertyTypes": true,
     "jsx": "react",
     // `dom` included because VS Code stuff needs `WebAssembly`.
-    "lib": ["dom", "es2022"],
+    "lib": ["dom", "es2023"],
     "module": "node16",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2022"
+    "target": "es2023"
   },
   "exclude": ["coverage/", "node_modules/"],
   "include": ["**/*.jsx", "**/*.js", "generate/types.d.ts"]

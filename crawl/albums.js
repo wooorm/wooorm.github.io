@@ -78,8 +78,7 @@ const albums = body.topalbums.album.flatMap(function (d) {
       const text = d['#text']
       return text
     })
-    .filter(Boolean)
-    .pop()
+    .findLast(Boolean)
 
   if (image) {
     /** @type {Readonly<Album>} */
