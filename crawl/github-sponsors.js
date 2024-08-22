@@ -1,7 +1,7 @@
 /**
  * @typedef GithubOrganizationData
  *   Github organization data.
- * @property {{nodes: ReadonlyArray<Readonly<GithubSponsorNode>>}} sponsorshipsAsMaintainer
+ * @property {{nodes: ReadonlyArray<Readonly<GithubSponsorNode>>}} lifetimeReceivedSponsorshipValues
  *   Sponsorships.
  *
  * @typedef GithubSponsor
@@ -21,27 +21,22 @@
  *
  * @typedef GithubSponsorNode
  *   GitHub sponsor node.
- * @property {Readonly<GithubSponsor>} sponsorEntity
+ * @property {number} amountInCents
+ *   Total price.
+ * @property {Readonly<GithubSponsor>} sponsor
  *   Sponsor.
- * @property {Readonly<GithubTier>} tier
- *   Tier.
  *
  * @typedef GithubSponsorsResponse
  *   GitHub sponsors response.
  * @property {{organization: Readonly<GithubOrganizationData>, viewer: Readonly<GithubViewerData>}} data
  *   Data.
  *
- * @typedef GithubTier
- *   GitHub tier.
- * @property {number} monthlyPriceInDollars
- *   Monthly price.
- *
  * @typedef GithubViewerData
  *   GitHub viewer data.
- * @property {{nodes: ReadonlyArray<Readonly<GithubSponsorNode>>}} sponsorshipsAsMaintainer
+ * @property {{nodes: ReadonlyArray<Readonly<GithubSponsorNode>>}} lifetimeReceivedSponsorshipValues
  *   Sponsorships.
  *
- * @typedef {Omit<SponsorRaw, 'monthly'>} Sponsor
+ * @typedef {Omit<SponsorRaw, 'total'>} Sponsor
  *   Sponsor.
  *
  * @typedef SponsorRaw
@@ -52,10 +47,10 @@
  *   GitHub username.
  * @property {string} image
  *   Image.
- * @property {number} monthly
- *   Monthly price.
  * @property {string | undefined} name
  *   Name.
+ * @property {number} total
+ *   Total amount.
  * @property {string | undefined} url
  *   URL.
  *
@@ -84,24 +79,24 @@ const endpoint = 'https://api.github.com/graphql'
 
 const query = `query($org: String!) {
   organization(login: $org) {
-    sponsorshipsAsMaintainer(first: 100) {
+    lifetimeReceivedSponsorshipValues(first: 100, orderBy: {field: LIFETIME_VALUE, direction: DESC}) {
       nodes {
-        sponsorEntity {
-          ... on User { login name bio avatarUrl websiteUrl }
-          ... on Organization { login name description avatarUrl websiteUrl }
+        amountInCents
+        sponsor {
+          ... on Organization { avatarUrl description login name websiteUrl }
+          ... on User { avatarUrl bio login name websiteUrl }
         }
-        tier { monthlyPriceInDollars }
       }
     }
   }
   viewer {
-    sponsorshipsAsMaintainer(first: 100) {
+    lifetimeReceivedSponsorshipValues(first: 100, orderBy: {field: LIFETIME_VALUE, direction: DESC}) {
       nodes {
-        sponsorEntity {
-          ... on User { login name bio avatarUrl websiteUrl }
-          ... on Organization { login name description avatarUrl websiteUrl }
+        amountInCents
+        sponsor {
+          ... on Organization { avatarUrl description login name websiteUrl }
+          ... on User { avatarUrl bio login name websiteUrl }
         }
-        tier { monthlyPriceInDollars }
       }
     }
   }
@@ -117,15 +112,16 @@ const body = /** @type {Readonly<GithubSponsorsResponse>} */ (
   await response.json()
 )
 
-const collective = body.data.organization.sponsorshipsAsMaintainer.nodes
-  .map(function (d) {
-    return clean(d)
-  })
-  .sort(sort)
-  .map(function (d) {
-    return strip(d)
-  })
-const personal = body.data.viewer.sponsorshipsAsMaintainer.nodes
+const collective =
+  body.data.organization.lifetimeReceivedSponsorshipValues.nodes
+    .map(function (d) {
+      return clean(d)
+    })
+    .sort(sort)
+    .map(function (d) {
+      return strip(d)
+    })
+const personal = body.data.viewer.lifetimeReceivedSponsorshipValues.nodes
   .map(function (d) {
     return clean(d)
   })
@@ -148,13 +144,12 @@ await fs.writeFile(
  */
 function clean(d) {
   return {
-    description:
-      d.sponsorEntity.bio || d.sponsorEntity.description || undefined,
-    github: d.sponsorEntity.login,
-    image: d.sponsorEntity.avatarUrl,
-    monthly: d.tier.monthlyPriceInDollars,
-    name: d.sponsorEntity.name || undefined,
-    url: d.sponsorEntity.websiteUrl || undefined
+    description: d.sponsor.bio || d.sponsor.description || undefined,
+    github: d.sponsor.login,
+    image: d.sponsor.avatarUrl,
+    name: d.sponsor.name || undefined,
+    total: Math.floor(d.amountInCents / 100),
+    url: d.sponsor.websiteUrl || undefined
   }
 }
 
@@ -165,7 +160,7 @@ function clean(d) {
  *   Sponsor.
  */
 function strip(d) {
-  const {monthly, ...rest} = d
+  const {total, ...rest} = d
   return rest
 }
 
@@ -178,5 +173,5 @@ function strip(d) {
  *   Sort order.
  */
 function sort(a, b) {
-  return b.monthly - a.monthly
+  return b.total - a.total
 }
