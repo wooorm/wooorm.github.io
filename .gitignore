@@ -1,9 +1,10 @@
-*.d.ts.map
-*.d.ts
 !/generate/types.d.ts
+*.d.ts
+*.map
+*.tsbuildinfo
+.DS_Store
+.env
 /build/
 /data/
 /node_modules/
-.DS_Store
-.env
 yarn.lock
