@@ -2,11 +2,11 @@
   "compilerOptions": {
     "checkJs": true,
     "customConditions": ["development"],
-    "declaration": true,
     "declarationMap": true,
+    "declaration": true,
     "emitDeclarationOnly": true,
     "exactOptionalPropertyTypes": true,
-    "jsx": "react",
+    "jsx": "preserve",
     // `dom` included because VS Code stuff needs `WebAssembly`.
     "lib": ["dom", "es2023"],
     "module": "node16",

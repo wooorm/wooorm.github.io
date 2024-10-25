@@ -1,40 +1,40 @@
+a.active,
+a:hover {
+  background-color: white;
+  color: black;
+}
+
 body {
   background-color: black;
   background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><circle cx="2" cy="2" r="0.5" fill="white" fill-opacity="0.5"/></svg>');
   color: white;
 }
 
-a:hover,
-a.active {
-  background-color: white;
-  color: black;
+ul li::before {
+  background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><circle cx="2" cy="2" r="2" fill="white"/></svg>');
 }
 
 .caption {
   background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><circle cx="1" cy="1" r="0.5" fill="white" fill-opacity="0.5"/><circle cx="3" cy="3" r="0.5" fill="white" fill-opacity="0.5"/></svg>');
 }
 
-.card .caption {
-  background-color: black;
-}
-
-.cover,
-.card {
+.card,
+.cover {
   background-color: white;
 }
 
-.cover::after,
-.card::after {
-  background-image: none;
+.card::after,
+.cover::after {
   background-color: black;
+  background-image: none;
   opacity: 0.5;
+}
+
+.card .caption {
+  background-color: black;
 }
 
 .text {
   background-color: black;
   color: white;
-}
-
-ul li::before {
-  background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><circle cx="2" cy="2" r="2" fill="white"/></svg>');
 }

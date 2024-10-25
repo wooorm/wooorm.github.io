@@ -2,67 +2,53 @@
 <html lang=en>
 <meta charset=utf8>
 <title>Résumé | Titus Wormer | wooorm.com</title>
-<meta name=viewport content=width=device-width,initial-scale=1>
+<meta content=initial-scale=1,width=device-width name=viewport>
 <link href=https://wooorm.com/resume.html rel=canonical>
-<meta name=description content="Resume of Titus">
-<meta name=keywords content=oss,open,source,ties,music,shows,resume,curriculum,vitae>
-<meta name=author content="Titus Wormer">
-<meta name=copyright content="© 1992 Titus Wormer">
-<meta property=og:type content=article>
-<meta property=og:site_name content=wooorm.com>
-<meta property=og:url content=https://wooorm.com/resume.html>
-<meta property=og:title content="Résumé | Titus Wormer">
-<meta property=og:description content="Resume of Titus">
-<meta content=@wooorm name=twitter:site>
+<meta content="Resume of Titus" name=description>
+<meta content=curriculum,music,open,oss,resume,shows,source,vitae name=keywords>
+<meta content="Titus Wormer" name=author>
+<meta content="© 1992 Titus Wormer" name=copyright>
+<meta content=article property=og:type>
+<meta content=wooorm.com property=og:site_name>
+<meta content=https://wooorm.com/resume.html property=og:url>
+<meta content="Résumé | Titus Wormer" property=og:title>
+<meta content="Resume of Titus" property=og:description>
 <meta content=@wooorm name=twitter:creator>
-<link rel="shortcut icon"type=image/x-icon href=data:image/x-icon;,>
+<meta content=@wooorm name=twitter:site>
+<link href=data:image/x-icon;, rel="shortcut icon" type=image/x-icon>
 <style>
-* { line-height: calc(1em + 1ex); box-sizing: border-box; }
-
-html {
-  font-family: Roboto, -apple-system, BlinkMacSystemFont, Helvetica Neue, Segoe UI, Oxygen, Ubuntu, Cantarell, Open Sans, sans-serif;
-  color: rgba(0, 0, 0, 0.75);
-}
-
-body {
-  margin: 0 auto;
-  padding: calc(1em + 1ex);
-  max-width: 40em;
-  display: flex;
-  flex-direction: column;
-}
-
-header, footer, main, article, section, div { margin: calc(1em + 1ex) 0; }
-h1, h2, h3, p, ol { margin-top: calc(0.5rem + 0.5ex); margin-bottom: calc(0.5rem + 0.5ex) }
-h1:first-child, h2:first-child, h3:first-child, p:first-child, ol:first-child, header:first-child, footer:first-child, main:first-child, article:first-child, section:first-child { margin-top: 0; }
-h1:last-child, h2:last-child, h3:last-child, p:last-child, ol:last-child, header:last-child, footer:last-child, main:last-child, article:last-child, section:last-child { margin-bottom: 0; }
-
-h1 { letter-spacing: 0.0625em; }
-h1, h2 { text-transform: uppercase; color: black; }
-h3 { font-weight: normal; }
-.title, .project { font-weight: bold; color: black; }
-.range { margin-top: calc(-0.5rem - 0.5ex) }
-.low { color: rgba(0, 0, 0, 0.25) }
-time { color: rgba(0, 0, 0, 0.75) }
+* { box-sizing: border-box; line-height: calc(1em + 1ex) }
+a { color: black; font-weight: bold; text-decoration: none; transition: color 200ms; }
+a:focus, a:hover { color: hsl(212, 97%, 43%); }
+article, div, footer, header, main, section { margin: calc(1em + 1ex) 0; }
+article:first-child, footer:first-child, h1:first-child, h2:first-child, h3:first-child, header:first-child, main:first-child, ol:first-child, p:first-child, section:first-child { margin-top: 0; }
+article:last-child, footer:last-child, h1:last-child, h2:last-child, h3:last-child, header:last-child, main:last-child, ol:last-child, p:last-child, section:last-child { margin-bottom: 0; }
+body { display: flex; flex-direction: column; margin: 0 auto; max-width: 40em; padding: calc(1em + 1ex) }
 footer { font-size: smaller; }
-main ol { list-style-type: circle }
-
+h1, h2, h3, p, ol { margin-bottom: calc(0.5rem + 0.5ex); margin-top: calc(0.5rem + 0.5ex) }
+h1, h2 { text-transform: uppercase; color: black; }
+h1 { letter-spacing: 0.0625em; }
+h3 { font-weight: normal; }
 header ol { list-style: none; padding: 0; }
-a { color: inherit; text-decoration: none; transition: color 200ms; color: black; font-weight: bold; }
-a:hover, a:focus { color: hsl(212, 97%, 43%); }
+html, time { color: rgba(0, 0, 0, 0.75) }
+html { font-family: Roboto, -apple-system, BlinkMacSystemFont, Helvetica Neue, Segoe UI, Oxygen, Ubuntu, Cantarell, Open Sans, sans-serif }
+main ol { list-style-type: circle }
+.low { color: rgba(0, 0, 0, 0.25) }
+.range { margin-top: calc(-0.5rem - 0.5ex) }
+.title, .project { font-weight: bold; color: black; }
 
 @media screen and (min-width: 42em) {
   main ol { padding-left: 0 }
 }
 
 @media screen and (min-width: 60em) {
-  header ol { margin: 0 -0.25em; }
+  body { max-width: 70em; }
+  div { margin-left: calc(0.5em + 0.5ex); margin-right: calc(0.5em + 0.5ex); }
   header li { display: inline-block; margin: 0 0.25em; }
   header li::after { content: '·'; margin-left: 0.33em; }
   header li:last-child::after { display: none; }
-  body { max-width: 70em; }
+  header ol { margin: 0 -0.25em; }
   main { flex: 1; display: flex; margin-left: calc(-0.5em - 0.5ex); margin-right: calc(-0.5em - 0.5ex); }
-  div { margin-left: calc(0.5em + 0.5ex); margin-right: calc(0.5em + 0.5ex); }
   .side { max-width: 20em; min-width: 15em; }
 }
 
@@ -73,9 +59,9 @@ a:hover, a:focus { color: hsl(212, 97%, 43%); }
 }
 
 @media (prefers-color-scheme: dark) {
-  html { background: black; }
   a, h1, h2, .title, .project { color: white; }
   html, time { color: rgba(255, 255, 255, 0.75); }
+  html { background: black; }
   .low { color: rgba(255, 255, 255, 0.25); }
 }
 </style>
@@ -118,7 +104,7 @@ a:hover, a:focus { color: hsl(212, 97%, 43%); }
       <section>
         <section>
           <h3><b class=project>unified</b>, Open Source Software</h3>
-          <p class="range low"><time datetime=2014-6>June 2014</time> — present</p>
+          <p class="low range"><time datetime=2014-6>June 2014</time> — present</p>
           <p>
             As core team member and creator of the
             <a href=https://unifiedjs.github.io>unified</a> ecosystem and the
@@ -158,7 +144,7 @@ a:hover, a:focus { color: hsl(212, 97%, 43%); }
           </p>
         </section>
         <h3><b class=project>Frontend Applications</b>, <b class=project>Functional Programming</b>, and <b class=project>Frontend Data</b>, University of Applied Sciences Amsterdam</h3>
-        <p class="range low"><time datetime=2018-10>October 2018</time> — <time datetime=2018-11>November 2018</time></p>
+        <p class="low range"><time datetime=2018-10>October 2018</time> — <time datetime=2018-11>November 2018</time></p>
         <p>
           As coordinator (and teacher) of these three advanced technical
           courses, I was responsible for the curriculum and syllabus of this new
@@ -197,7 +183,7 @@ a:hover, a:focus { color: hsl(212, 97%, 43%); }
       <h2>Experience</h2>
       <section>
         <h3><b class=title>Lecturer</b>, University of Applied Sciences Amsterdam</h3>
-        <p class="range low"><time datetime=2015-8>August 2015</time> — <time datetime=2019-01>January 2019</time></p>
+        <p class="low range"><time datetime=2015-8>August 2015</time> — <time datetime=2019-01>January 2019</time></p>
         <p>
           I am a qualified teacher with 4½ years experience.
           I coordinated courses, lectured, mentored one-on-one and in small
@@ -207,7 +193,7 @@ a:hover, a:focus { color: hsl(212, 97%, 43%); }
       </section>
       <section>
         <h3><b class=title>Software Engineer</b>, AndSafety</h3>
-        <p class="range low"><time datetime=2015-1>Januari 2015</time> — <time datetime=2018-9>September 2018</time></p>
+        <p class="low range"><time datetime=2015-1>Januari 2015</time> — <time datetime=2018-9>September 2018</time></p>
         <p>
           As a developer I built apps and online services to improve quality,
           efficiency, and safety in the workplace.
@@ -215,7 +201,7 @@ a:hover, a:focus { color: hsl(212, 97%, 43%); }
       </section>
       <section>
         <h3><b class=title>Software Engineer</b>, Vidacle</h3>
-        <p class="range low"><time datetime=2013-5>May 2013</time> — <time datetime=2016-3>March 2016</time></p>
+        <p class="low range"><time datetime=2013-5>May 2013</time> — <time datetime=2016-3>March 2016</time></p>
         <p>
           As a developer I built a social platform for sharing videos and
           telling stories.
@@ -223,7 +209,7 @@ a:hover, a:focus { color: hsl(212, 97%, 43%); }
       </section>
       <section>
         <h3><b class=title>Visiting Lecturer</b>, University of Applied Sciences Amsterdam</h3>
-        <p class="range low"><time datetime=2014-11>November 2014</time> — <time datetime=2015-1>Januari 2015</time></p>
+        <p class="low range"><time datetime=2014-11>November 2014</time> — <time datetime=2015-1>Januari 2015</time></p>
         <p>
           As a visiting lecturer I taught students how to build data
           visualisations with D3.
@@ -236,7 +222,7 @@ a:hover, a:focus { color: hsl(212, 97%, 43%); }
       <h2>Education</h2>
       <section>
         <h3><b class=title>B. of Communication & Multimedia Design</b>, University of Applied Sciences Amsterdam</h3>
-        <p class="range low"><time datetime=2010-9>September 2010</time> — <time datetime=2014-8>August 2014</time></p>
+        <p class="low range"><time datetime=2010-9>September 2010</time> — <time datetime=2014-8>August 2014</time></p>
         <p>
           I studied at a design bachelor programme focused on interactive
           digital products and services.
