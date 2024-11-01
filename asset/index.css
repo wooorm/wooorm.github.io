@@ -173,7 +173,6 @@ html {
     'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
   --ff-sans: system-ui;
 
-  color-scheme: light dark;
   font-family: var(--ff-sans);
   font-feature-settings: 'kern', 'liga', 'clig', 'calt';
   font-kerning: normal;
