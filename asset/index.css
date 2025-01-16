@@ -210,7 +210,7 @@ kbd {
 li {
   margin-bottom: 0.25em;
   margin-top: 0.25em;
-  word-wrap: break-all;
+  word-wrap: break-word;
 }
 
 nav li {
