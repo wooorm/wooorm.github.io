@@ -2,7 +2,6 @@
 title: Hello, EPUB!
 description: brief intro to the format
 author: Titus Wormer
-authorTwitter: wooorm
 tags:
   - epub
   - ebook

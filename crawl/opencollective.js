@@ -13,8 +13,6 @@
  *   Name.
  * @property {string} slug
  *   Slug.
- * @property {string | null} twitterHandle
- *   Twitter username.
  * @property {string | null} website
  *   Website.
  *
@@ -59,11 +57,8 @@
  *   Whether it’s spam.
  * @property {number} total
  *   Total donations.
- * @property {string | undefined} twitter
- *   Twitter username.
  * @property {string | undefined} url
  *   URL.
- *
  */
 
 import fs from 'node:fs/promises'
@@ -87,7 +82,6 @@ const endpoint = 'https://api.opencollective.com/graphql/v2'
 const variables = {slug: 'unified'}
 
 const ghBase = 'https://github.com/'
-const twBase = 'https://twitter.com/'
 
 const query = `query($slug: String) {
   collective(slug: $slug) {
@@ -101,7 +95,6 @@ const query = `query($slug: String) {
           imageUrl
           name
           slug
-          twitterHandle
           website
         }
       }
@@ -139,13 +132,12 @@ const members = collectiveBody.data.collective.members.nodes
   .map(function (d) {
     const oc = d.account.slug
     const github = d.account.githubHandle || undefined
-    const twitter = d.account.twitterHandle || undefined
     let url = d.account.website || undefined
     const info = control.find(function (d) {
       return d.oc === oc
     })
 
-    if (url === ghBase + github || url === twBase + twitter) {
+    if (url === ghBase + github) {
       url = undefined
     }
 
@@ -165,7 +157,6 @@ const members = collectiveBody.data.collective.members.nodes
       oc,
       spam: !info || info.spam,
       total: d.totalDonations.value,
-      twitter,
       url
     }
 

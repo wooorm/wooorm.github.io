@@ -2,7 +2,6 @@
 title: alex
 description: reflections on alex
 author: Titus Wormer
-authorTwitter: wooorm
 tags:
   - alex
 published: 2020-05-26
@@ -34,9 +33,7 @@ I got annoyed by `he` in code when referring to users, instead of `they`.
 Especially when there was
 [pushback](https://github.com/django/django/pull/2692).
 Against “trivial” and “PC” suggestions to fix it.
-A friend pointed to [a
-tweet](https://twitter.com/kwuchu/status/618799087006130176)
-showing problems with `master`/`slave`.
+A friend pointed to a tweet showing problems with `master`/`slave`.
 Suggested there should be something for that, and wondered if I could make
 something given my experience.
 I felt it was my job as a maintainer to make sure our community, our readmes
@@ -206,9 +203,9 @@ We need more of that instead of the next new framework.
 
 I am always open to feedback on how to make alex better.
 On its [repository](https://github.com/get-alex/alex#integrations) or feel free
-to slide into my [DMs](https://twitter.com/wooorm).
+to slide into my DMs.
 
 *Thanks to Nat Alison for
-[pointing out](https://twitter.com/tesseralis/status/1260421410192650241)
+pointing out
 that alex isn’t good enough.
 I’m grateful that she devoted time critiquing alex.*

@@ -27,7 +27,6 @@ const projects =
 const resume = '/resume.html'
 const thanks = '/thanks/'
 const tt = 'https://github.com/cmda-tt/course-18-19'
-const twitter = 'https://twitter.com/wooorm'
 
 /** @type {Render} */
 export function render() {
@@ -74,7 +73,11 @@ export function render() {
         h(
           'li',
           h('span.text', [
-            h('a', {href: twitter}, [h('strong', 'twitter'), '.com/wooorm'])
+            h('a', {href: 'https://bsky.app/profile/wooorm.bsky.social'}, [
+              'wooorm.',
+              h('strong', 'bsky'),
+              '.social'
+            ])
           ])
         ),
         h(

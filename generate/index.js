@@ -68,7 +68,6 @@ const siteAuthor = 'Titus Wormer'
 const siteLanguage = 'en'
 const siteName = 'wooorm.com'
 const siteTags = ['oss', 'open', 'source', 'ties', 'music', 'shows']
-const siteTwitter = '@wooorm'
 const siteOrigin = 'https://wooorm.com'
 
 /** @type {Array<Page>} */
@@ -116,7 +115,6 @@ const pipeline = unified()
   .use(rehypeInferReadingTimeMeta)
   .use(rehypeMeta, {
     author: siteAuthor,
-    authorTwitter: siteTwitter,
     color: '#000000',
     copyright: true,
     name: siteName,
@@ -125,9 +123,7 @@ const pipeline = unified()
     separator: ' | ',
     siteAuthor,
     siteTags,
-    siteTwitter,
-    type: 'website',
-    twitter: true
+    type: 'website'
   })
   .use(rehypeDefer)
   .use(rehypePreventFaviconRequest)
