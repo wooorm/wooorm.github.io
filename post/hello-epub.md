@@ -45,7 +45,7 @@ choice to see it’s made.
 To create an EPUB, a couple things are needed.
 What we’re going to create here is a directory with the following files:
 
-```txt
+```text
 book/
   META-INF/
     container.xml
@@ -59,7 +59,7 @@ book/
 First, a file called `mimetype`, without extension, must exist in the root of
 the folder, with following value exactly copied over:
 
-```txt
+```text
 application/epub+zip
 ```
 
@@ -266,18 +266,18 @@ When I do, I’ll link that up here!
 
 <!-- Definitions. -->
 
+[azk-sum-up]: https://wiki.mobileread.com/wiki/AZK
+
 [calibre]: https://calibre-ebook.com
 
-[azk-sum-up]: https://wiki.mobileread.com/wiki/AZK
+[gui]: https://ebookflightdeck.com/handbook/zipping
+
+[ocf-3.5]: https://www.w3.org/publishing/epub3/epub-ocf.html#sec-container-metainf-container.xml
+
+[ocf-4.3]: https://www.w3.org/publishing/epub3/epub-ocf.html#sec-zip-container-mime
+
+[p-3.4]: https://www.w3.org/publishing/epub3/epub-packages.html#sec-package-def
 
 [scheme-tag]: https://en.wikipedia.org/wiki/Tag_URI_scheme
 
 [webmanifest]: https://developer.mozilla.org/docs/Web/Manifest
-
-[ocf-4.3]: https://www.w3.org/publishing/epub3/epub-ocf.html#sec-zip-container-mime
-
-[ocf-3.5]: https://www.w3.org/publishing/epub3/epub-ocf.html#sec-container-metainf-container.xml
-
-[p-3.4]: https://www.w3.org/publishing/epub3/epub-packages.html#sec-package-def
-
-[gui]: https://ebookflightdeck.com/handbook/zipping

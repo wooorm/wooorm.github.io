@@ -30,7 +30,7 @@ For Spotify, create an app, configure a callback URL as
 `http://localhost/callback`, note the client ID and secret, then go to (in a
 browser):
 
-```txt
+```text
 https://accounts.spotify.com/authorize?client_id=$CLIENT_ID&response_type=code&redirect_uri=http://localhost/callback&scope=user-top-read
 ```
 
@@ -49,6 +49,6 @@ curl --verbose \
 Grab the `refresh_token` from the result.
 Place it, the client id, and the client secret in `.env`.
 
-[site]: https://wooorm.com
-
 [screenshot]: screenshot.png
+
+[site]: https://wooorm.com

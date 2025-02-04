@@ -42,7 +42,7 @@
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.0",
     "remark-parse": "^11.0.0",
-    "remark-preset-wooorm": "^10.0.0",
+    "remark-preset-wooorm": "^11.0.0",
     "remark-rehype": "^11.0.0",
     "remark-validate-links": "^13.0.0",
     "satori": "^0.12.0",
