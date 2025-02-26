@@ -13,6 +13,8 @@ import {toText} from 'hast-util-to-text'
 import {fetch} from 'undici'
 import {visit} from 'unist-util-visit'
 
+const listFormatUnit = new Intl.ListFormat('en', {type: 'unit'})
+
 const outUrl = new URL('../data/books.json', import.meta.url)
 
 // Note: there’s no TSG (TheStoryGraph) API, so we’re scraping the website manually.
@@ -20,7 +22,7 @@ const outUrl = new URL('../data/books.json', import.meta.url)
 const url = 'https://app.thestorygraph.com/books-read/wooorm'
 
 const results = await Promise.all(
-  [1, 2, 3].map(async function (page) {
+  [1, 2, 3, 4, 5].map(async function (page) {
     const response = await fetch(url + '?page=' + page)
     const value = await response.text()
     const tree = fromHtml(value)
@@ -47,11 +49,28 @@ const results = await Promise.all(
     for (const book of selectAll('.book-pane', container)) {
       const parts = selectAll('.book-title-author-and-series a', book)
       const title = parts.shift()
+      /** @type {Array<string>} */
+      const authors = []
+
       // There can be “series” info in between.
-      const author = parts.pop()
+      for (const part of parts) {
+        if (
+          part.tagName === 'a' &&
+          part.properties.href &&
+          String(part.properties.href).startsWith('/authors/')
+        ) {
+          authors.push(toText(part))
+        }
+      }
+
       const review = select('.icon-star + span', book)
+
+      const author =
+        authors.length > 3
+          ? listFormatUnit.format([...authors.slice(0, 3), '…'])
+          : listFormatUnit.format(authors)
       assert(title, 'expected title')
-      assert(author, 'expected author')
+      assert(authors.length > 0, 'expected author')
 
       let cleanTitle = toText(title)
 
@@ -65,7 +84,7 @@ const results = await Promise.all(
 
       books.push({
         title: cleanTitle,
-        author: toText(author),
+        author,
         review: review ? Number.parseFloat(toText(review)) : undefined
       })
     }
