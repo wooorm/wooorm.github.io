@@ -5,6 +5,7 @@
 
 import fs from 'node:fs/promises'
 import {h} from 'hastscript'
+import {rating} from './reading.js'
 
 /** @type {ReadonlyArray<Readonly<Thing>>} */
 let shows = []
@@ -47,12 +48,16 @@ export function render() {
                     width: 300
                   })
                 : undefined,
-              h(
-                'h2.caption',
-                h('span.text', d.title),
-                h('br'),
-                h('span.text', '(' + d.year + ')')
-              )
+              h('.caption', [
+                h('h2', [
+                  h('span.text', d.title),
+                  h('br'),
+                  h('span.text', '(' + d.year + ')')
+                ]),
+                typeof d.rating === 'number'
+                  ? h('p', h('span.text', rating(d.rating / 2)))
+                  : undefined
+              ])
             ])
           ])
         })

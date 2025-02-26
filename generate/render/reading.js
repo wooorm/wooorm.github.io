@@ -1,4 +1,5 @@
 /**
+ * @import {Element} from 'hast'
  * @import {Book} from '../../crawl/books.js'
  * @import {Metadata, Render} from '../index.js'
  */
@@ -35,27 +36,34 @@ export function render() {
         .filter((d) => typeof d.review === 'number')
         .map(function (d) {
           const {author, title, review} = d
-          assert(typeof review === 'number')
-          const rounded = Math.min(5, Math.round(review))
-          const remainder = 5 - rounded
-
           return h('li.card-wrap', [
             h('.card', [
               h('.caption', [
                 h('h3', h('span.text', title)),
                 h('p', h('span.text', author)),
-                h(
-                  'p',
-                  h(
-                    'span.text',
-                    {title: review + ' out of 5'},
-                    '★'.repeat(rounded) + '☆'.repeat(remainder)
-                  )
-                )
+                typeof review === 'number'
+                  ? h('p', h('span.text', rating(review)))
+                  : undefined
               ])
             ])
           ])
         })
     )
   ]
+}
+
+/**
+ * @param {number} value
+ * @returns {Element}
+ */
+export function rating(value) {
+  assert(typeof value === 'number')
+  const rounded = Math.min(5, Math.round(value))
+  const remainder = 5 - rounded
+
+  return h(
+    'span',
+    {title: value + ' out of 5'},
+    '★'.repeat(rounded) + '☆'.repeat(remainder)
+  )
 }

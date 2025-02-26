@@ -37,6 +37,8 @@
  *   Thing (raw).
  * @property {Readonly<Date>} last
  *   Last watched.
+ * @property {number | undefined} [rating]
+ *   Rating.
  * @property {string} title
  *   Title.
  * @property {number} tmdbId
@@ -116,13 +118,49 @@
  *
  * @typedef TraktMovie
  *   Trakt movie;
- *   note: might include more results.
+ *   note: might include more fields.
  * @property {Readonly<TraktIds>} ids
  *   IDs.
  * @property {string} title
  *   Title.
  * @property {number} year
  *   Year.
+ *
+ * @typedef TraktRatingEpisode
+ *   Trakt rating.
+ * @property {Readonly<TraktEpisode>} episode
+ *   Episode.
+ * @property {string} rated_at
+ *   Date.
+ * @property {number} rating
+ *   Rating.
+ * @property {'episode'} type
+ *   Type.
+ *
+ * @typedef TraktRatingMovie
+ *   Trakt rating.
+ * @property {Readonly<TraktMovie>} movie
+ *   Movie.
+ * @property {string} rated_at
+ *   Date.
+ * @property {number} rating
+ *   Rating.
+ * @property {'movie'} type
+ *   Type.
+ *
+ * @typedef TraktRatingShow
+ *   Trakt rating.
+ * @property {string} rated_at
+ *   Date.
+ * @property {number} rating
+ *   Rating.
+ * @property {Readonly<TraktShow>} show
+ *   Show.
+ * @property {'show'} type
+ *   Type.
+ *
+ * @typedef {TraktRatingEpisode | TraktRatingMovie | TraktRatingShow} TraktRating
+ *   Trakt rating.
  *
  * @typedef TraktShow
  *   Trakt show.
@@ -155,6 +193,29 @@ const outUrl = new URL('../data/shows.json', import.meta.url)
 // Order-sensitive.
 const languages = ['en', 'nl', 'fr', 'de', 'it', 'es']
 
+const ratingsResponse = await fetch(
+  'https://api.trakt.tv/users/' + ttvUser + '/ratings?limit=200',
+  {
+    headers: {
+      'Content-Type': 'application/json',
+      'trakt-api-key': ttvKey,
+      'trakt-api-version': '2'
+    }
+  }
+)
+const ratingsBody = /** @type {ReadonlyArray<Readonly<TraktRating>>} */ (
+  await ratingsResponse.json()
+)
+
+/** @type {Map<number, number>} */
+const ratings = new Map()
+
+for (const d of ratingsBody) {
+  if (d.type === 'episode') continue
+
+  ratings.set(d.type === 'movie' ? d.movie.ids.tmdb : d.show.ids.tmdb, d.rating)
+}
+
 const response = await fetch(
   'https://api.trakt.tv/users/' + ttvUser + '/history?limit=300',
   {
@@ -170,10 +231,11 @@ const body = /** @type {ReadonlyArray<Readonly<TraktHistoryEntry>>} */ (
 )
 
 /** @type {ReadonlyArray<Readonly<ThingRaw>>} */
-const flat = body.flatMap(function (d) {
+const flat = body.map(function (d) {
   if (d.type === 'movie') {
     return {
       last: new Date(d.watched_at),
+      rating: ratings.get(d.movie.ids.tmdb),
       title: d.movie.title,
       tmdbId: d.movie.ids.tmdb,
       type: d.type,
@@ -184,6 +246,7 @@ const flat = body.flatMap(function (d) {
   // Ignore info on the episode, just take the show.
   return {
     last: new Date(d.watched_at),
+    rating: ratings.get(d.show.ids.tmdb),
     title: d.show.title,
     tmdbId: d.show.ids.tmdb,
     type: 'show',
@@ -278,7 +341,7 @@ async function getImage(d) {
 
     copy.image = {
       height: image.height,
-      url: 'https://image.tmdb.org/t/p/w300' + image.file_path,
+      url: 'https://image.tmdb.org/t/p/w780' + image.file_path,
       width: image.width
     }
   } catch {
