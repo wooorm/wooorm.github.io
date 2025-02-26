@@ -67,18 +67,26 @@ import wooormMove from './wooorm-move.js'
 const siteAuthor = 'Titus Wormer'
 const siteLanguage = 'en'
 const siteName = 'wooorm.com'
-const siteTags = ['oss', 'open', 'source', 'ties', 'music', 'shows']
+const siteTags = [
+  'oss',
+  'open',
+  'source',
+  'reading',
+  'running',
+  'music',
+  'shows'
+]
 const siteOrigin = 'https://wooorm.com'
 
 /** @type {Array<Page>} */
 const pages = [
   home,
-  writing,
-  activity,
-  seeing,
   reading,
   watching,
   listening,
+  activity,
+  seeing,
+  writing,
   thanks
 ]
 

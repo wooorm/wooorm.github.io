@@ -14,7 +14,6 @@ export const data = {
   title: '@wooorm'
 }
 
-const backend = 'https://github.com/cmda-be/course-17-18'
 const downloads = 'https://npm-stat.com/charts.html?author=wooorm'
 const email = 'mailto:tituswormer@gmail.com'
 const github = 'https://github.com/wooorm'
@@ -26,7 +25,6 @@ const projects =
   'https://github.com/search?type=Repositories&q=user:wooorm+user:mdx-js+user:micromark+user:remarkjs+user:rehypejs+user:retextjs+user:unifiedjs+user:syntax-tree+user:vfile+user:get-alex+user:words'
 const resume = '/resume.html'
 const thanks = '/thanks/'
-const tt = 'https://github.com/cmda-tt/course-18-19'
 
 /** @type {Render} */
 export function render() {
@@ -35,16 +33,17 @@ export function render() {
       h('h1', h('span.text', 'Hi, I’m Titus 👋')),
       h('p', [
         h('span.text', [
-          'I work most-time on ',
+          'I do a lot of ',
           h('a', {href: github}, 'open source'),
-          ' maintaining ',
+          '; I maintain ',
           h('a', {href: projects}, '550+ projects'),
           ' that are downloaded ',
-          h('a', {href: downloads}, '23B+ times'),
+          h('a', {href: downloads}, '38B+ times'),
           ' a year. ',
-          'I can spend time building things for content (natural language, markdown, markup) with syntax trees, ',
-          h('a', {href: thanks}, 'thanks'),
-          ' to the community.'
+          'Most project have to do with content (markup, markdown) and syntax trees. ',
+          'I can spend time building things ',
+          h('a', {href: thanks}, 'thanks to the community'),
+          '.'
         ])
       ]),
       h(
@@ -58,11 +57,7 @@ export function render() {
           ', Salesforce on parts of ',
           h('a', {href: mm}, h('code', 'micromark')),
           ', Holloway on books, and Gatsby. ',
-          'I used to teach ',
-          h('a', {href: tt}, 'data visualisation, frontend'),
-          ', and ',
-          h('a', {href: backend}, 'backend'),
-          '.'
+          'A while ago I used to teach data visualisation, frontend, and backend.'
         ])
       ),
       h(
@@ -105,7 +100,7 @@ export function render() {
       ]),
       h(
         'p',
-        h('span.text', '…or view ', h('a', {href: resume}, 'my résumé'), '.')
+        h('span.text', 'Here’s ', h('a', {href: resume}, 'my résumé'), '.')
       )
     ])
   ]
