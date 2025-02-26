@@ -12,7 +12,7 @@
     "cssnano": "^7.0.0",
     "cssnano-preset-advanced": "^7.0.0",
     "dotenv": "^16.0.0",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.25.0",
     "escape-string-regexp": "^5.0.0",
     "glob": "^11.0.0",
     "hast-util-classnames": "^3.0.0",

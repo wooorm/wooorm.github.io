@@ -169,7 +169,8 @@ html {
   --squircle-smooth: 1;
 
   /* Font families. */
-  --ff-mono: 'San Francisco Mono', 'Monaco', 'Consolas', 'Lucida Console',
+  --ff-mono:
+    'San Francisco Mono', 'Monaco', 'Consolas', 'Lucida Console',
     'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
   --ff-sans: system-ui;
 
