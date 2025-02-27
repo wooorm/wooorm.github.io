@@ -69,8 +69,8 @@ export function render() {
           'li',
           h('span.text', [
             h('a', {href: 'https://bsky.app/profile/wooorm.com'}, [
-              'wooorm.com on ',
-              h('strong', 'bsky')
+              h('strong', 'bsky'),
+              '.app/profile/wooorm.com'
             ])
           ])
         ),
