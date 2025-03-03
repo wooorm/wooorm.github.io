@@ -28,9 +28,10 @@ import {resolve} from 'import-meta-resolve'
 import React from 'react'
 import satori from 'satori'
 
-const fontFilesUrl = new URL(
-  resolve('@fontsource/open-sans/files/', import.meta.url)
+const openSansUrl = new URL(
+  resolve('@fontsource/open-sans/package.json', import.meta.url)
 )
+const fontFilesUrl = new URL('files/', openSansUrl)
 const fontFiles = await fs.readdir(fontFilesUrl)
 const acceptableFontFiles = fontFiles.filter(function (d) {
   return /^open-sans-latin(?!-ext)/.test(d) && d.endsWith('.woff')
