@@ -56,7 +56,7 @@
  *   ID.
  * @property {ReadonlyArray<Readonly<TmdbImage>>} logos
  *   Logos.
- * @property {ReadonlyArray<Readonly<TmdbImage>>} posters
+ * @property {ReadonlyArray<Readonly<TmdbImage>> | undefined} posters
  *   Posters.
  *
  * @typedef TraktEpisode
@@ -194,7 +194,7 @@ const outUrl = new URL('../data/shows.json', import.meta.url)
 const languages = ['en', 'nl', 'fr', 'de', 'it', 'es']
 
 const ratingsResponse = await fetch(
-  'https://api.trakt.tv/users/' + ttvUser + '/ratings?limit=300',
+  'https://api.trakt.tv/users/' + ttvUser + '/ratings?limit=600',
   {
     headers: {
       'Content-Type': 'application/json',
@@ -326,26 +326,34 @@ async function getImage(d) {
     })
     const body = /** @type {TmdbImageResponse} */ (await response.json())
 
-    const posters = [...body.posters].sort(function (a, b) {
+    const posters = (body.posters || []).toSorted(function (a, b) {
       return b.vote_average - a.vote_average
     })
-    let image = posters[0]
+    /** @type {Readonly<TmdbImage> | undefined} */
+    let image
 
-    languages.some(function (l) {
+    for (const language of languages) {
       const poster = posters.find(function (d) {
-        return d.iso_639_1 === l
+        return d.iso_639_1 === language
       })
-      if (poster) image = poster
-      return Boolean(poster)
-    })
 
-    copy.image = {
-      height: image.height,
-      url: 'https://image.tmdb.org/t/p/w780' + image.file_path,
-      width: image.width
+      if (poster) {
+        image = poster
+        break
+      }
     }
-  } catch {
-    console.warn('Could not get image for:', d.title)
+
+    if (!image) image = posters[0]
+
+    if (image) {
+      copy.image = {
+        height: image.height,
+        url: 'https://image.tmdb.org/t/p/w780' + image.file_path,
+        width: image.width
+      }
+    }
+  } catch (error) {
+    console.warn('Could not get image for:', d.title, error)
   }
 
   return copy
