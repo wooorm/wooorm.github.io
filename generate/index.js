@@ -65,7 +65,7 @@ import unifiedMkdirp from './unified-mkdirp.js'
 import wooormMove from './wooorm-move.js'
 
 const siteAuthor = 'Titus Wormer'
-const siteLanguage = 'en'
+const siteLanguage = 'en-x-wooorm'
 const siteName = 'wooorm.com'
 const siteTags = [
   'oss',
