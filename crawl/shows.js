@@ -194,7 +194,7 @@ const outUrl = new URL('../data/shows.json', import.meta.url)
 const languages = ['en', 'nl', 'fr', 'de', 'it', 'es']
 
 const ratingsResponse = await fetch(
-  'https://api.trakt.tv/users/' + ttvUser + '/ratings?limit=200',
+  'https://api.trakt.tv/users/' + ttvUser + '/ratings?limit=300',
   {
     headers: {
       'Content-Type': 'application/json',
