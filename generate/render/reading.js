@@ -58,12 +58,12 @@ export function render() {
  */
 export function rating(value) {
   assert(typeof value === 'number')
-  const rounded = Math.min(5, Math.round(value))
-  const remainder = 5 - rounded
+  const floored = Math.floor(value)
+  const rest = value - floored
 
   return h(
     'span',
     {title: value + ' out of 5'},
-    '★'.repeat(rounded) + '☆'.repeat(remainder)
+    '★'.repeat(floored) + (rest >= 0.5 ? '½' : '')
   )
 }
