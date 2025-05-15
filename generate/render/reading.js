@@ -28,28 +28,33 @@ export const data = {
 
 /** @type {Render} */
 export function render() {
-  return [
-    h('h1', h('span.text', 'Reading (recently)')),
-    h(
-      'ol.cards',
-      books
-        .filter((d) => typeof d.review === 'number')
-        .map(function (d) {
-          const {author, title, review} = d
-          return h('li.card-wrap', [
-            h('.card', [
-              h('.caption', [
-                h('h3', h('span.text', title)),
-                h('p', h('span.text', author)),
-                typeof review === 'number'
-                  ? h('p', h('span.text', rating(review)))
-                  : undefined
+  const result =
+    books.length > 0
+      ? h(
+          'ol.cards',
+          books
+            .filter((d) => typeof d.review === 'number')
+            .map(function (d) {
+              const {author, title, review} = d
+              return h('li.card-wrap', [
+                h('.card', [
+                  h('.caption', [
+                    h('h3', h('span.text', title)),
+                    h('p', h('span.text', author)),
+                    typeof review === 'number'
+                      ? h('p', h('span.text', rating(review)))
+                      : undefined
+                  ])
+                ])
               ])
-            ])
-          ])
-        })
-    )
-  ]
+            })
+        )
+      : h(
+          'p',
+          h('span.text', 'Sadly the API is used for this is currently down.')
+        )
+
+  return [h('h1', h('span.text', 'Reading (recently)')), result]
 }
 
 /**

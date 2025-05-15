@@ -22,7 +22,9 @@ const outUrl = new URL('../data/books.json', import.meta.url)
 const url = 'https://app.thestorygraph.com/books-read/wooorm'
 
 const results = await Promise.all(
-  [1, 2, 3, 4, 5].map(async function (page) {
+  // To do: use this again once storygraph is no longer behind cloudflare.
+  // [1, 2, 3, 4, 5]
+  [].map(async function (page) {
     const response = await fetch(url + '?page=' + page)
     const value = await response.text()
     const tree = fromHtml(value)
