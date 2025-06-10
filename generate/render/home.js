@@ -14,6 +14,7 @@ export const data = {
   title: '@wooorm'
 }
 
+const arcjet = 'https://arcjet.com'
 const downloads = 'https://npm-stat.com/charts.html?author=wooorm'
 const email = 'mailto:tituswormer@gmail.com'
 const github = 'https://github.com/wooorm'
@@ -42,16 +43,19 @@ export function render() {
           ' a year. ',
           'Most project have to do with content (markup, markdown), syntax trees, and compilers. ',
           'In JavaScript and Rust. ',
-          'I can spend time building things ',
-          h('a', {href: thanks}, 'thanks to the community'),
+          'You can help out by ',
+          h('a', {href: thanks}, 'sponsoring me'),
           '.'
         ])
       ]),
       h(
         'p',
         h('span.text', [
-          'I sometimes do contracting as well. ',
-          'Previously for Vercel on ',
+          'I work at ',
+          h('a', {href: arcjet}, 'Arcjet'),
+          '. ',
+          'I did some contracting before. ',
+          'For Vercel on ',
           h('a', {href: markdownRs}, h('code', 'markdown-rs')),
           ' and ',
           h('a', {href: mdxjsRs}, h('code', 'mdxjs-rs')),
