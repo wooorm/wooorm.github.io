@@ -34,6 +34,12 @@ export function render() {
           h('th', h('span.text', 'Time'))
         ]),
         h('tr', [
+          h('th', h('span.text', 'Amsterdam marathon')),
+          h('td', h('span.text', '2025-10-19')),
+          h('td', h('span.text', '42.195 km')),
+          h('td', h('span.text', h('strong', '2:47:47')))
+        ]),
+        h('tr', [
           h('th', h('span.text', 'Rotterdam marathon')),
           h('td', h('span.text', '2025-04-13')),
           h('td', h('span.text', '42.195 km')),
@@ -43,7 +49,7 @@ export function render() {
           h('th', h('span.text', 'Maratón de Valencia')),
           h('td', h('span.text', '2024-12-01')),
           h('td', h('span.text', '42.195 km')),
-          h('td', h('span.text', h('strong', '2:49:13')))
+          h('td', h('span.text', '2:49:13'))
         ]),
         h('tr', [
           h('th', h('span.text', 'Rotterdam ¼ marathon')),
