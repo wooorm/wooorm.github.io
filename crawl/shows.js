@@ -174,11 +174,14 @@
 
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import dotenv from 'dotenv'
 import all from 'p-all'
 import {fetch} from 'undici'
 
-dotenv.config()
+try {
+  process.loadEnvFile()
+} catch {
+  // Ignore.
+}
 
 const tmdbKey = process.env.TMDB_TOKEN
 const ttvKey = process.env.TTV_TOKEN

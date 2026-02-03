@@ -88,10 +88,13 @@
 
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import dotenv from 'dotenv'
 import {fetch} from 'undici'
 
-dotenv.config()
+try {
+  process.loadEnvFile()
+} catch {
+  // Ignore.
+}
 
 const refreshToken = process.env.SPOT_R_TOKEN
 const cId = process.env.SPOT_C_ID
