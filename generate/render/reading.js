@@ -62,7 +62,7 @@ export function render() {
  * @returns {Element}
  */
 export function rating(value) {
-  assert(typeof value === 'number')
+  assert.ok(typeof value === 'number')
   const floored = Math.floor(value)
   const rest = value - floored
 

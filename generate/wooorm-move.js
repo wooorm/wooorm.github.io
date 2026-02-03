@@ -20,7 +20,7 @@ export default function move() {
    */
   return function (_, file) {
     const {pathname} = file.data.meta || {}
-    assert(pathname, 'expected `pathname` on metadata')
+    assert.ok(pathname, 'expected `pathname` on metadata')
     const parts = pathname.slice(1).split('/')
     const last = parts.pop()
 

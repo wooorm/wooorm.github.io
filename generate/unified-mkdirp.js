@@ -19,7 +19,7 @@ export default function mkdir() {
    *   Nothing.
    */
   return async function (_, file) {
-    assert(file.dirname, 'expected `dirname` on file')
+    assert.ok(file.dirname, 'expected `dirname` on file')
     await fs.mkdir(file.dirname, {recursive: true})
   }
 }

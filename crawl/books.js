@@ -43,7 +43,7 @@ const results = await Promise.all(
     })
 
     const container = select('.read-books', tree)
-    assert(container, 'expected list of read books')
+    assert.ok(container, 'expected list of read books')
 
     /** @type {Array<Book>} */
     const books = []
@@ -71,8 +71,8 @@ const results = await Promise.all(
         authors.length > 3
           ? listFormatUnit.format([...authors.slice(0, 3), '…'])
           : listFormatUnit.format(authors)
-      assert(title, 'expected title')
-      assert(authors.length > 0, 'expected author')
+      assert.ok(title, 'expected title')
+      assert.ok(authors.length > 0, 'expected author')
 
       let cleanTitle = toText(title)
 

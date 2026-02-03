@@ -25,7 +25,7 @@ export function render(pages) {
       return d.data
     })
     .filter(function (d) {
-      assert(d.pathname)
+      assert.ok(d.pathname)
       const parts = d.pathname.replace(/^\/|\/$/g, '').split('/')
       return parts[0] === 'blog' && parts.length === 2
     })

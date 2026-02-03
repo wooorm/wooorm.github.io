@@ -117,7 +117,7 @@ trough()
      *   Nothing.
      */
     function (_, next) {
-      assert(pack.homepage, 'expected `homepage` in `package.json`')
+      assert.ok(pack.homepage, 'expected `homepage` in `package.json`')
       const value = new URL(pack.homepage).host + '\n'
       write({basename: 'CNAME', dirname: 'build', value}, function (error) {
         next(error)
@@ -147,7 +147,7 @@ trough()
  *   Nothing.
  */
 function process(file, next) {
-  assert(file.extname, 'expected `extname` in `file`')
+  assert.ok(file.extname, 'expected `extname` in `file`')
   externals[file.extname].run(
     file,
     /** @type {Callback} */
@@ -164,7 +164,7 @@ function process(file, next) {
  *   Nothing.
  */
 function move(file) {
-  assert(file.dirname, 'expected `dirname` on file')
+  assert.ok(file.dirname, 'expected `dirname` on file')
   const parts = ['build', ...file.dirname.split(path.sep).slice(1)]
   file.dirname = parts.join(path.sep)
 }
@@ -176,7 +176,7 @@ function move(file) {
  *   Nothing.
  */
 async function mkdir(file) {
-  assert(file.dirname, 'expected `dirname` on file')
+  assert.ok(file.dirname, 'expected `dirname` on file')
   await fs.mkdir(file.dirname, {recursive: true})
 }
 

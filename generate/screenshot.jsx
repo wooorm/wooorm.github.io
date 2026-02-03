@@ -48,11 +48,11 @@ const fonts = await Promise.all(
       const parts = basename.split('.')[0].split('-')
       const weight = /** @type {FontWeight} */ (Number.parseInt(parts[3], 10))
       const style = /** @type {FontStyle} */ (parts[4])
-      assert(
+      assert.ok(
         [100, 200, 300, 400, 500, 600, 700, 800, 900].includes(weight),
         `expected valid weight ${weight}`
       )
-      assert(
+      assert.ok(
         style === 'normal' || style === 'italic',
         `expected valid style ${style}`
       )

@@ -88,8 +88,8 @@ export default function rehypePictures(options) {
         }
       }
 
-      assert(parent.type === 'element', 'expected image parent')
-      assert(root.type === 'element', 'expected image root')
+      assert.ok(parent.type === 'element', 'expected image parent')
+      assert.ok(root.type === 'element', 'expected image root')
       promises.push(rewrite(source, node, parent, root))
 
       /**
@@ -105,7 +105,7 @@ export default function rehypePictures(options) {
        *   Nothing.
        */
       async function rewrite(source, node, parent, root) {
-        assert(node.properties, 'expected properties on `img`')
+        assert.ok(node.properties, 'expected properties on `img`')
         const resolved = path.join(base, source.split('/').join(path.sep))
 
         // See dimension.
@@ -114,8 +114,8 @@ export default function rehypePictures(options) {
           .catch(function () {
             throw new Error('Could not find `' + resolved + '`')
           })
-        assert(metadata.width, 'expected intrinsic `width` of image')
-        assert(metadata.height, 'expected intrinsic `height` of image')
+        assert.ok(metadata.width, 'expected intrinsic `width` of image')
+        assert.ok(metadata.height, 'expected intrinsic `height` of image')
 
         const results = await Promise.all(
           sources.map(async function (d) {

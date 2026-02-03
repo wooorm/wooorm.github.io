@@ -198,7 +198,7 @@ await fs.writeFile(
       files
         // All blog entries that are published in the past.
         .filter(function (d) {
-          assert(d.data.meta)
+          assert.ok(d.data.meta)
           return (
             d.data.meta.pathname &&
             d.data.meta.pathname.startsWith('/blog/') &&
@@ -210,10 +210,10 @@ await fs.writeFile(
         })
         // Sort.
         .sort(function (a, b) {
-          assert(a.data.meta)
-          assert(b.data.meta)
-          assert(a.data.meta.published)
-          assert(b.data.meta.published)
+          assert.ok(a.data.meta)
+          assert.ok(b.data.meta)
+          assert.ok(a.data.meta.published)
+          assert.ok(b.data.meta.published)
           return (
             new Date(b.data.meta.published).valueOf() -
             new Date(a.data.meta.published).valueOf()
@@ -223,17 +223,17 @@ await fs.writeFile(
         .slice(0, 10)
         .map(function (file) {
           const meta = file.data.meta
-          assert(meta)
-          assert(meta.author)
-          assert(typeof meta.modified === 'string')
-          assert(meta.pathname)
-          assert(typeof meta.published === 'string')
-          assert(meta.tags)
-          assert(meta.title)
+          assert.ok(meta)
+          assert.ok(meta.author)
+          assert.ok(typeof meta.modified === 'string')
+          assert.ok(meta.pathname)
+          assert.ok(typeof meta.published === 'string')
+          assert.ok(meta.tags)
+          assert.ok(meta.title)
 
           const root = fromHtml(file.value)
           const content = select('.article-inner', root)
-          assert(content)
+          assert.ok(content)
 
           return {
             author: meta.author,
@@ -257,7 +257,7 @@ function rehypeWrap() {
       return d.data
     })
     .filter(function (d) {
-      assert(d.pathname)
+      assert.ok(d.pathname)
       const parts = d.pathname.replace(/^\/|\/$/g, '').split('/')
       return parts.length === 1
     })
@@ -271,7 +271,7 @@ function rehypeWrap() {
    *   New tree.
    */
   return function (tree, file) {
-    assert(file.data.meta?.pathname, 'expected `pathname` on `meta`')
+    assert.ok(file.data.meta?.pathname, 'expected `pathname` on `meta`')
     const self = section(file.data.meta.pathname)
 
     return u('root', [
@@ -280,7 +280,7 @@ function rehypeWrap() {
           h(
             'ol',
             structure.map(function (d) {
-              assert(d.pathname)
+              assert.ok(d.pathname)
               return h('li', {className: d.label ? [d.label] : []}, [
                 h(
                   'span.text',

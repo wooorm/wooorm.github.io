@@ -178,7 +178,7 @@ html {
   font-feature-settings: 'kern', 'liga', 'clig', 'calt';
   font-kerning: normal;
   text-size-adjust: 100%;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 hr {
@@ -211,7 +211,7 @@ kbd {
 li {
   margin-bottom: 0.25em;
   margin-top: 0.25em;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 nav li {
@@ -249,7 +249,7 @@ pre {
   margin-right: -1.5em;
   overflow: auto;
   padding: 1.5em;
-  word-wrap: normal;
+  overflow-wrap: normal;
 }
 
 pre code {
@@ -258,7 +258,7 @@ pre code {
   padding: 0;
   white-space: pre;
   word-break: normal;
-  word-wrap: normal;
+  overflow-wrap: normal;
 }
 
 table {
