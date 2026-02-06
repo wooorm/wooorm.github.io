@@ -18,6 +18,7 @@ const arcjet = 'https://arcjet.com'
 const downloads = 'https://npm-stat.com/charts.html?author=wooorm'
 const email = 'mailto:tituswormer@gmail.com'
 const github = 'https://github.com/wooorm'
+const igalia = 'https://igalia.com'
 const masto = 'https://mastodon.social/@wooorm'
 const mm = 'https://github.com/micromark/micromark'
 const markdownRs = 'https://github.com/wooorm/markdown-rs'
@@ -52,10 +53,12 @@ export function render() {
         'p',
         h('span.text', [
           'I work at ',
-          h('a', {href: arcjet}, 'Arcjet'),
+          h('a', {href: igalia}, 'Igalia'),
           '. ',
-          'I did some contracting before. ',
-          'For Vercel on ',
+          'Worked at ',
+          h('a', {href: arcjet}, 'Arcjet'),
+          ' in 2025. ',
+          'Before that some contracting: for Vercel on ',
           h('a', {href: markdownRs}, h('code', 'markdown-rs')),
           ' and ',
           h('a', {href: mdxjsRs}, h('code', 'mdxjs-rs')),
