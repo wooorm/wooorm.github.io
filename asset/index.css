@@ -396,6 +396,7 @@ ul > li::before {
 
 .cards,
 .pictures {
+  /* When changing this, change `rehype-pictures.js` too */
   grid-template-columns: repeat(auto-fill, minmax(18em, 1fr));
 }
 

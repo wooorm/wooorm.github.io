@@ -4,7 +4,7 @@
  */
 
 /**
- * @typedef {'jpg' | 'png' | 'webp'} Format
+ * @typedef {'jpeg' | 'jpg' | 'png' | 'webp'} Format
  *   Image format.
  *
  * @typedef Options
@@ -28,7 +28,7 @@ import {visitParents} from 'unist-util-visit-parents'
 import {rename} from 'vfile-rename'
 
 /**
- * Plugin to defer scripts.
+ * Plugin to rewrite `<img>` tags into responsive `<picture>` markup.
  *
  * @param {Readonly<Options>} options
  *   Configuration.
@@ -38,17 +38,19 @@ import {rename} from 'vfile-rename'
 export default function rehypePictures(options) {
   const sizes = [600, 1200, 2400, 3600]
   /** @type {ReadonlyArray<Readonly<Format>>} */
-  const formats = ['jpg', 'png', 'webp']
-  /** @type {{[format in Format]: string}} */
-  const mimes = {jpg: 'image/jpeg', png: 'image/png', webp: 'image/webp'}
+  const formats = ['jpeg', 'jpg', 'png', 'webp']
+  /** @type {Record<Format, string>} */
+  const mimes = {
+    jpeg: 'image/jpeg',
+    jpg: 'image/jpeg',
+    png: 'image/png',
+    webp: 'image/webp'
+  }
   const base = options.base
 
   const sources = formats.flatMap(function (format) {
     return sizes.flatMap(function (size) {
-      return {
-        extname: '.' + format,
-        stem: {suffix: '-' + size}
-      }
+      return {extname: '.' + format, stem: {suffix: '-' + size}}
     })
   })
 
@@ -134,11 +136,13 @@ export default function rehypePictures(options) {
           })
         )
 
-        const defaults = new Set(['png', 'jpg'])
+        const defaults = new Set(['jpeg', 'jpg', 'png'])
         const available = new Set(results.filter(Boolean))
         const siblings = parent.children
         let width = metadata.width
         let height = metadata.height
+        const ratio = width / height
+        const responsiveSizes = inferSizes(ratio)
         /** @type {Readonly<InfoTuple> | undefined} */
         let biggestDefault
 
@@ -174,6 +178,7 @@ export default function rehypePictures(options) {
           }
 
           return h('source', {
+            sizes: responsiveSizes,
             srcSet: applicable
               .map(function (d) {
                 return ['/' + path.relative(base, d[0])] + ' ' + d[1] + 'w'
@@ -184,7 +189,7 @@ export default function rehypePictures(options) {
         })
 
         if (biggestDefault) {
-          node.properties.src = path.relative(base, biggestDefault[0])
+          node.properties.src = '/' + path.relative(base, biggestDefault[0])
           width = biggestDefault[1]
           height = (width / metadata.width) * metadata.height
         }
@@ -192,11 +197,12 @@ export default function rehypePictures(options) {
         node.properties.decoding = 'async'
         node.properties.height = height
         node.properties.loading = 'lazy'
+        node.properties.sizes = responsiveSizes
         node.properties.width = width
 
-        if (width / height > 2) {
+        if (ratio > 2) {
           classnames(root, 'panorama')
-        } else if (width / height > 1) {
+        } else if (ratio > 1) {
           classnames(root, 'landscape')
         }
 
@@ -205,4 +211,45 @@ export default function rehypePictures(options) {
       }
     }
   }
+}
+
+/**
+ * `sizes` hints are derived from the CSS grid rules for `.pictures`
+ * When changing these, change `big.css` and `index.css` (`.cards, .pictures`) too.
+ */
+const pictureColumnDesktop = '24em'
+const pictureLandscapeDesktop = '48em'
+const picturePanoramaDesktop = '72em'
+
+/**
+ * @param {number} ratio
+ *   Width / height ratio.
+ * @returns {string}
+ *   `sizes` attribute.
+ */
+function inferSizes(ratio) {
+  if (ratio > 2) {
+    // Panorama spans 3 columns from 60em up; cap at `3 * 24em` on wide screens.
+    return (
+      '(min-width: 80em) ' +
+      picturePanoramaDesktop +
+      ', (min-width: 60em) 75vw, 100vw'
+    )
+  }
+
+  if (ratio > 1) {
+    // Landscape spans 2 columns from 40em up; cap at `2 * 24em` on wide screens.
+    return (
+      '(min-width: 80em) ' +
+      pictureLandscapeDesktop +
+      ', (min-width: 40em) 100vw, 100vw'
+    )
+  }
+
+  // Portrait/default item: one column on desktop, about half-width on mid layouts.
+  return (
+    '(min-width: 80em) ' +
+    pictureColumnDesktop +
+    ', (min-width: 40em) 50vw, 100vw'
+  )
 }

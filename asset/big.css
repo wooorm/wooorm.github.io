@@ -24,6 +24,7 @@ header {
     flex: 1;
   }
 
+  /* When changing this, change `rehype-pictures.js` too */
   .landscape,
   .panorama {
     grid-column-start: span 2;
@@ -31,6 +32,7 @@ header {
 }
 
 @media (width >= 60em) {
+  /* When changing this, change `rehype-pictures.js` too */
   .panorama {
     grid-column-start: span 3;
   }
@@ -38,6 +40,7 @@ header {
 
 @media (width >= 80em) {
   .pictures {
+    /* When changing this, change `rehype-pictures.js` too */
     grid-template-columns: repeat(auto-fit, minmax(24em, 1fr));
     margin: 0 auto;
     max-width: 100em;
