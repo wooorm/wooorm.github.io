@@ -40,7 +40,7 @@ export function render() {
           '; I maintain ',
           h('a', {href: projects}, '550+ projects'),
           ' that are downloaded ',
-          h('a', {href: downloads}, '38B+ times'),
+          h('a', {href: downloads}, '86B+ times'),
           ' a year. ',
           'Most project have to do with content (markup, markdown), syntax trees, and compilers. ',
           'In JavaScript and Rust. ',
