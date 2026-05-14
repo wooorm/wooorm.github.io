@@ -34,6 +34,12 @@ export function render() {
           h('th', h('span.text', 'Time'))
         ]),
         h('tr', [
+          h('th', h('span.text', 'Boston marathon')),
+          h('td', h('span.text', '2026-04-20')),
+          h('td', h('span.text', '42.195 km')),
+          h('td', h('span.text', '2:48:58'))
+        ]),
+        h('tr', [
           h('th', h('span.text', 'Amsterdam marathon')),
           h('td', h('span.text', '2025-10-19')),
           h('td', h('span.text', '42.195 km')),
