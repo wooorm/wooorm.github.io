@@ -10,13 +10,13 @@ Spotify, and your Letterboxd username.
 
 ```ini
 GH_TOKEN=123123123
+LBOX_USER=username
 LFM_TOKEN=123123123
 LFM_USER=username
 OC_TOKEN=123123123
 SPOT_C_ID=123123123
 SPOT_C_SECRET=123123123
 SPOT_R_TOKEN=123123123
-LBOX_USER=username
 ```
 
 Do `npm i` and then `npm t`, which checks and builds the site.
