@@ -20,7 +20,9 @@ try {
       await fs.readFile(new URL('../../data/albums.json', import.meta.url))
     )
   )
-} catch {}
+} catch {
+  // Empty.
+}
 
 try {
   artists = JSON.parse(
@@ -28,7 +30,9 @@ try {
       await fs.readFile(new URL('../../data/artists.json', import.meta.url))
     )
   )
-} catch {}
+} catch {
+  // Empty.
+}
 
 /** @type {Readonly<Metadata>} */
 export const data = {

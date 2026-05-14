@@ -268,7 +268,7 @@ while (++index < flat.length) {
   }
 }
 
-const items = [...byId.values()].sort(sort)
+const items = [...byId.values()].toSorted(sort)
 
 const data = await all(
   items.map(function (d) {

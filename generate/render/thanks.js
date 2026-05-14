@@ -22,7 +22,9 @@ try {
       )
     )
   )
-} catch {}
+} catch {
+  // Empty.
+}
 
 try {
   ocSponsors = JSON.parse(
@@ -32,7 +34,9 @@ try {
       )
     )
   )
-} catch {}
+} catch {
+  // Empty.
+}
 
 /** @type {Readonly<Metadata>} */
 export const data = {

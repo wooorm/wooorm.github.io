@@ -120,7 +120,7 @@ const collective =
     .map(function (d) {
       return clean(d)
     })
-    .sort(sort)
+    .toSorted(sort)
     .map(function (d) {
       return strip(d)
     })
@@ -128,7 +128,7 @@ const personal = body.data.viewer.lifetimeReceivedSponsorshipValues.nodes
   .map(function (d) {
     return clean(d)
   })
-  .sort(sort)
+  .toSorted(sort)
   .map(function (d) {
     return strip(d)
   })

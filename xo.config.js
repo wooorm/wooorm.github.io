@@ -14,6 +14,7 @@ const xoConfig = [
       'prefer-destructuring': 'off',
       'promise/prefer-await-to-then': 'off',
       'promise/prefer-catch': 'off',
+      'require-unicode-regexp': 'off',
       'unicorn/prefer-at': 'off',
       'unicorn/prefer-string-replace-all': 'off'
     },

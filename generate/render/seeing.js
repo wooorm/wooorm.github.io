@@ -22,7 +22,7 @@ let photos = /** @type {ReadonlyArray<Readonly<Photo>>} */ (
   parse(String(await fs.readFile(url)))
 )
 
-photos = [...photos].sort(sort)
+photos = [...photos].toSorted(sort)
 
 /** @type {Readonly<Metadata>} */
 export const data = {

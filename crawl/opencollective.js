@@ -170,7 +170,7 @@ const members = collectiveBody.data.collective.members.nodes
     seen.add(d.oc)
     return d.total > min && !ignore
   })
-  .sort(sort)
+  .toSorted(sort)
   .map(function (d) {
     return strip(d)
   })

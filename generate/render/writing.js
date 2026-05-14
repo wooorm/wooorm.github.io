@@ -30,7 +30,7 @@ export function render(pages) {
       return parts[0] === 'blog' && parts.length === 2
     })
 
-  const items = posts.sort(sort).map(function (d) {
+  const items = posts.toSorted(sort).map(function (d) {
     let published = fmt(d.published)
     const modified = fmt(d.modified)
 

@@ -14,7 +14,9 @@ try {
   shows = JSON.parse(
     String(await fs.readFile(new URL('../../data/shows.json', import.meta.url)))
   )
-} catch {}
+} catch {
+  // Empty.
+}
 
 /** @type {Readonly<Metadata>} */
 export const data = {

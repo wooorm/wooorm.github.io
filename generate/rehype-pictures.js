@@ -127,7 +127,9 @@ export default function rehypePictures(options) {
               function () {
                 return fp
               },
-              function () {}
+              function () {
+                // Empty.
+              }
             )
           })
         )
@@ -159,7 +161,7 @@ export default function rehypePictures(options) {
                 return available.has(fp) ? [[fp, size]] : []
               }
             )
-            .sort(function (a, b) {
+            .toSorted(function (a, b) {
               return a[1] - b[1]
             })
 

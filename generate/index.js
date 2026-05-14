@@ -209,7 +209,7 @@ await fs.writeFile(
           )
         })
         // Sort.
-        .sort(function (a, b) {
+        .toSorted(function (a, b) {
           assert.ok(a.data.meta)
           assert.ok(b.data.meta)
           assert.ok(a.data.meta.published)
