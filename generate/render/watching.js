@@ -1,5 +1,5 @@
 /**
- * @import {Thing} from '../../crawl/shows.js'
+ * @import {Movie} from '../../crawl/movies.js'
  * @import {Metadata, Render} from '../index.js'
  */
 
@@ -7,12 +7,14 @@ import fs from 'node:fs/promises'
 import {h} from 'hastscript'
 import {rating} from './reading.js'
 
-/** @type {ReadonlyArray<Readonly<Thing>>} */
-let shows = []
+/** @type {ReadonlyArray<Readonly<Movie>>} */
+let movies = []
 
 try {
-  shows = JSON.parse(
-    String(await fs.readFile(new URL('../../data/shows.json', import.meta.url)))
+  movies = JSON.parse(
+    String(
+      await fs.readFile(new URL('../../data/movies.json', import.meta.url))
+    )
   )
 } catch {
   // Empty.
@@ -33,36 +35,26 @@ export function render() {
     h('h1', h('span.text', 'Watching (recently)')),
     h(
       'ol.covers',
-      shows
-        .filter(function (d) {
-          return d.image
-        })
-        .slice(0, 50)
-        .map(function (d) {
-          return h('li.cover-wrap', [
-            h('.cover', [
-              // Already filtered on this: it exists.
-              d.image
-                ? h('img', {
-                    alt: '',
-                    height: Math.floor(d.image.height / (d.image.width / 300)),
-                    src: d.image.url,
-                    width: 300
-                  })
-                : undefined,
-              h('.caption', [
-                h('h2', [
-                  h('span.text', d.title),
-                  h('br'),
-                  h('span.text', '(' + d.year + ')')
-                ]),
-                typeof d.rating === 'number'
-                  ? h('p', h('span.text', rating(d.rating / 2)))
-                  : undefined
-              ])
+      movies.slice(0, 50).map(function (d) {
+        return h('li.cover-wrap', [
+          h('.cover', [
+            h('img', {
+              alt: '',
+              height: Math.floor(d.image.height / (d.image.width / 300)),
+              src: d.image.url,
+              width: 300
+            }),
+            h('.caption', [
+              h('h2', [
+                h('span.text', d.title),
+                h('br'),
+                h('span.text', '(' + d.year + ')')
+              ]),
+              h('p', h('span.text', rating(d.rating / 2)))
             ])
           ])
-        })
+        ])
+      })
     )
   ]
 }

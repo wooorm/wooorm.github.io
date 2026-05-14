@@ -73,8 +73,8 @@ const siteTags = [
   'source',
   'reading',
   'running',
-  'music',
-  'shows'
+  'movies',
+  'music'
 ]
 const siteOrigin = 'https://wooorm.com'
 
