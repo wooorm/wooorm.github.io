@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-native-coercion-functions */
 /**
  * @typedef OcAccount
  *   Open Collective account.
@@ -133,6 +134,7 @@ const control = githubBody
 const seen = new Set()
 const members = collectiveBody.data.collective.members.nodes
   .map(function (d) {
+    if (!d.account) return
     const oc = d.account.slug
     const github = d.account.githubHandle || undefined
     let url = d.account.website || undefined
@@ -165,6 +167,17 @@ const members = collectiveBody.data.collective.members.nodes
 
     return result
   })
+  .filter(
+    /**
+     * @param {Readonly<SponsorRaw> | undefined} d
+     *   Sponsor (raw) or undefined.
+     * @returns {d is Readonly<SponsorRaw>}
+     *   Whether the sponsor is valid.
+     */
+    function (d) {
+      return Boolean(d)
+    }
+  )
   .filter(function (d) {
     const ignore = d.spam || seen.has(d.oc) // Ignore dupes in data.
     seen.add(d.oc)
