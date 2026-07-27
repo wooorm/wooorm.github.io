@@ -26,7 +26,7 @@ For Spotify, create an app, configure a callback URL as
 browser):
 
 ```text
-https://accounts.spotify.com/authorize?client_id=$CLIENT_ID&response_type=code&redirect_uri=http://localhost/callback&scope=user-top-read
+https://accounts.spotify.com/authorize?client_id=$CLIENT_ID&response_type=code&redirect_uri=https://wooorm.com/callback&scope=user-top-read
 ```
 
 Accept, grab the code from the URL, and do the following in a terminal:
@@ -37,7 +37,7 @@ curl --verbose \
   -d "client_secret=$CLIENT_SECRET" \
   -d "code=$CODE" \
   -d "grant_type=authorization_code" \
-  -d "redirect_uri=http://localhost/callback" \
+  -d "redirect_uri=https://wooorm.com/callback" \
   https://accounts.spotify.com/api/token
 ```
 
