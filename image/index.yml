@@ -1,0 +1,557 @@
+- name: 2018-01-01-amsterdam-cats.jpg
+  title: Cats
+  date: 2018-01-01
+- name: 2018-01-30-amsterdam-cat-in-box.jpg
+  title: Cat
+  date: 2018-01-30
+- name: 2018-07-28-new-york-city-egyptians.jpg
+  title: Cute Egyptians
+  date: 2018-07-28
+- name: 2018-08-14-new-york-city-manhattan.jpg
+  title: Manhattan
+  date: 2018-08-14
+- name: 2018-08-20-amsterdam-amstel.jpg
+  title: Amstel
+  date: 2018-08-20
+- name: 2018-12-17-amsterdam-fortune.jpg
+  title: Fortune
+  date: 2018-12-17
+- name: 2018-12-25-leiden-christmas.jpg
+  title: Christmas candle
+  date: 2018-12-25
+- name: 2019-01-23-amsterdam-fortune.jpg
+  title: Fortune
+  date: 2019-01-23
+- name: 2019-01-30-amsterdam-cat.jpg
+  title: Lucky cat
+  date: 2019-01-30
+- name: 2019-02-06-san-francisco-mission.jpg
+  title: San Francisco
+  date: 2019-02-06
+- name: 2019-02-07-san-francisco-coit.jpg
+  title: Alcatraz
+  date: 2019-02-07
+- name: 2019-02-07-san-francisco-mission.jpg
+  title: Pretty
+  date: 2019-02-07
+- name: 2019-02-09-san-francisco-telegraph.jpg
+  title: Transamerica
+  date: 2019-02-09
+- name: 2019-02-10-san-francisco-billy-goat.jpg
+  title: Billy goat
+  date: 2019-02-10
+- name: 2019-02-10-san-francisco-glen-canyon.jpg
+  title: Glen canyon
+  date: 2019-02-10
+- name: 2019-02-16-san-francisco-grandview.jpg
+  title: Grandview park
+  date: 2019-02-16
+- name: 2019-02-19-san-francisco-bernal.jpg
+  title: Bernal heights
+  date: 2019-02-19
+- name: 2019-02-23-san-francisco-murphy.jpg
+  title: Murphy mill
+  date: 2019-02-23
+- name: 2019-03-02-san-francisco-warm-water.jpg
+  title: Warm water cove
+  date: 2019-03-02
+- name: 2019-03-07-san-francisco-mt-davidson-1.jpg
+  title: Mt. Davidson
+  date: 2019-03-07
+- name: 2019-03-07-san-francisco-mt-davidson-2.jpg
+  title: Mt. Davidson
+  date: 2019-03-07
+- name: 2019-03-15-san-francisco-totalitarian.jpg
+  title: Totalitarian
+  date: 2019-03-15
+- name: 2019-03-17-san-francisco-golden-gate.jpg
+  title: Golden gate
+  date: 2019-03-17
+- name: 2019-03-17-san-francisco-presidio.jpg
+  title: Presidio
+  date: 2019-03-17
+- name: 2019-03-21-san-francisco-oracle-arena.jpg
+  title: Oracle arena
+  date: 2019-03-21
+- name: 2019-03-24-san-francisco-lands-end.jpg
+  title: Lands end
+  date: 2019-03-24
+- name: 2019-03-24-san-francisco-sutro.jpg
+  title: Sutro baths
+  date: 2019-03-24
+- name: 2019-04-04-san-francisco-alcatraz.jpg
+  title: Alcatraz
+  date: 2019-04-04
+- name: 2019-04-04-san-francisco-lake-merritt.jpg
+  title: Socks
+  date: 2019-04-04
+- name: 2019-04-07-yosemite-road.jpg
+  title: Yosemite
+  date: 2019-04-07
+- name: 2019-04-08-yosemite-sequoia-national-forest.jpg
+  title: Sequoia national forest
+  date: 2019-04-08
+- name: 2019-04-10-avenal.jpg
+  title: Avenal
+  date: 2019-04-10
+- name: 2019-04-11-half-moon-bay-beach.jpg
+  title: Beach
+  date: 2019-04-11
+- name: 2019-04-11-half-moon-bay-jail.jpg
+  title: Jail
+  date: 2019-04-11
+- name: 2019-04-13-point-reyes-cypres-tree-tunnel.jpg
+  title: Tree tunnel
+  date: 2019-04-13
+- name: 2019-04-14-san-francisco-golden-gate.jpg
+  title: Carl
+  date: 2019-04-14
+- name: 2019-04-25-amsterdam-stationsplein.jpg
+  title: Saharan dust
+  date: 2019-04-25
+- name: 2019-06-02-zaandam-zaanse-schans.jpg
+  title: Zaanse schans
+  date: 2019-06-02
+- name: 2019-06-21-amsterdam-fortune.jpg
+  title: Fortune
+  date: 2019-06-21
+- name: 2019-07-07-ewijk-down-the-rabbit-hole.jpg
+  title: DTRH
+  date: 2019-07-07
+- name: 2019-07-12-rotterdam-huis-sonneveld.jpg
+  title: Huis Sonneveld
+  date: 2019-07-12
+- name: 2019-07-13-lelystad-running-ducks.jpg
+  title: Running ducks
+  date: 2019-07-13
+- name: 2019-07-24-zoeterwoude-butterfly.jpg
+  title: Butterfly
+  date: 2019-07-24
+- name: 2019-07-24-zoeterwoude-grapes.jpg
+  title: Grapes
+  date: 2019-07-24
+- name: 2019-07-24-zoeterwoude-plums.jpg
+  title: Plums
+  date: 2019-07-24
+- name: 2019-08-01-amsterdam-oranjesluizen.jpg
+  title: Oranjesluizen
+  date: 2019-08-01
+- name: 2019-08-07-amsterdam-brambles.jpg
+  title: Brambles
+  date: 2019-08-07
+- name: 2019-08-07-amsterdam-haveneiland.jpg
+  title: Haveneiland
+  date: 2019-08-07
+- name: 2019-08-08-amsterdam-diemerzeedijk.jpg
+  title: Diemerzeedijk
+  date: 2019-08-08
+- name: 2019-08-13-amsterdam-amstelglorie.jpg
+  title: Amstelglorie
+  date: 2019-08-13
+- name: 2019-08-14-amsterdam-frederik-hendrik.jpg
+  title: Kinderbad
+  date: 2019-08-14
+- name: 2019-08-27-amsterdam-durgerdam.jpg
+  title: Durgerdam
+  date: 2019-08-27
+- name: 2019-08-27-amsterdam-holysloot.jpg
+  title: Holysloot
+  date: 2019-08-27
+- name: 2019-08-27-amsterdam-ransdorp.jpg
+  title: Ransdorp
+  date: 2019-08-27
+- name: 2019-08-29-amsterdam-nut-en-genoegen.jpg
+  title: Nut & genoegen
+  date: 2019-08-29
+- name: 2019-09-02-amsterdam-prins-hendrik.jpg
+  title: Centraal
+  date: 2019-09-02
+- name: 2019-09-06-amsterdam-merwedeplein.jpg
+  title: Anne
+  date: 2019-09-06
+- name: 2019-09-10-pontsteiger.jpg
+  title: Pontsteiger
+  date: 2019-09-10
+- name: 2019-10-03-amsterdam-de-nieuwe-meer.jpg
+  title: De nieuwe meer
+  date: 2019-10-03
+- name: 2019-10-06-zoeterwoude-schinkel.jpg
+  title: Schinkel
+  date: 2019-10-06
+- name: 2019-10-15-amsterdam-de-clerq.jpg
+  title: Klaveren
+  date: 2019-10-15
+- name: 2019-10-15-amsterdam-nieuwendammerdijk.jpg
+  title: Nieuwendammerdijk
+  date: 2019-10-15
+- name: 2019-10-16-amsterdam-snelfietsweg.jpg
+  title: Ugly ducks
+  date: 2019-10-16
+- name: 2019-11-19-amsterdam-de-nieuwe-meer.jpg
+  title: Highland cattle
+  date: 2019-11-19
+- name: 2019-12-04-texel.jpg
+  title: Texel
+  date: 2019-12-04
+- name: 2019-12-15-vireux-molhain.jpg
+  title: Vireux-molhain
+  date: 2019-12-15
+- name: 2019-12-19-amsterdam.jpg
+  title: Laurens ei
+  date: 2019-12-19
+- name: 2020-03-22-noordzeekanaal.jpg
+  title: Noordzeekanaal
+  date: 2020-03-22
+- name: 2020-03-31-afrikahaven.jpg
+  title: Afrikahaven
+  date: 2020-03-31
+- name: 2020-07-31-oudezijds-voorburgwal.jpg
+  title: Oudezijds Voorburgwal
+  date: 2020-07-31
+- name: 2020-07-31-kolkje.jpg
+  title: Kolkje
+  date: 2020-07-31
+- name: 2020-08-02-wassenaar.jpg
+  title: Wassenaar
+  date: 2020-08-02
+- name: 2020-09-08-chance.jpg
+  title: La chance
+  date: 2020-09-08
+- name: 2020-12-10-osdorp.jpg
+  title: Osdorp
+  date: 2020-12-10
+- name: 2021-01-02-utrecht.jpg
+  title: Utrecht
+  date: 2021-01-02
+- name: 2021-01-03-gascon.jpg
+  title: Gascon
+  date: 2021-01-03
+- name: 2021-01-10-on-the-fence.jpg
+  title: On the fence
+  date: 2021-01-10
+- name: 2021-01-16-abcouder-meer.jpg
+  title: Abcouder meer
+  date: 2021-01-16
+- name: 2021-02-02-bijlmer.jpg
+  title: Bijlmer
+  date: 2021-02-02
+- name: 2021-02-11-zutphen.jpg
+  title: Zutphen
+  date: 2021-02-11
+- name: 2021-03-29-amstelveen.jpg
+  title: Cherry blossom
+  date: 2021-03-29
+- name: 2021-05-11-cactii.jpg
+  title: Spikey boys
+  date: 2021-05-11
+- name: 2021-05-17-zutphen.jpg
+  title: Zutphen
+  date: 2021-05-17
+- name: 2021-05-28-noordwijk.jpg
+  title: Noordwijk
+  date: 2021-05-28
+- name: 2021-07-17-empe.jpg
+  title: Empe
+  date: 2021-07-17
+- name: 2021-07-20-oude-schans.jpg
+  title: Oude schans
+  date: 2021-07-20
+- name: 2021-08-29-klarenbeek.jpg
+  title: Klarenbeek
+  date: 2021-08-29
+- name: 2021-09-08-zandvoort.jpg
+  title: Zandvoort
+  date: 2021-09-08
+- name: 2021-10-10-poeldijk.jpg
+  title: Poeldijk
+  date: 2021-10-10
+- name: 2021-10-18-ijhaven.jpg
+  title: IJhaven
+  date: 2021-10-18
+- name: 2021-10-27-paradiso.jpg
+  title: Paradiso
+  date: 2021-10-27
+- name: 2021-11-06-zuidpier.jpg
+  title: Zuidpier
+  date: 2021-11-06
+- name: 2021-11-20-amsterdamse-bos.jpg
+  title: Amsterdamse bos
+  date: 2021-11-20
+- name: 2021-12-06-oostelijke-eilanden.jpg
+  title: Oostelijke eilanden
+  date: 2021-12-06
+- name: 2021-12-11-t-walien.jpg
+  title: ’t Waliën
+  date: 2021-12-11
+- name: 2021-12-12-depot.jpg
+  title: Depot
+  date: 2021-12-12
+- name: 2021-12-12-depot-2.jpg
+  title: Depot (inside)
+  date: 2021-12-12
+- name: 2021-12-14-groentenmarkt.jpg
+  title: 'Ghent: Groentenmarkt'
+  date: 2021-12-14
+- name: 2021-12-15-wondelgem.jpg
+  title: 'Ghent: Wondelgem'
+  date: 2021-12-15
+- name: 2022-03-27-amstelveen.jpg
+  title: 'Amstelveen'
+  date: 2022-03-27
+- name: 2022-03-31-pushkin.jpg
+  title: 'Pushkin'
+  date: 2022-03-31
+- name: 2022-04-10-marathon.jpg
+  title: 'Marathon'
+  date: 2022-04-10
+- name: 2022-06-02-roosbeef.jpg
+  title: 'Roosbeef'
+  date: 2022-06-02
+- name: 2022-06-04-holysloot.jpg
+  title: 'Holysloot'
+  date: 2022-06-04
+- name: 2022-07-26-diemerpark.jpg
+  title: 'Diemerpark'
+  date: 2022-07-26
+- name: 2022-08-14-tonden.jpg
+  title: 'Tonden'
+  date: 2022-08-14
+- name: 2022-08-24-bretten.jpg
+  title: 'Bretten'
+  date: 2022-08-24
+- name: 2022-09-25-hoep.jpg
+  title: 'Hoep'
+  date: 2022-09-25
+- name: 2022-10-02-overveen.jpg
+  title: 'Overveen'
+  date: 2022-10-02
+- name: 2022-11-05-uyllanderbrug.jpg
+  title: 'Uyllanderbrug'
+  date: 2022-11-05
+
+- name: 2022-11-13-ertshaven.jpg
+  title: 'Ertshaven'
+  date: 2022-11-13
+- name: 2022-11-21-batoni.jpg
+  title: 'Batoni'
+  date: 2022-11-21
+- name: 2022-11-29-balcony.jpg
+  title: 'Balcony'
+  date: 2022-11-29
+- name: 2022-11-29-electricity.jpg
+  title: 'Electricity'
+  date: 2022-11-29
+- name: 2022-11-29-tv-tower.jpg
+  title: 'TV tower'
+  date: 2022-11-29
+- name: 2022-12-01-mary.jpg
+  title: 'Mary'
+  date: 2022-12-01
+- name: 2022-12-01-subway.jpg
+  title: 'Subway'
+  date: 2022-12-01
+- name: 2022-12-02-tbilisi.jpg
+  title: 'Tbilisi'
+  date: 2022-12-02
+- name: 2022-12-03-black-sea.jpg
+  title: 'Black sea'
+  date: 2022-12-03
+- name: 2022-12-03-grechka.jpg
+  title: 'Grechka'
+  date: 2022-12-03
+- name: 2022-12-04-octopus.jpg
+  title: 'Octopus'
+  date: 2022-12-04
+- name: 2022-12-05-batumi.jpg
+  title: 'Batumi'
+  date: 2022-12-05
+- name: 2022-12-08-mosaics.jpg
+  title: 'Mosaics'
+  date: 2022-12-08
+- name: 2022-12-09-dog.jpg
+  title: 'Dog'
+  date: 2022-12-09
+- name: 2022-12-09-mosaics.jpg
+  title: 'Mosaics'
+  date: 2022-12-09
+- name: 2022-12-11-flat.jpg
+  title: 'Flat'
+  date: 2022-12-11
+- name: 2022-12-12-flat.jpg
+  title: 'Flat'
+  date: 2022-12-12
+- name: 2022-12-19-chronicle.jpg
+  title: 'Chronicle'
+  date: 2022-12-19
+- name: 2022-12-21-door.jpg
+  title: 'Door'
+  date: 2022-12-21
+- name: 2022-12-21-gori-station.jpg
+  title: 'Gori station'
+  date: 2022-12-21
+- name: 2022-12-21-gori.jpg
+  title: 'Gori'
+  date: 2022-12-21
+- name: 2022-12-22-balcony.jpg
+  title: 'Balcony'
+  date: 2022-12-22
+- name: 2022-12-23-steep.jpg
+  title: 'Steep'
+  date: 2022-12-23
+- name: 2023-01-01-year.jpg
+  title: 'Year'
+  date: 2023-01-01
+- name: 2023-01-08-lane.jpg
+  title: 'Lane'
+  date: 2023-01-08
+- name: 2023-01-22-ducks.jpg
+  title: 'Ducks'
+  date: 2023-01-22
+- name: 2023-01-29-marken.jpg
+  title: 'Marken'
+  date: 2023-01-29
+- name: 2023-02-09-ijhaven.jpg
+  title: 'IJhaven'
+  date: 2023-02-09
+- name: 2023-02-13-sagres.jpg
+  title: 'Sagres'
+  date: 2023-02-13
+- name: 2023-02-14-end-of-the-world.jpg
+  title: 'End of the world'
+  date: 2023-02-14
+- name: 2023-02-17-sevilla.jpg
+  title: 'Sevilla'
+  date: 2023-02-17
+- name: 2023-02-20-cazalla-de-la-sierra.jpg
+  title: 'Cazalla de la Sierra'
+  date: 2023-02-20
+- name: 2023-02-20-cazalla-de-la-sierra-2.jpg
+  title: 'Cazalla de la Sierra (2)'
+  date: 2023-02-20
+- name: 2023-02-22-belmez.jpg
+  title: 'Belmez'
+  date: 2023-02-22
+- name: 2023-02-23-alhambra.jpg
+  title: 'Alhambra'
+  date: 2023-02-23
+- name: 2023-02-23-palacios-nazaries.jpg
+  title: 'Palacios Nazaries'
+  date: 2023-02-23
+- name: 2023-02-25-dog.jpg
+  title: 'Dog'
+  date: 2023-02-25
+- name: 2023-02-25-villanueva.jpg
+  title: 'Villanueva'
+  date: 2023-02-25
+- name: 2023-04-25-bill.jpg
+  title: 'Bill'
+  date: 2023-04-25
+
+- name: 2023-05-14-bruno-van-moerkerken.jpg
+  title: Bruno van Moerkerken
+  date: 2023-05-14
+- name: 2023-05-24-diemen.jpg
+  title: Diemen
+  date: 2023-05-24
+- name: 2023-06-17-ede.jpg
+  title: Ede
+  date: 2023-06-17
+- name: 2023-07-07-new-life.jpg
+  title: New life
+  date: 2023-07-07
+- name: 2023-07-13-kleve.jpg
+  title: Kleve
+  date: 2023-07-13
+- name: 2023-07-14-mook.jpg
+  title: Mook
+  date: 2023-07-14
+- name: 2023-07-24-col-des-martinets.jpg
+  title: Col des Martinets
+  date: 2023-07-24
+- name: 2023-07-24-les-plans-sur-bex.jpg
+  title: Les Plans-sur-Bex
+  date: 2023-07-24
+- name: 2023-07-24-nant-de-têtes.jpg
+  title: Nant de Têtes
+  date: 2023-07-24
+- name: 2023-07-25-col-de-fenestral.jpg
+  title: Col de Fenestral
+  date: 2023-07-25
+- name: 2023-07-25-collonges.jpg
+  title: Collonges
+  date: 2023-07-25
+- name: 2023-07-26-cabane-rambert.jpg
+  title: Cabane Rambert
+  date: 2023-07-26
+- name: 2023-07-26-cabane-rambert-b.jpg
+  title: Cabane Rambert
+  date: 2023-07-26
+- name: 2023-07-26-mayens-de-chamoson-b.jpg
+  title: Mayens de Chamoson
+  date: 2023-07-26
+- name: 2023-07-26-mayens-de-chamoson.jpg
+  title: Mayens de Chamoson
+  date: 2023-07-26
+- name: 2023-07-26-ovronnaz.jpg
+  title: Ovronnaz
+  date: 2023-07-26
+- name: 2023-07-26-salentse.jpg
+  title: Salentse
+  date: 2023-07-26
+- name: 2023-07-26-salentse-b.jpg
+  title: Salentse
+  date: 2023-07-26
+- name: 2023-07-27-aven.jpg
+  title: Aven
+  date: 2023-07-27
+- name: 2023-07-27-gryon.jpg
+  title: Gryon
+  date: 2023-07-27
+- name: 2023-08-31-amsterdamse-brug.jpg
+  title: Amsterdamse brug
+  date: 2023-08-31
+- name: 2023-09-23-zandvoort.jpg
+  title: Zandvoort
+  date: 2023-09-23
+- name: 2023-09-27-diemen-noord.jpg
+  title: Diemen Noord
+  date: 2023-09-27
+- name: 2023-10-03-clark-lake.jpg
+  title: Clark/Lake
+  date: 2023-10-03
+- name: 2023-10-03-northerly-island.jpg
+  title: Northerly island
+  date: 2023-10-03
+- name: 2023-10-03-riverwalk.jpg
+  title: Riverwalk
+  date: 2023-10-03
+- name: 2023-10-05-chicago-hot-dog.jpg
+  title: Chicago hot dog
+  date: 2023-10-05
+- name: 2023-10-06-rough-and-rowdy-ways.jpg
+  title: Rough & Rowdy Ways
+  date: 2023-10-06
+- name: 2023-10-06-violators-will-be-fine.jpg
+  title: Violators will be fine
+  date: 2023-10-06
+- name: 2023-10-07-canal-street-railroad-bridge.jpg
+  title: Canal Street railroad bridge
+  date: 2023-10-07
+- name: 2023-11-05-oude-delft.jpg
+  title: Oude Delft
+  date: 2023-11-05
+- name: 2023-11-25-nicolaas.jpg
+  title: Nicolaas
+  date: 2023-11-25
+- name: 2023-12-03-amsterdamse-brug.jpg
+  title: Amsterdamse brug
+  date: 2023-12-03
+- name: 2023-12-07-nescio.jpg
+  title: Nescio
+  date: 2023-12-07
+- name: 2023-12-21-my-baby.jpg
+  title: My Baby
+  date: 2023-12-21
+- name: 2024-02-08-kanaaldijk.jpg
+  title: Kanaaldijk
+  date: 2024-02-08
