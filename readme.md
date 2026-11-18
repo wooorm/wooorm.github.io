@@ -22,8 +22,8 @@ SPOT_R_TOKEN=123123123
 Do `npm i` and then `npm t`, which checks and builds the site.
 
 For Spotify, create an app, configure a callback URL as
-`http://localhost/callback`, note the client ID and secret, then go to (in a
-browser):
+`https://wooorm.com/callback`, note the client ID and secret, then go to (in
+a browser):
 
 ```text
 https://accounts.spotify.com/authorize?client_id=$CLIENT_ID&response_type=code&redirect_uri=https://wooorm.com/callback&scope=user-top-read
