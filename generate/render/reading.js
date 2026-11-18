@@ -28,7 +28,11 @@ export const data = {
   title: 'Reading'
 }
 
-/** @type {Render} */
+/**
+ * Render the reading page.
+ *
+ * @type {Render}
+ */
 export function render() {
   const result =
     books.length > 0
@@ -60,8 +64,12 @@ export function render() {
 }
 
 /**
+ * Render a rating.
+ *
  * @param {number} value
+ *   Rating, between `0` and `5`.
  * @returns {Element}
+ *   Rating.
  */
 export function rating(value) {
   assert.ok(typeof value === 'number')

@@ -9,6 +9,8 @@ import {visit} from 'unist-util-visit'
  */
 export default function defer() {
   /**
+   * Transform.
+   *
    * @param {Root} tree
    *   Tree.
    * @returns {undefined}

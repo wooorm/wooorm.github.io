@@ -43,7 +43,11 @@ export const data = {
   title: 'Listening'
 }
 
-/** @type {Render} */
+/**
+ * Render the listening page.
+ *
+ * @type {Render}
+ */
 export function render() {
   return [
     h('h1', h('span.text', 'Listening (recently)')),
@@ -73,10 +77,10 @@ export function render() {
         const {artist, image} = d
         let ignoreArist = /various artists/i.test(artist)
         const name = cleanAlbumName(d.name)
-        const similarity =
-          1 -
+        const distance =
           levenshteinEditDistance(name, artist, true) /
-            Math.max(name.length, artist.length)
+          Math.max(name.length, artist.length)
+        const similarity = 1 - distance
 
         if (similarity > 0.9) {
           ignoreArist = true
@@ -102,6 +106,8 @@ export function render() {
 }
 
 /**
+ * Clean an album name.
+ *
  * @param {string} d
  *   Album name.
  * @returns {string}
@@ -111,16 +117,16 @@ function cleanAlbumName(d) {
   return (
     d
       .replace(
-        /[([]((\d+(st|nd|rd|th) )?(anniversary )?(deluxe )?(reissue|edition|version)|((international|super|special|standard) )?(deluxe|digital|extended|expanded|explicit|tour|limited|legacy|bonus( track)?|special)(( anniversary)? (reissue|edition|version))?|music from the (motion picture soundtrack|\w+ series)|complete|\w+ version)[)\]]/i,
+        /[([](?:(?:\d+(?:st|nd|rd|th) )?(?:anniversary )?(?:deluxe )?(?:reissue|edition|version)|(?:(?:international|super|special|standard) )?(?:deluxe|digital|extended|expanded|explicit|tour|limited|legacy|bonus(?: track)?|special)(?:(?: anniversary)? (?:reissue|edition|version))?|music from the (?:motion picture soundtrack|\w+ series)|complete|\w+ version)[)\]]/i,
         ''
       )
       // Case-sensitive, at end.
       .replace(/OST$/, '')
       .replace(
-        /(\d+(st|nd|rd|th))?( anniversary)?( deluxe)?( (?:reissue|edition|version))?$/i,
+        /(?:\d+(?:st|nd|rd|th))?(?: anniversary)?(?: deluxe)?(?: (?:reissue|edition|version))?$/i,
         ''
       )
-      .replace(/- (original motion picture soundtrack|the best of .+)/i, '')
+      .replace(/- (?:original motion picture soundtrack|the best of .+)/i, '')
       .trim()
   )
 }

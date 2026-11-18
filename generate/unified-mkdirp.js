@@ -11,6 +11,8 @@ import fs from 'node:fs/promises'
  */
 export default function mkdir() {
   /**
+   * Transform.
+   *
    * @param {Root} _
    *   Tree.
    * @param {VFile} file

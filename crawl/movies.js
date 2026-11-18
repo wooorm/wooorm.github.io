@@ -107,10 +107,10 @@ for (const item of items) {
   entries.push({
     image: {height: 900, url: String($img.properties.src), width: 600},
     last: new Date(toString($watched)),
-    rating: Number.parseFloat(toString($rating)) * 2,
+    rating: Number(toString($rating)) * 2,
     title: toString($title),
     url,
-    year: Number.parseInt(toString($year), 10)
+    year: Number(toString($year))
   })
 }
 
@@ -120,6 +120,8 @@ await fs.mkdir(new URL('./', outUrl), {recursive: true})
 await fs.writeFile(outUrl, JSON.stringify(data, undefined, 2) + '\n')
 
 /**
+ * Sort movies by when they were last watched, most recent first.
+ *
  * @param {Readonly<Movie>} a
  *   Left.
  * @param {Readonly<Movie>} b
@@ -132,6 +134,8 @@ function sort(a, b) {
 }
 
 /**
+ * Get the date a movie was last watched.
+ *
  * @param {Readonly<Movie>} d
  *   Movie.
  * @returns {Readonly<Date>}

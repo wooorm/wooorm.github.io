@@ -1,4 +1,4 @@
-/* eslint-disable unicorn/prefer-native-coercion-functions */
+/* eslint-disable unicorn/prefer-native-coercion-functions -- type guards are needed. */
 /**
  * @typedef OcAccount
  *   Open Collective account.
@@ -73,9 +73,8 @@ try {
 }
 
 const key = process.env.OC_TOKEN
-const ghKey = process.env.GH_TOKEN
-
 if (!key) throw new Error('Missing `OC_TOKEN`')
+const ghKey = process.env.GH_TOKEN
 if (!ghKey) throw new Error('Missing `GH_TOKEN`')
 
 const outUrl = new URL('../data/opencollective.json', import.meta.url)
@@ -169,6 +168,8 @@ const members = collectiveBody.data.collective.members.nodes
   })
   .filter(
     /**
+     * Check if a sponsor exists.
+     *
      * @param {Readonly<SponsorRaw> | undefined} d
      *   Sponsor (raw) or undefined.
      * @returns {d is Readonly<SponsorRaw>}
@@ -192,6 +193,8 @@ await fs.mkdir(new URL('./', outUrl), {recursive: true})
 await fs.writeFile(outUrl, JSON.stringify(members, undefined, 2) + '\n')
 
 /**
+ * Remove the total from a sponsor.
+ *
  * @param {Readonly<SponsorRaw>} d
  *   Sponsor (raw).
  * @returns {Sponsor}
@@ -203,6 +206,8 @@ function strip(d) {
 }
 
 /**
+ * Sort sponsors by total, highest first.
+ *
  * @param {Readonly<SponsorRaw>} a
  *   Left.
  * @param {Readonly<SponsorRaw>} b

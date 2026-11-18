@@ -11,6 +11,8 @@ import path from 'node:path'
  */
 export default function move() {
   /**
+   * Transform.
+   *
    * @param {Root} _
    *   Tree.
    * @param {VFile} file

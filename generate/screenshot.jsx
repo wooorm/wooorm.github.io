@@ -39,14 +39,16 @@ const acceptableFontFiles = fontFiles.filter(function (d) {
 const fonts = await Promise.all(
   acceptableFontFiles.map(
     /**
+     * Load a font.
+     *
      * @param {string} basename
      *   Basename.
      * @returns {Promise<FontOptions>}
      *   Font options.
      */
     async function (basename) {
-      const parts = basename.split('.')[0].split('-')
-      const weight = /** @type {FontWeight} */ (Number.parseInt(parts[3], 10))
+      const parts = basename.split('.', 1)[0].split('-')
+      const weight = /** @type {FontWeight} */ (Number(parts[3]))
       const style = /** @type {FontStyle} */ (parts[4])
       assert.ok(
         [100, 200, 300, 400, 500, 600, 700, 800, 900].includes(weight),

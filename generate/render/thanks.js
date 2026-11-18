@@ -47,7 +47,11 @@ export const data = {
   title: 'Thanks'
 }
 
-/** @type {Render} */
+/**
+ * Render the thanks page.
+ *
+ * @type {Render}
+ */
 export function render() {
   return [
     h('h1', h('span.text', 'Thanks')),
@@ -142,6 +146,8 @@ export function render() {
 }
 
 /**
+ * Render a sponsor.
+ *
  * @param {Readonly<GhSponsor> | Readonly<OcSponsor>} d
  *   Sponsor.
  * @returns {Element}

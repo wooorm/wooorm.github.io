@@ -13,11 +13,13 @@ export function createLoader() {
   return {load}
 
   /**
+   * Load a file, compiling JSX.
+   *
    * @param {string} href
    *   URL.
    * @param {unknown} context
    *   Context.
-   * @param {Function} defaultLoad
+   * @param {(href: string, context: unknown, defaultLoad: unknown) => unknown} defaultLoad
    *   Default `load`.
    * @returns
    *   Result.

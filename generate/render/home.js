@@ -28,7 +28,11 @@ const projects =
 const resume = '/resume.html'
 const thanks = '/thanks/'
 
-/** @type {Render} */
+/**
+ * Render the home page.
+ *
+ * @type {Render}
+ */
 export function render() {
   return [
     h('.content', [

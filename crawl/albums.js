@@ -1,4 +1,4 @@
-/***
+/**
  * @typedef Album
  *   Album.
  * @property {string} artist
@@ -55,9 +55,8 @@ try {
 }
 
 const key = process.env.LFM_TOKEN
-const user = process.env.LFM_USER
-
 if (!key) throw new Error('Missing `LFM_TOKEN`')
+const user = process.env.LFM_USER
 if (!user) throw new Error('Missing `LFM_USER`')
 
 const outUrl = new URL('../data/albums.json', import.meta.url)
@@ -87,7 +86,7 @@ const albums = body.topalbums.album.flatMap(function (d) {
     /** @type {Readonly<Album>} */
     const result = {
       artist: d.artist.name,
-      count: Number.parseInt(d.playcount, 10),
+      count: Number(d.playcount),
       image,
       name: d.name
     }

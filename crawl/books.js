@@ -1,8 +1,12 @@
 /**
  * @typedef Book
+ *   Book.
  * @property {string} author
+ *   Author(s).
  * @property {string} title
+ *   Title.
  * @property {number | undefined} review
+ *   Review.
  */
 
 import assert from 'node:assert/strict'
@@ -87,7 +91,7 @@ const results = await Promise.all(
       books.push({
         title: cleanTitle,
         author,
-        review: review ? Number.parseFloat(toText(review)) : undefined
+        review: review ? Number(toText(review)) : undefined
       })
     }
 

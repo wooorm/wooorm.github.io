@@ -263,6 +263,8 @@ function rehypeWrap() {
     })
 
   /**
+   * Wrap pages in the site structure.
+   *
    * @param {Root} tree
    *   Tree.
    * @param {VFile} file
@@ -305,12 +307,14 @@ function rehypeWrap() {
   }
 
   /**
+   * Get the section of a pathname.
+   *
    * @param {string} pathname
    *   Pathname.
    * @returns {string}
    *   Section.
    */
   function section(pathname) {
-    return pathname.split('/')[1]
+    return pathname.split('/', 2)[1]
   }
 }

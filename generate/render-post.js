@@ -22,6 +22,8 @@ const articlePipeline = unified()
   .use(rehypeSlug)
 
 /**
+ * Render a post.
+ *
  * @param {VFile} file
  *   File.
  * @returns {Page}

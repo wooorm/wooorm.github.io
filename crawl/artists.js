@@ -97,11 +97,10 @@ try {
 }
 
 const refreshToken = process.env.SPOT_R_TOKEN
-const cId = process.env.SPOT_C_ID
-const cSecret = process.env.SPOT_C_SECRET
-
 if (!refreshToken) throw new Error('Missing `SPOT_R_TOKEN`')
+const cId = process.env.SPOT_C_ID
 if (!cId) throw new Error('Missing `SPOT_C_ID`')
+const cSecret = process.env.SPOT_C_SECRET
 if (!cSecret) throw new Error('Missing `SPOT_C_SECRET`')
 
 const outUrl = new URL('../data/artists.json', import.meta.url)

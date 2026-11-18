@@ -14,7 +14,11 @@ export const data = {
   title: 'Activity'
 }
 
-/** @type {Render} */
+/**
+ * Render the activity page.
+ *
+ * @type {Render}
+ */
 export function render() {
   return [
     h('h1', h('span.text', 'Activity')),

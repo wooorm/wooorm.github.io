@@ -18,7 +18,11 @@ export const data = {
   title
 }
 
-/** @type {Render} */
+/**
+ * Render the writing page.
+ *
+ * @type {Render}
+ */
 export function render(pages) {
   const posts = pages
     .map(function (d) {
@@ -64,6 +68,8 @@ export function render(pages) {
 }
 
 /**
+ * Sort posts by date, most recent first.
+ *
  * @param {Readonly<Metadata>} a
  *   Left.
  * @param {Readonly<Metadata>} b
@@ -76,6 +82,8 @@ function sort(a, b) {
 }
 
 /**
+ * Get the date of a post.
+ *
  * @param {Readonly<Metadata>} d
  *   Data.
  * @returns {Date}
@@ -87,6 +95,8 @@ function pick(d) {
 }
 
 /**
+ * Format a date.
+ *
  * @param {Readonly<Date> | string | null | undefined} value
  *   Value.
  * @returns {string | undefined}

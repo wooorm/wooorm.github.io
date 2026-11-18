@@ -140,6 +140,8 @@ await fs.writeFile(
 )
 
 /**
+ * Turn a GitHub sponsor node into a sponsor.
+ *
  * @param {Readonly<GithubSponsorNode>} d
  *   Sponsor node.
  * @returns {SponsorRaw}
@@ -157,6 +159,8 @@ function clean(d) {
 }
 
 /**
+ * Remove the total from a sponsor.
+ *
  * @param {Readonly<SponsorRaw>} d
  *   Sponsor.
  * @returns {Sponsor}
@@ -168,6 +172,8 @@ function strip(d) {
 }
 
 /**
+ * Sort sponsors by total, highest first.
+ *
  * @param {Readonly<SponsorRaw>} a
  *   Left.
  * @param {Readonly<SponsorRaw>} b

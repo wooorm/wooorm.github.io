@@ -63,6 +63,8 @@ const imagePipeline = trough().use(move).use(mkdir).use(write).use(print)
 const filePipeline = trough()
   .use(
     /**
+     * Process or copy a file.
+     *
      * @param {string} fp
      *   File path.
      * @param {Callback} next
@@ -84,6 +86,8 @@ trough()
   .use(glob)
   .use(
     /**
+     * Run all files through the pipeline.
+     *
      * @param {ReadonlyArray<string>} paths
      *   File paths.
      * @param {Callback} done
@@ -95,20 +99,25 @@ trough()
       /** @type {(fp: string) => Promise<VFile>} */
       const run = promisify(filePipeline.run)
 
-      all(
+      const promise = all(
         paths.map(function (path) {
           return function () {
             return run(path)
           }
         }),
         {concurrency: 3}
-      ).then(function (files) {
+      )
+
+      // eslint-disable-next-line unicorn/prefer-then-catch -- errors in `done` must not call `done` again.
+      promise.then(function (files) {
         return done(undefined, files)
       }, done)
     }
   )
   .use(
     /**
+     * Write the `CNAME` file.
+     *
      * @param {ReadonlyArray<VFile>} _
      *   Files.
      * @param {Callback} next
@@ -127,6 +136,8 @@ trough()
   .run(
     'asset/**/*.*',
     /**
+     * Throw errors.
+     *
      * @param {Error | undefined} error
      *   Error.
      * @returns {undefined}
@@ -138,6 +149,7 @@ trough()
   )
 
 /**
+ * Transform an image.
  *
  * @param {VFile} file
  *   File.
@@ -150,7 +162,11 @@ function process(file, next) {
   assert.ok(file.extname, 'expected `extname` in `file`')
   externals[file.extname].run(
     file,
-    /** @type {Callback} */
+    /**
+     * Pass errors to `next`.
+     *
+     * @type {Callback}
+     */
     function (error) {
       next(error)
     }
@@ -158,6 +174,8 @@ function process(file, next) {
 }
 
 /**
+ * Move a file into `build/`.
+ *
  * @param {VFile} file
  *   File.
  * @returns {undefined}
@@ -170,6 +188,8 @@ function move(file) {
 }
 
 /**
+ * Create the folder of a file.
+ *
  * @param {VFile} file
  *   File.
  * @returns {Promise<undefined>}
@@ -181,6 +201,8 @@ async function mkdir(file) {
 }
 
 /**
+ * Copy a file.
+ *
  * @param {VFile} file
  *   File.
  * @returns {Promise<undefined>}
@@ -191,6 +213,8 @@ async function copy(file) {
 }
 
 /**
+ * Log that a file is done.
+ *
  * @param {VFile} file
  *   File.
  * @returns {undefined}
@@ -202,6 +226,8 @@ function print(file) {
 }
 
 /**
+ * Transform CSS.
+ *
  * @param {VFile} file
  *   File.
  * @returns {Promise<undefined>}
@@ -213,6 +239,8 @@ async function transformCss(file) {
 }
 
 /**
+ * Create a transform for images.
+ *
  * @param {SharpConfig} options
  *   Configuration.
  * @returns
@@ -222,6 +250,8 @@ function transformImageFactory(options) {
   return transform
 
   /**
+   * Transform an image into several formats and sizes.
+   *
    * @param {VFile} file
    *   File.
    * @param {Callback} next
@@ -263,12 +293,16 @@ function transformImageFactory(options) {
           {concurrency: 3}
         )
       })
+      // eslint-disable-next-line unicorn/prefer-then-catch -- errors in `next` must not call `next` again.
       .then(
         function () {
           return next(undefined, file)
         },
         /**
+         * Report errors.
+         *
          * @param {Error | null | undefined} [error]
+         *   Error.
          */
         function (error) {
           next(
@@ -277,7 +311,9 @@ function transformImageFactory(options) {
         }
       )
 
-    /***
+    /**
+     * Transform an image into one format and size.
+     *
      * @param {{format: SharpKey, size: number}} media
      *   Media.
      * @returns {Promise<VFile>}

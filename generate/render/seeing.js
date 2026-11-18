@@ -33,7 +33,11 @@ export const data = {
   title: 'Photos'
 }
 
-/** @type {Render} */
+/**
+ * Render the seeing page.
+ *
+ * @type {Render}
+ */
 export function render() {
   return [
     h('h1', h('span.text', 'Seeing')),
@@ -54,6 +58,8 @@ export function render() {
 }
 
 /**
+ * Sort photos by date, most recent first.
+ *
  * @param {Readonly<Photo>} a
  *   Left.
  * @param {Readonly<Photo>} b
@@ -66,6 +72,8 @@ function sort(a, b) {
 }
 
 /**
+ * Get the date of a photo.
+ *
  * @param {Readonly<Photo>} d
  *   Photo.
  * @returns {Date}

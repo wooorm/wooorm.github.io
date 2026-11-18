@@ -55,6 +55,8 @@ export default function rehypePictures(options) {
   })
 
   /**
+   * Transform.
+   *
    * @param {Root} tree
    *   Tree.
    * @returns {Promise<void>}
@@ -70,7 +72,11 @@ export default function rehypePictures(options) {
       await Promise.all(promises)
     }
 
-    /** @type {BuildVisitor<Root, 'element'>} */
+    /**
+     * Rewrite images.
+     *
+     * @type {BuildVisitor<Root, 'element'>}
+     */
     function visitor(node, parents) {
       const source = (node.tagName === 'img' && node.properties.src) || ''
 
@@ -95,6 +101,8 @@ export default function rehypePictures(options) {
       promises.push(rewrite(source, node, parent, root))
 
       /**
+       * Rewrite an image to a picture.
+       *
        * @param {string} source
        *   Source.
        * @param {Element} node
@@ -125,14 +133,14 @@ export default function rehypePictures(options) {
             rename(file, d)
             const fp = file.path
 
-            return fs.access(fp, fs.constants.R_OK).then(
-              function () {
+            return fs
+              .access(fp, fs.constants.R_OK)
+              .then(function () {
                 return fp
-              },
-              function () {
+              })
+              .catch(function () {
                 // Empty.
-              }
-            )
+              })
           })
         )
 
@@ -151,6 +159,10 @@ export default function rehypePictures(options) {
           const applicable = sizes
             .flatMap(
               /**
+               * Get the existing images of a size.
+               *
+               * @param {number} size
+               *   Size.
                * @returns {ReadonlyArray<Readonly<InfoTuple>>}
                *   Sizes.
                */
@@ -222,6 +234,8 @@ const pictureLandscapeDesktop = '48em'
 const picturePanoramaDesktop = '72em'
 
 /**
+ * Infer the `sizes` attribute from an aspect ratio.
+ *
  * @param {number} ratio
  *   Width / height ratio.
  * @returns {string}
