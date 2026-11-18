@@ -24,7 +24,6 @@
     "levenshtein-edit-distance": "^3.0.0",
     "p-all": "^5.0.0",
     "postcss": "^8.0.0",
-    "postcss-cli": "^12.0.0",
     "postcss-preset-env": "^11.0.0",
     "prettier": "^3.0.0",
     "react": "^19.0.0",
@@ -39,11 +38,9 @@
     "rehype-stringify": "^10.0.0",
     "remark-cli": "^12.0.0",
     "remark-frontmatter": "^5.0.0",
-    "remark-gfm": "^4.0.0",
     "remark-parse": "^11.0.0",
     "remark-preset-wooorm": "^11.0.0",
     "remark-rehype": "^11.0.0",
-    "remark-validate-links": "^13.0.0",
     "satori": "^0.63.0",
     "sharp": "^0.35.0",
     "stylelint": "^18.0.0",
@@ -73,13 +70,6 @@
   "exports": null,
   "homepage": "https://wooorm.com",
   "name": "wooorm",
-  "postcss": {
-    "plugins": {
-      "cssnano": {
-        "preset": "default"
-      }
-    }
-  },
   "prettier": {
     "bracketSpacing": false,
     "semi": false,
