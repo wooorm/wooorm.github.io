@@ -17,6 +17,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import {promisify} from 'node:util'
 import cssnano from 'cssnano'
+import cssnanoPresetAdvanced from 'cssnano-preset-advanced'
 import {glob} from 'glob'
 import all from 'p-all'
 import {Processor as PostCss} from 'postcss'
@@ -29,7 +30,7 @@ import {reporter} from 'vfile-reporter'
 
 const postcss = new PostCss([
   postcssPresetEnv({stage: 0}),
-  cssnano({preset: 'advanced'})
+  cssnano({preset: cssnanoPresetAdvanced})
 ])
 
 /** @type {Readonly<PackageJson>} */
